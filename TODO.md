@@ -15,3 +15,14 @@ Version 0.4
 
 Version 0.5
 - addons (can have its own group for various addons with their own options)
+  - livereload?
+  - blog
+  - cms
+  - sitemap
+  - api (which kind though... restful/just using flask-classy...)
+  - admin
+  - humanizer
+  - mail
+  - ecommerce (with satchless)
+  - banning interface
+

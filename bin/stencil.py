@@ -6,21 +6,13 @@ __version__ = "0.0.1"
 
 import argparse
 import argcomplete
+import os
+import os.path as path
+import sys
 
-# a list of things I need to do:
-# - project scaffold (base, cms)
-# - addons:
-#   - livereload
-#   - blog
-#   - cms
-#   - sitemap
-#   - api?
-#   - admin
-#   - humanizer
-#   - mail
-#   - ecommerce
-#   - banning interface
-# pathing... ugh...
+current_dir = path.dirname(path.realpath(__file__))
+lib_dir = path.join(path.abspath(path.join(current_dir, os.pardir)), 'lib')
+sys.path.insert(0, lib_dir)
 
 cli_description = """Stencil - ステンシル - Sutenshiru
 [a generator for flask projects]"""
@@ -36,12 +28,8 @@ addon_help = "Addons to a flask project"
 fabric_help = "Create tasks to be used with fabric"
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(
-        prog='stencil',
-        formatter_class=argparse.RawTextHelpFormatter,
-        description=cli_description
-    )
-    subparser = parser.add_subparsers()
+    parser = argparse.ArgumentParser(description=cli_description)
+    subparser = parser.add_subparsers(dest='subparser_name')
     project_parser = subparser.add_parser('project', help=project_help)
     project_parser.add_argument('-d', '--directory', help=project_dir_help)
     models_parser = subparser.add_parser('model', help=models_help)
@@ -72,6 +60,5 @@ if __name__ == '__main__':
         p.add_argument('field', nargs='*', help=field_help[p])
 
     argcomplete.autocomplete(parser)
-    args = parser.parse_args()
-    # need to check if anything was put in... if not, display usage
-    print(args)
+    from stencil import Stencil
+    Stencil.run(parser.parse_args(), parser.prog)
