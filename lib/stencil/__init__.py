@@ -8,7 +8,7 @@ class Stencil:
         #print(args)
         if args.subparser_name == 'project':
             # takes a name (maybe even type -- old school and classy)
-            print('project stuff')
+            print("project name: {}".format(args.name))
         elif args.subparser_name == 'model':
             # takes a name and *fields of name:type
             print('model stuff')
