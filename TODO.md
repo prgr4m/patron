@@ -14,4 +14,4 @@ Version 0.4
 - forms
 
 Version 0.5
-- addons
+- addons (can have its own group for various addons with their own options)
