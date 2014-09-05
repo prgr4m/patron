@@ -1,0 +1,14 @@
+syntax: glob
+
+# python stuff
+*.pyc
+*.pyo
+*__pycache__
+
+# vim related stuff
+.ropeproject/
+.*.swp
+
+# osx stuff
+.DS_Store
+

@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# PYTHON_ARGCOMPLETE_OK
+__author__ = "John Boisselle <ping_me@johnboisselle.com>"
+__version__ = "0.0.1"
+
+import argparse
+import argcomplete
+
+# a list of things I need to do:
+# - project scaffold (base, cms)
+# - addons:
+#   - livereload
+#   - blog
+#   - cms
+#   - sitemap
+#   - api?
+#   - admin
+#   - humanizer
+#   - mail
+#   - ecommerce
+#   - banning interface
+# pathing... ugh...
+
+cli_description = """Stencil - ステンシル - Sutenshiru
+[a generator for flask projects]"""
+
+project_help = "Create a modular flask project base"
+project_dir_help = """Rename the target directory while maintaining project
+internals"""
+
+models_help = "Models with SQLAlchemy"
+forms_help = "Forms with WTForms"
+blueprints_help = "Blueprint scaffolding"
+addon_help = "Addons to a flask project"
+fabric_help = "Create tasks to be used with fabric"
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(prog='stencil',
+                                     description=cli_description)
+    subparser = parser.add_subparsers()
+    project_parser = subparser.add_parser('project', help=project_help)
+    project_parser.add_argument('-d', '--directory', help=project_dir_help)
+    models_parser = subparser.add_parser('model', help=models_help)
+    forms_parser = subparser.add_parser('form', help=forms_help)
+    blueprint_parser = subparser.add_parser('blueprint', help=blueprints_help)
+    addon_parser = subparser.add_parser('addon', help=addon_help)
+    fabric_parser = subparser.add_parser('fabric', help=fabric_help)
+
+    name_group = [project_parser, models_parser, forms_parser, blueprint_parser,
+                  addon_parser, fabric_parser]
+    name_help = {
+        project_parser: 'Name of the project',
+        models_parser: 'Name of the model',
+        forms_parser: 'Name of the form',
+        blueprint_parser: 'Name of the blueprint',
+        addon_parser: 'Name of the addon',
+        fabric_parser: 'Name of the task'
+    }
+    for p in name_group:
+        p.add_argument('name', help=name_help[p])
+
+    argcomplete.autocomplete(parser)
+    args = parser.parse_args()
+    # need to check if anything was put in... if not, display usage
