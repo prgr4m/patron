@@ -26,7 +26,7 @@ cli_description = """Stencil - ステンシル - Sutenshiru
 [a generator for flask projects]"""
 
 project_help = "Create a modular flask project base"
-project_dir_help = """Rename the target directory while maintaining project
+project_dir_help = """rename the target directory while maintaining project
 internals"""
 
 models_help = "Models with SQLAlchemy"
@@ -36,8 +36,11 @@ addon_help = "Addons to a flask project"
 fabric_help = "Create tasks to be used with fabric"
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(prog='stencil',
-                                     description=cli_description)
+    parser = argparse.ArgumentParser(
+        prog='stencil',
+        formatter_class=argparse.RawTextHelpFormatter,
+        description=cli_description
+    )
     subparser = parser.add_subparsers()
     project_parser = subparser.add_parser('project', help=project_help)
     project_parser.add_argument('-d', '--directory', help=project_dir_help)
@@ -50,16 +53,25 @@ if __name__ == '__main__':
     name_group = [project_parser, models_parser, forms_parser, blueprint_parser,
                   addon_parser, fabric_parser]
     name_help = {
-        project_parser: 'Name of the project',
-        models_parser: 'Name of the model',
-        forms_parser: 'Name of the form',
-        blueprint_parser: 'Name of the blueprint',
-        addon_parser: 'Name of the addon',
-        fabric_parser: 'Name of the task'
+        project_parser: 'name of the project',
+        models_parser: 'name of the model',
+        forms_parser: 'name of the form',
+        blueprint_parser: 'name of the blueprint',
+        addon_parser: 'name of the addon',
+        fabric_parser: 'name of the task'
     }
     for p in name_group:
         p.add_argument('name', help=name_help[p])
 
+    field_group = [models_parser, forms_parser]
+    field_help = {
+        models_parser: 'field_name:sqlalchemy_type',
+        forms_parser: 'field_name:wtforms_type'
+    }
+    for p in field_group:
+        p.add_argument('field', nargs='*', help=field_help[p])
+
     argcomplete.autocomplete(parser)
     args = parser.parse_args()
     # need to check if anything was put in... if not, display usage
+    print(args)

@@ -1,4 +1,17 @@
-Version 0.1.0
+Version 0.1
 - gli but using argparse
 - autocompletion from cli using argcomplete
 - project scaffolding
+
+Version 0.2
+- blueprints generation
+- fabric tasks
+
+Version 0.3
+- models
+
+Version 0.4
+- forms
+
+Version 0.5
+- addons
