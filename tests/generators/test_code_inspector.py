@@ -1,37 +1,39 @@
 # -*- coding: utf-8 -*-
 import unittest
-import tempfile
+from tempfile import NamedTemporaryFile
 import textwrap
-from stencil.generators import CodeInspector
+import os.path as path
+from stencil.generators import CodeInspector as Ci
 
 
 class TestCodeInspector(unittest.TestCase):
     def setUp(self):
-        self.dummy_template = textwrap.fill("""
-        from flask import Blueprint, render_template, abort
-        from jinja2 import TemplateNotFound
+        self.temp_file = NamedTemporaryFile(mode='w+t', suffix='.py')
+        self.temp_file.file.write(textwrap.dedent("""\
+        # -*- coding: utf-8 -*-
+        from __future__ import print
 
-        simple_page = Blueprint('simple_page', __name__,
-                                template_folder='templates')
+        def add(a, b):
+            return a + b
 
-        @simple_page.route('/', defaults={'page': 'index'})
-        @simple_page.route('/<page>')
-        def show(page):
-            try:
-                return render_template('pages/%s.html' % page)
-            except TemplateNotFound:
-                abort(404)
+        def sub(a, b):
+            return a - b
 
-        @blueprint.route('/ninja', methods=['GET','POST'])
-        def ninja():
-            return render_template('ninja.html')
-        """)
+        def mult(a, b):
+            return a * b
+
+        if __name__ == '__main__':
+            print(add(1,2))
+            print(sub(2,3))
+            print(mult(3,4))
+        """))
 
     def tearDown(self):
-        pass
+        self.temp_file.close()
 
-    def test_checks_if_module_exists(self):
-        with tempfile.TemporaryFile() as tmp_file:
-            tmp_file.write(self.dummy_template)
-            print(tmp_file)
-            self.assertEqual(CodeInspector)
+    def test_source_code_has_collision(self):
+        self.assertEqual(Ci.has_collision(self.temp_file.name, 'sub'), True,
+                         "sub exists... there's something wrong with python")
+
+    def test_source_code_no_collision(self):
+        self.assertFalse(Ci.has_collision(self.temp_file.name, 'div'))

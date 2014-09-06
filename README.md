@@ -3,11 +3,12 @@
 ---
 
 # Overview
-Hatsudenki is a generator for [Flask](http://flask.pocoo.org) modeled after 
+Stencil is a generator for [Flask](http://flask.pocoo.org) modeled after 
 [Padrino](http://padrinorb.com)'s generators particular to my workflow. I 
-originally wrote [Stencil](https://bitbucket.org/prgr4m/stencil) but have 
-changed my workflow since then and have separated a web based project into 
-client and server workflows since they are 2 different problems to be solved.
+originally wrote [Stencil](https://bitbucket.org/prgr4m/stencil-original) 
+but have changed my workflow since then and have separated a web based project 
+into client and server workflows since they are 2 different problems to be 
+solved.
 
 There are a couple of things that will be kept in from the original stencil 
 codebase:

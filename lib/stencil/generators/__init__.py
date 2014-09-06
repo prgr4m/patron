@@ -1,12 +1,32 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+import imp
 import os
+import re
 
 
-class CodeInspector:
+class CodeInspector(object):
     "Imports a given module and inspects for code generation collisions"
     @staticmethod
-    def inspect(module, attribute):
-        if not os.path.exists(module):
-            raise OSError('FileNotFoundError')  # FileNotFoundError in python3.4
+    def has_collision(module_path, attribute):
+        ret_val = False
+        try:
+            test = imp.load_source('module_test', module_path)
+            if hasattr(test, attribute):
+                ret_val = True
+            return ret_val
+        except SyntaxError:
+            raise SyntaxError("not a valid python source file")
+        except Exception, e:  # should be SyntaxError
+            raise TypeError("module_path was not a string!")
 
-__all__ = [CodeInspector]
+def is_name_valid(name_in):
+    if len(name_in) < 3:
+        return False
+    if re.search(r'[^\w]', name_in):
+        return False
+    return True
+
+def get_templates_dir():
+    pass
+__all__ = [CodeInspector, is_name_valid]
