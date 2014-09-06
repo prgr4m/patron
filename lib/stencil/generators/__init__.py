@@ -33,4 +33,4 @@ def get_templates_dir():
     current_location = path.dirname(path.dirname(path.abspath(__file__)))
     return path.join(current_location, 'templates')
 
-__all__ = [CodeInspector, is_name_valid]
+__all__ = [CodeInspector, is_name_valid, get_templates_dir]
