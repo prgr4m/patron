@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 import imp
-import os
+import os.path as path
 import re
 
 
@@ -17,8 +17,9 @@ class CodeInspector(object):
             return ret_val
         except SyntaxError:
             raise SyntaxError("not a valid python source file")
-        except Exception, e:  # should be SyntaxError
+        except Exception:  # should be SyntaxError
             raise TypeError("module_path was not a string!")
+
 
 def is_name_valid(name_in):
     if len(name_in) < 3:
@@ -27,6 +28,9 @@ def is_name_valid(name_in):
         return False
     return True
 
+
 def get_templates_dir():
-    pass
+    current_location = path.dirname(path.dirname(path.abspath(__file__)))
+    return path.join(current_location, 'templates')
+
 __all__ = [CodeInspector, is_name_valid]
