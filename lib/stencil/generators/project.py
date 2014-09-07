@@ -2,6 +2,7 @@
 import os
 import os.path as path
 import shutil
+from string import Template
 from . import is_name_valid, get_templates_dir
 
 
@@ -24,6 +25,32 @@ class FlaskProject(object):
         os.chdir(self.root_path)
         def setup_root_directory():
             tpl_dir = path.join(self.tpl_root, 'root')
+            tpl_files = {
+                'fcgi_template.txt': [
+                    dict(project_name=self.name),
+                    "{}.fcgi".format(self.name.lower())
+                ],
+                'manage.py': [
+                    dict(project_name=self.name,
+                         proj_env="%s_ENV" % self.name.upper())
+                ],
+                'passenger_wsgi.py': [
+                    dict(project_name=self.name,
+                         project_name_env=self.name.upper())
+                ],
+                'wsgi_template.txt': [
+                    dict(project_name=self.name),
+                    "{}.wsgi".format(self.name.lower())
+                ]
+            }
+            for tpl_file, data in tpl_files.items():
+                dest_file = data[1] if len(data) > 1 else tpl_file
+                with open(dest_file, 'w') as f:
+                    src_file = path.join(tpl_dir, tpl_file)
+                    tpl = Template(open(src_file, 'r').read())
+                    f.write(tpl.safe_substitute(**data[0]))
+            shutil.copyfile(path.join(tpl_dir, 'fabfile.py'), 'fabfile.py')
+            shutil.copyfile(path.join(tpl_dir, 'htaccess.txt'), 'htaccess')
 
         def setup_tests_directory():
             # this is a package directory

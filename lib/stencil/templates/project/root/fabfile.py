@@ -5,9 +5,6 @@ from os import path
 from fabric.api import env, hosts, local, run, cd, abort, settings, task
 
 
-project_name = "$project_name"
-dvcs = "$dvcs"
-
 #env.user = 'username_in_here'
 #env.hosts = [
 #    'server.name.here.com'

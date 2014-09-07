@@ -1,14 +1,19 @@
 # -*- coding: utf-8 -*-
 import sys
+from .generators.project import FlaskProject
+
 
 class Stencil:
     "The interface between the cli and the library"
     @staticmethod
     def run(args, prog_name):
-        #print(args)
+        print(args)
         if args.subparser_name == 'project':
             # takes a name (maybe even type -- old school and classy)
-            print("project name: {}".format(args.name))
+            options = dict(name=args.name)
+            if hasattr(args, 'directory'):
+                options['directory'] = args.directory
+            FlaskProject(**options).create()
         elif args.subparser_name == 'model':
             # takes a name and *fields of name:type
             print('model stuff')

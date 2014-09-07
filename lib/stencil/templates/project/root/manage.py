@@ -61,38 +61,6 @@ def liveserver(port):
         server.watch(dir_glob, sass_cmd)
     server.serve(port=port)
 
-#@manager.command
-#def create_superuser():
-#    "Create an account for application administration"
-#    try:
-#        u_name = prompt("Username")
-#        u_email = prompt("Email Address")
-#        u_pass = prompt_pass("Password")
-#        u_conf = prompt_pass("Confirm Password")
-#        vals = {
-#            'username': u_name,
-#            'email': u_email,
-#            'password': u_pass,
-#            'confirm': u_conf
-#        }
-#        reg_form = UserRegistrationForm(MultiDict(vals), csrf_enabled=False)
-#        if reg_form.validate():
-#            admin_role = Role('admin', 'admistrator role')
-#            db.session.add(admin_role)
-#            admin_user = User(u_name, u_email, u_pass, True)
-#            admin_user.roles.append(admin_role)
-#            db.session.add(admin_user)
-#            db.session.commit()
-#            print("Done creating superuser")
-#        else:
-#            print("Errors were encountered when validating user input:")
-#            for k, v in reg_form.errors:
-#                print("Input: {key}{linesep}{msg}".format(key=k,linesep=os.linesep,msg=v))
-#            print("Aborting superuser creation")
-#    except KeyboardInterrupt:
-#        print("Aborting superuser creation")
-#        sys.exit()
-
 if __name__ == '__main__':
     manager.run()
 
