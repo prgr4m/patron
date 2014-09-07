@@ -1,12 +1,18 @@
-Todo:
-	This is just some test text
-	Does this work now?
-  - does this work?
-  - another task
-  - hmmm...
+Project Generator:
+	Obviously this establishes the base of this tool.
+	Here are what needs to be kept in from the original tool and what needs to
+	be left out by sectional generation/scaffolding
+	root directory:
+		manage.py:
+			- take out livereload (this should be an addon)
+			- keep the tests
 
-Another Task:
-  - does this even try to work?
-  - hm....
-  - hmmm....
+	public package:
+		- templates stay within itself
+
+Blueprint Generator:
+	- generate unittests when generated
+	- check for name collisions
+	- hook into app factory
+	- make sure that templates stay within the blueprint itself
 

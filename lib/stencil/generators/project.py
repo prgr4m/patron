@@ -2,8 +2,7 @@
 import os
 import os.path as path
 import shutil
-from string import Template
-from . import is_name_valid, get_templates_dir
+from . import is_name_valid, get_templates_dir, generate_templates
 
 
 class FlaskProject(object):
@@ -43,19 +42,21 @@ class FlaskProject(object):
                     "{}.wsgi".format(self.name.lower())
                 ]
             }
-            for tpl_file, data in tpl_files.items():
-                dest_file = data[1] if len(data) > 1 else tpl_file
-                with open(dest_file, 'w') as f:
-                    src_file = path.join(tpl_dir, tpl_file)
-                    tpl = Template(open(src_file, 'r').read())
-                    f.write(tpl.safe_substitute(**data[0]))
+            generate_templates(tpl_dir, tpl_files)
             shutil.copyfile(path.join(tpl_dir, 'fabfile.py'), 'fabfile.py')
             shutil.copyfile(path.join(tpl_dir, 'htaccess.txt'), 'htaccess')
 
         def setup_tests_directory():
-            # this is a package directory
-            # has a template (test_basic.py) that is a unit test
-            pass
+            os.mkdir('tests')
+            open(path.join('tests','__init__.py'), 'w').close()
+            tpl_dir = path.join(self.tpl_root, 'tests')
+            tpl_file = {
+                'test_basic.py': [
+                    dict(project_name=self.name),
+                    path.join('tests', 'test_basic.py')
+                ]
+            }
+            generate_templates(tpl_dir, tpl_file)
 
         def setup_tmp_directory():
             # needed for deployment on a2 servers
