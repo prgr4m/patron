@@ -1,4 +1,4 @@
-# Hatsudenki - 発電機 - (generator)
+# Stencil - ステンシル - Sutenshiru
 
 ---
 

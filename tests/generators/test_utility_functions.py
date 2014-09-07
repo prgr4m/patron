@@ -19,5 +19,6 @@ class TestUtilityFunctions(unittest.TestCase):
     def test_get_templates_dir(self):
         expected_loc = path.dirname(path.join(path.abspath(__file__),
                                               os.pardir))
+        print expected_loc
         self.assertEqual(expected_loc, get_templates_dir(),
                           "They should be the same location but are not")

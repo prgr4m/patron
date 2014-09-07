@@ -1,0 +1,5 @@
+# Need to move this file to the domain/subdomain root
+# Also rename to make this file hidden
+PassengerEnabled On
+PassengerAppRoot /path/to/application/root/where/passenger_wsgi.py/is/with/trailing/slash/
+
