@@ -6,7 +6,6 @@ import os.path as path
 import sys
 from flask_script import Manager
 from flask_script.commands import Shell
-#from flask_script.cli import prompt, prompt_pass, prompt_bool
 from flask_migrate import MigrateCommand
 from werkzeug.datastructures import MultiDict
 from $project_name import create_app
