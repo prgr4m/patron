@@ -59,8 +59,8 @@ class FlaskProject(object):
             generate_templates(tpl_dir, tpl_file)
 
         def setup_tmp_directory():
-            # needed for deployment on a2 servers
-            pass
+            os.mkdir('tmp')
+            open(path.join('tmp', 'restart.txt'), 'w').close()
 
         def setup_package_directory():
             # uses self.name
