@@ -24,15 +24,6 @@ class FlaskProject(object):
         os.chdir(self.root_path)
         def setup_root_directory():
             tpl_dir = path.join(self.tpl_root, 'root')
-            # need the following:
-            # fabfile.py
-            # ${project_name}.fcgi
-            # ${project_name}-requirements.txt
-            # ${project_name|lower}.wsgi
-            # htaccess
-            # manage.py
-            # passenger_wsgi.py (but minus some things...)
-            pass
 
         def setup_tests_directory():
             # this is a package directory
