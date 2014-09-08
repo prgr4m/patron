@@ -4,11 +4,18 @@ Project Generator:
 	be left out by sectional generation/scaffolding
 	root directory:
 		manage.py:
-			- take out livereload (this should be an addon)
-			- keep the tests
-
-	public package:
-		- templates stay within itself
+			- take out livereload (this should be an addon) @done(2014-09-07)
+			- keep the tests @done(2014-09-07)
+		- ADD REQUIREMENTS FILE!!!
+	application package:
+		Here is a list of things I should be doing by default...
+		- do not create api.py... this is an addon
+		- do not create assets.py... for front-end
+		- auth.py belongs to admin addon
+		- extensions.py
+		- do not create helpers.py
+		public package:
+			- templates stay within itself
 
 Blueprint Generator:
 	- generate unittests when generated
@@ -16,3 +23,14 @@ Blueprint Generator:
 	- hook into app factory
 	- make sure that templates stay within the blueprint itself
 
+Addons:
+	admin:
+		- create auth
+		- create users
+		- hook into manage.py
+		- hook into app factory
+	api:
+		- create api.py
+		- hook into app factory
+		- should be its own blueprint/package?
+		- dependent upon admin
