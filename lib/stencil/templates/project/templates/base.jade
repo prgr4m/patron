@@ -1,0 +1,19 @@
+!!! 5
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge,chrome=1")
+    link(type="text/plain", rel="author", href="humans.txt")
+    block page_description
+      meta(name="description", content="")
+    block page_meta
+      include includes/meta
+    title
+      block page_title
+    block page_head
+      link(rel="stylesheet", href="#{url_for('static', filename='css/main.css')}", media="screen")
+
+  body
+    block page_content
+      //- empty block
+

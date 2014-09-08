@@ -1,0 +1,16 @@
+extends base
+
+block page_meta
+  #{super()}
+
+block page_title
+  #{super()} 403 Forbidden
+
+block page_head
+  //- something in here...
+
+block page_content
+  h1 403 Forbidden
+  p
+    | You just got denied!
+  p This needs to get customized

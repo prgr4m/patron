@@ -10,13 +10,12 @@ from $project_name.api import api
 
 
 def create_app(config_obj='default'):
-    app = Flask(__name__)
+    app = Flask(__name__, static_url_path='')
     if config_obj in config.keys():
         app.config.from_object(config[config_obj])
     else:
         app.config.from_object(config['default'])
     app.jinja_env.add_extension('pyjade.ext.jinja.PyJadeExtension')
-    #app.jinja_env.add_extension('slimish_jinja.SlimishExtension')
     register_extensions(app)
     register_blueprints(app)
     register_errorhandlers(app)

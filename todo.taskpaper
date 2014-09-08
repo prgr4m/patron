@@ -16,6 +16,7 @@ Project Generator:
 		- auth.py belongs to admin addon
 		- extensions.py
 		- do not create helpers.py
+		- meta.jade template takes $project_name
 		public package:
 			- templates stay within itself
 

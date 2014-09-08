@@ -4,7 +4,7 @@ import os.path as path
 
 
 class Config(object):
-    SECRET_KEY = "$secret_key"
+    SECRET_KEY = os.environ('$project_key', "super-secret-key-here")
     APP_DIR = path.abspath(path.dirname(__file__)) # This directory
     PROJECT_ROOT = path.abspath(path.join(APP_DIR, os.pardir))
     BCRYPT_LEVEL = 13
