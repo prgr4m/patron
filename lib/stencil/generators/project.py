@@ -64,7 +64,23 @@ class FlaskProject(object):
 
         def setup_package_directory():
             # uses self.name
-            pass
+            def create_app_templates():
+                # should only pertain to the app itself!
+                pass
+
+            def create_public_package():
+                # should have its own templates
+                pass
+
+            def create_static_directory():
+                pass
+
+            # create templates
+            # copyfiles
+            # make sure app factory uses proper static root at '/'
+            create_app_templates()
+            create_public_package()
+            create_static_directory()
 
         setup_root_directory()
         setup_tests_directory()

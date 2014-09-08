@@ -2,6 +2,8 @@ Project Generator:
 	Obviously this establishes the base of this tool.
 	Here are what needs to be kept in from the original tool and what needs to
 	be left out by sectional generation/scaffolding
+
+	THIS TOOL SHOULD ONLY BE RUN FROM THE PROJECT ROOT!!!
 	root directory:
 		manage.py:
 			- take out livereload (this should be an addon) @done(2014-09-07)
