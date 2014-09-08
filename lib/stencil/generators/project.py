@@ -66,15 +66,41 @@ class FlaskProject(object):
         def setup_package_directory():
             template_root = path.join(self.tpl_root, 'package')
             def create_app_templates():
-                # should only pertain to the app itself!
-                pass
+                os.makedirs(path.join('templates', 'includes'))
+                template_root = path.join(self.tpl_root, 'templates')
+                for f in [x os.listdir(template_root) \
+                          if x not in ['.', '..', 'includes']]:
+                    shutil.copyfile(path.join(template_root, f),
+                                    path.join('templates', f))
+                template_root = path.join(template_root, 'includes')
+                for f in [x os.listdir(template_root) \
+                          if x not in ['.', '..', 'meta.jade']]:
+                    shutil.copyfile(path.join(template_root, f),
+                                    path.join('templates', 'includes', f))
+                template_file = {
+                    'meta.jade': [dict(project_name=self.name)]
+                }
+                generate_templates(template_root, template_file)
 
             def create_public_package():
                 # should have its own templates
-                pass
+                def create_templates()
+                    template_root = path.join(self.tpl_root, 'public',
+                                              'templates')
+                    # template_file = {
+                    #     ''
+                    # }
+
+                os.mkdir('public')
+                os.chdir('public')
+                create_templates()
 
             def create_static_directory():
-                pass
+                template_root = path.join(self.tpl_root, 'static')
+                os.mkdir('static')
+                for f in [os.listdir(template_root)]:
+                    shutil.copyfile(path.join(template_root, f),
+                                    path.join('static', f))
 
             os.mkdir(self.name)
             os.chdir(self.name)
@@ -89,8 +115,8 @@ class FlaskProject(object):
             shutil.copyfile(path.join(template_root, 'extensions.py'),
                             'extensions.py')
             create_app_templates()
-            create_public_package()
             create_static_directory()
+            create_public_package()
 
         setup_root_directory()
         setup_tests_directory()
