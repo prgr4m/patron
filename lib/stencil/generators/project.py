@@ -44,8 +44,10 @@ class FlaskProject(object):
                 ]
             }
             generate_templates(template_root, template_files)
-            shutil.copyfile(path.join(tpl_dir, 'fabfile.py'), 'fabfile.py')
-            shutil.copyfile(path.join(tpl_dir, 'htaccess.txt'), 'htaccess')
+            shutil.copyfile(path.join(template_root, 'fabfile.py'),
+                            'fabfile.py')
+            shutil.copyfile(path.join(template_root, 'htaccess.txt'),
+                            'htaccess')
 
         def setup_tests_directory():
             os.mkdir('tests')
@@ -68,37 +70,50 @@ class FlaskProject(object):
             def create_app_templates():
                 os.makedirs(path.join('templates', 'includes'))
                 template_root = path.join(self.tpl_root, 'templates')
-                for f in [x os.listdir(template_root) \
+                for f in [x for x in os.listdir(template_root) \
                           if x not in ['.', '..', 'includes']]:
                     shutil.copyfile(path.join(template_root, f),
                                     path.join('templates', f))
                 template_root = path.join(template_root, 'includes')
-                for f in [x os.listdir(template_root) \
+                for f in [x for x in os.listdir(template_root) \
                           if x not in ['.', '..', 'meta.jade']]:
                     shutil.copyfile(path.join(template_root, f),
                                     path.join('templates', 'includes', f))
                 template_file = {
-                    'meta.jade': [dict(project_name=self.name)]
+                    'meta.jade': [
+                        dict(project_name=self.name),
+                        path.join('templates', 'includes', 'meta.jade')
+                    ]
                 }
                 generate_templates(template_root, template_file)
 
             def create_public_package():
-                # should have its own templates
-                def create_templates()
-                    template_root = path.join(self.tpl_root, 'public',
-                                              'templates')
-                    # template_file = {
-                    #     ''
-                    # }
+                template_root = path.join(self.tpl_root, 'public')
+                def create_templates():
+                    nonlocal template_root
+                    os.mkdir('templates')
+                    os.chdir('templates')
+                    template_root = path.join(template_root, 'templates')
+                    template_file = {
+                        'public_base.jade': [dict(project_name=self.name)]
+                    }
+                    generate_templates(template_root, template_file)
+                    shutil.copyfile(path.join(template_root, 'index.jade'),
+                                    'index.jade')
 
                 os.mkdir('public')
                 os.chdir('public')
+                open('__init__.py', 'w').close()
+                for f in [x for x in os.listdir(template_root) \
+                          if x not in ['.', '..', 'templates']]:
+                    shutil.copyfile(path.join(template_root, f), f)
                 create_templates()
 
             def create_static_directory():
                 template_root = path.join(self.tpl_root, 'static')
                 os.mkdir('static')
-                for f in [os.listdir(template_root)]:
+                for f in [x for x in os.listdir(template_root) \
+                          if x not in ['.', '..']]:
                     shutil.copyfile(path.join(template_root, f),
                                     path.join('static', f))
 

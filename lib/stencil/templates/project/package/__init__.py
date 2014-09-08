@@ -3,10 +3,7 @@ from flask import Flask
 from flask.templating import render_template
 from $project_name.settings import config
 from $project_name.extensions import db, flask_bcrypt, cache, toolbar
-from $project_name.auth import login_manager, principals
-from $project_name.admin.views import admin
 from $project_name.public.views import frontend
-from $project_name.api import api
 
 
 def create_app(config_obj='default'):
@@ -26,10 +23,6 @@ def register_extensions(app):
     flask_bcrypt.init_app(app)
     toolbar.init_app(app)
     cache.init_app(app)
-    principals.init_app(app)
-    login_manager.init_app(app)
-    admin.init_app(app)
-    api.init_app(app)
 
 def register_blueprints(app):
     app.register_blueprint(frontend)

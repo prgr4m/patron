@@ -55,4 +55,4 @@ def generate_templates(template_root, template_files):
             template = Template(open(template_source, 'r').read())
             f.write(template.safe_substitute(**data[0]))
 
-__all__ = [CodeInspector, is_name_valid, get_templates_dir]
+__all__ = []

@@ -7,7 +7,7 @@
 //- ===========================================================================
 link(rel="icon", type="image.png", href="#{url_for('static', filename='favicon.png')}")
 <!--[if (IE 9)(IE 10)]>
-link(rel="icon" type="image/vnd.microsoft.icon" href="#{url_for('static', filename='favicon.ico')}")
+<link rel="icon" type="image/vnd.microsoft.icon" href="#{url_for('static', filename='favicon.ico')}" />
 <![endif]-->
 
 //- Web App Related
@@ -36,5 +36,5 @@ link(rel="icon", sizes="192x192", href="#{url_for('static', filename='${project_
 //- Internet Exploder crap
 //- ===========================================================================
 <!--[if lt IE 9]>
-meta(http-equiv="refresh", content="0;#{url_for('requirements')}")
+<meta http-equiv="refresh", content="0;http://browsehappy.com" />
 <![endif]-->

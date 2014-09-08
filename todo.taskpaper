@@ -11,14 +11,16 @@ Project Generator:
 		- ADD REQUIREMENTS FILE!!!
 	application package:
 		Here is a list of things I should be doing by default...
-		- do not create api.py... this is an addon
-		- do not create assets.py... for front-end
-		- auth.py belongs to admin addon
-		- extensions.py
-		- do not create helpers.py
-		- meta.jade template takes $project_name
+		- do not create api.py... this is an addon @done(2014-09-08)
+		- do not create assets.py... for front-end @done(2014-09-08)
+		- auth.py belongs to admin addon @done(2014-09-08)
+		- extensions.py @done(2014-09-08)
+		- do not create helpers.py @done(2014-09-08)
+		- meta.jade template takes $project_name @done(2014-09-08)
 		public package:
-			- templates stay within itself
+			- templates stay within itself @done(2014-09-08)
+			- remove registration method from view module @done(2014-09-08)
+			- models.py template heading
 
 Blueprint Generator:
 	- generate unittests when generated
@@ -31,7 +33,11 @@ Addons:
 		- create auth
 		- create users
 		- hook into manage.py
-		- hook into app factory
+		- hook into app factory (admin and auth)
+		- place login.jade into public templates
+		- place registration.jade into public templates
+		- add hook into public view for registration and login
+		- don't forget to add UserCommand to manage.py
 	api:
 		- create api.py
 		- hook into app factory

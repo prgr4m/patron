@@ -1,0 +1,23 @@
+extends base
+
+block page_meta
+  #{super()}
+
+block page_title
+  #{super()} Login Required
+
+block page_content
+  .container
+    form.form-horizontal(method="post", role="form")
+      #{form.csrf_token}
+      .form-group
+        #{form.username.label(class="col-sm-2 control-label")}
+        .col-sm-10
+          #{form.username(placeholder="Username", class="form-control")}
+      .form-group
+        #{form.password.label(class="col-sm-2 control-label")}
+        .col-sm-10
+          #{form.password(placeholder="Password", class="form-control")}
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          input.btn.btn-primary(type="submit", value="Login")
