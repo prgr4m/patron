@@ -9,6 +9,8 @@ Project Generator:
 			- take out livereload (this should be an addon) @done(2014-09-07)
 			- keep the tests @done(2014-09-07)
 		- ADD REQUIREMENTS FILE!!!
+		- create hidden stencil project file that maps out what's been added and where's what
+		- deploy fabric method (default to a2/ssh)
 	application package:
 		Here is a list of things I should be doing by default...
 		- do not create api.py... this is an addon @done(2014-09-08)
@@ -20,13 +22,25 @@ Project Generator:
 		public package:
 			- templates stay within itself @done(2014-09-08)
 			- remove registration method from view module @done(2014-09-08)
-			- models.py template heading
+			- models.py template heading @done(2014-09-08)
 
 Blueprint Generator:
-	- generate unittests when generated
+	- needs to check if the blueprint exists already
+	- create unittests when generated
 	- check for name collisions
 	- hook into app factory
 	- make sure that templates stay within the blueprint itself
+	- every models.py (gets a default heading)
+	- every forms.py (gets a default heading)
+
+Models Generator:
+	- check heading of every page... doesn't exist? add it
+	- every model generated must have a __str__ and __repr__ method
+	- needs to know what blueprint to add to since tool runs from root of project
+
+Forms Generator:
+	- check heading of every page... doesn't exist? add it
+	- needs to know what blueprint to add to since tool runs from root of project
 
 Addons:
 	admin:
@@ -42,4 +56,35 @@ Addons:
 		- create api.py
 		- hook into app factory
 		- should be its own blueprint/package?
+		- dependent upon admin because of auth
+	sitemap:
+		- added to public blueprint
+		- only public facing routes and only include api routes if no auth
+	livereload:
+		- this is questionable since I should separate client from server
+	blog:
+		- its own custom blueprint...
 		- dependent upon admin
+		- custom admin views
+		- ckeditor integration
+		- rss feed functionality that hooks into public blueprint
+	cms:
+		- should be its own type of project scaffold since it requires several components and functionality rolled into one
+		- requires admin
+		- requires blog mainly because of all of the leg work it does
+		- hijacks public routing
+		- requires sitemaps
+	cron job / ops helpers:
+		- command(s) to hook into flask-script/click to generate crontab entry common to maintenance @nice_feature
+	humanizer:
+		- self explanatory
+	mail:
+		- flask-mail integration
+		- cli/interactive driven
+		- hooks into registration and alters config object
+	ecommerce:
+		- with satchless and stripe
+		- "shopping cart" blueprint with admin_views and models
+	banning interface:
+		- models with banning
+		- context processor hook or route hijacking... maybe use signals...
