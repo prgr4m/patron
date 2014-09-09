@@ -48,6 +48,7 @@ class FlaskProject(object):
                             'fabfile.py')
             shutil.copyfile(path.join(template_root, 'htaccess.txt'),
                             'htaccess')
+            self._create_config()
 
         def setup_tests_directory():
             os.mkdir('tests')
@@ -137,3 +138,7 @@ class FlaskProject(object):
         setup_tests_directory()
         setup_tmp_directory()
         setup_package_directory()
+
+    def _create_config(self):
+        """creates a project config so stencil can easily generate things"""
+        pass
