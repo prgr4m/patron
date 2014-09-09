@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import sys
 from .generators.project import FlaskProject
 
@@ -33,4 +34,4 @@ class Stencil:
             print("Please run: '{} -h' for usage info".format(prog_name))
             sys.exit(0)
 
-__all__ = [Stencil]
+__all__ = []

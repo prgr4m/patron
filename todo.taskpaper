@@ -78,6 +78,7 @@ Addons:
 		- command(s) to hook into flask-script/click to generate crontab entry common to maintenance @nice_feature
 	humanizer:
 		- self explanatory
+		- this is a blueprint
 	mail:
 		- flask-mail integration
 		- cli/interactive driven
