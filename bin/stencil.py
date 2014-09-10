@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # PYTHON_ARGCOMPLETE_OK
 __author__ = "John Boisselle <ping_me@johnboisselle.com>"
-__version__ = "0.0.1"
+__version__ = "0.1.2"
 
 import argparse
 import argcomplete
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     task_parser = subparser.add_parser('task', help=fabric_help)
 
     name_group = [project_parser, models_parser, forms_parser, blueprint_parser,
-                  task_parser] # don't forget to add back addon_parser
+                  task_parser]  # don't forget to add back addon_parser
     name_help = {
         project_parser: 'name of the project',
         models_parser: 'name of the model',
