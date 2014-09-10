@@ -51,7 +51,7 @@ class FlaskProject(object):
                         'fabfile.py')
         shutil.copyfile(path.join(template_root, 'htaccess.txt'),
                         'htaccess')
-        StencilConfig().create(self.name)
+        StencilConfig.create(self.name)
         shutil.copyfile(path.join(template_root, 'requirements.txt'),
                         "{}-requirements.txt".format(self.name.lower()))
 

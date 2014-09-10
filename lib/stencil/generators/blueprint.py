@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 import os.path as path
-from . import is_name_valid, get_templates_dir, generate_templates
+from . import (StencilConfig, is_name_valid, get_templates_dir,
+               generate_templates)
 
 
 class BlueprintGenerator(object):
@@ -10,5 +11,6 @@ class BlueprintGenerator(object):
         if is_name_valid(name):
             self.name = name
         else:
-            pass
+            raise StandardError("Name given for the blueprint is invalid")
+        self.config = StencilConfig()
 

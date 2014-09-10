@@ -12,44 +12,64 @@ class StencilConfig(object):
     def __init__(self):
         self.name = 'stencil.cfg'
         self.config = ConfigParser.SafeConfigParser()
-        # do not create a config location... do that dynamically
+        self.config.readfp(open(self.name))
 
     @staticmethod
     def is_present():
         return True if path.exists('stencil.cfg') else False
 
+    @staticmethod
     def create(self, project_name=''):
         "creates the base config file for stencil generated projects"
-        self.config.add_section('general')
-        self.config.set('general', 'project_name', project_name)
-        self.config.set('general', 'settings', path.join(project_name,
-                                                         'settings.py'))
-        self.config.set('general', 'addons', '')
-        self.config.add_section('public')
-        self.config.set('public', 'forms', path.join(project_name, 'public',
-                                                     'forms.py'))
-        self.config.set('public', 'models', path.join(project_name, 'public',
-                                                      'models.py'))
-        self.config.set('public', 'views', path.join(project_name, 'public',
-                                                     'views.py'))
-        with open(self.name, 'w') as configfile:
-            self.config.write(configfile)
+        config = ConfigParser.SafeConfigParser()
+        config.add_section('general')
+        config.set('general', 'project_name', project_name)
+        config.set('general', 'settings',
+                        path.join(project_name, 'settings.py'))
+        config.set('general', 'factory_file',
+                        path.join(project_name, '__init__.py'))
+        config.set('general', 'addons', '')
+        config.add_section('public')
+        config.set('public', 'forms',
+                        path.join(project_name, 'public', 'forms.py'))
+        config.set('public', 'models',
+                        path.join(project_name, 'public', 'models.py'))
+        config.set('public', 'views',
+                        path.join(project_name, 'public', 'views.py'))
+        with open('stencil.cfg', 'w') as configfile:
+            config.write(configfile)
 
+    @staticmethod
     def generate_config(self):
         "creates a stencil config file by inspecting a projects structure"
         pass
 
-    def get_blueprint_info(self):
-        "retrieves a list of files within the requested blueprint"
-        pass
+    def get_project_name(self):
+        "returns the flask project name"
+        return self.config.get('general', 'project_name')
+
+    def get_settings_path(self):
+        "returns the path of settings file"
+        return self.config.get('general', 'settings')
+
+    def get_factory_path(self):
+        "returns the path of the file that create the flask app"
+        return self.config.get('general', 'factory_file')
 
     def create_blueprint(self, blueprint_name):
         "creates a section associated with a blueprint with associated details"
         pass
 
-    def __moonwalk(self):
-        "a backwards os.walk for finding stencil config files"
-        # need to stop at user's home directory...
+    def has_blueprint(self, blueprint_name):
+        "checks to see if blueprint exists in the config file"
+        return self.config.has_section(blueprint_name)
+
+    def get_blueprint_info(self, blueprint_name):
+        "retrieves a list of files within the requested blueprint"
+        pass
+
+    def serialize(self):
+        "writes config data back to file"
         pass
 
 
