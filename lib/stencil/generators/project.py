@@ -12,12 +12,9 @@ class FlaskProject(object):
             self.name = name
         else:
             raise StandardError("Name supplied to FlaskProject is not valid")
-        if isinstance(directory, str):
-            if path.exists(directory):
-                raise OSError("Directory already exists")
-            self.root_path = directory
-        else:
-            self.root_path = name
+        self.root_path = directory if isinstance(directory, str) else name
+        if path.exists(self.root_path):
+            raise OSError("Directory already exists")
         self.tpl_root = path.join(get_templates_dir(), 'project')
 
     def create(self):
@@ -55,6 +52,8 @@ class FlaskProject(object):
         shutil.copyfile(path.join(template_root, 'htaccess.txt'),
                         'htaccess')
         StencilConfig().create(self.name)
+        shutil.copyfile(path.join(template_root, 'requirements.txt'),
+                        "{}-requirements.txt".format(self.name.lower()))
 
     def __setup_tests_directory(self):
         os.mkdir('tests')

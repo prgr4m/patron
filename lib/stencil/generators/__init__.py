@@ -12,12 +12,26 @@ class StencilConfig(object):
     def __init__(self):
         self.name = 'stencil.cfg'
         self.config = ConfigParser.SafeConfigParser()
+        # do not create a config location... do that dynamically
+
+    @staticmethod
+    def is_present(self):
+        return True if path.exists('stencil.cfg') else False
 
     def create(self, project_name=''):
         "creates the base config file for stencil generated projects"
-        self.config.add_section('General')
-        self.config.set('General', 'project_name', project_name)
-        self.config.set('General', 'blueprints', ['public'])
+        self.config.add_section('general')
+        self.config.set('general', 'project_name', project_name)
+        self.config.set('general', 'settings', path.join(project_name,
+                                                         'settings.py'))
+        self.config.set('general', 'addons', '')
+        self.config.add_section('public')
+        self.config.set('public', 'forms', path.join(project_name, 'public',
+                                                     'forms.py'))
+        self.config.set('public', 'models', path.join(project_name, 'public',
+                                                      'models.py'))
+        self.config.set('public', 'views', path.join(project_name, 'public',
+                                                     'views.py'))
         with open(self.name, 'w') as configfile:
             self.config.write(configfile)
 
@@ -25,8 +39,8 @@ class StencilConfig(object):
         "creates a stencil config file by inspecting a projects structure"
         pass
 
-    def get_blueprints(self):
-        "retrieves list of blueprints within the config file"
+    def get_blueprint_info(self):
+        "retrieves a list of files within the requested blueprint"
         pass
 
     def create_blueprint(self, blueprint_name):
@@ -35,6 +49,7 @@ class StencilConfig(object):
 
     def __moonwalk(self):
         "a backwards os.walk for finding stencil config files"
+        # need to stop at user's home directory...
         pass
 
 

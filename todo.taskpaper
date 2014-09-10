@@ -3,23 +3,23 @@ Project Generator:
 	Here are what needs to be kept in from the original tool and what needs to
 	be left out by sectional generation/scaffolding
 
-	THIS TOOL SHOULD ONLY BE RUN FROM THE PROJECT ROOT!!!
+	- THIS TOOL SHOULD ONLY BE RUN FROM THE PROJECT ROOT!!!
 	root directory:
 		manage.py:
 			- take out livereload (this should be an addon) @done(2014-09-07)
 			- keep the tests @done(2014-09-07)
-		- ADD REQUIREMENTS FILE!!!
-		- create hidden stencil project file that maps out what's been added and where's what
+		- ADD REQUIREMENTS FILE!!! @done(2014-09-09)
+		- create hidden stencil project file that maps out what's been added and where's what @done(2014-09-09)
 		- deploy fabric method (default to a2/ssh)
 		StencilConfig:
 		  - need to list out project name
 			- blueprints need the following
-				- path on disk
 				- what files are listed within the directory
 			- have a list of addons used
 			- where is the creation of the flask app
 			- where is the settings file for the flask app
 			- package dependencies (should be cross referenced with the requirements file)
+			- need to have subparser on cli to remove, inspect and generate a config for each project... from root
 	application package:
 		Here is a list of things I should be doing by default...
 		- do not create api.py... this is an addon @done(2014-09-08)
@@ -41,6 +41,7 @@ Blueprint Generator:
 	- make sure that templates stay within the blueprint itself
 	- every models.py (gets a default heading)
 	- every forms.py (gets a default heading)
+	- add to stencil config
 
 Models Generator:
 	- check heading of every page... doesn't exist? add it
