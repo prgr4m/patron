@@ -19,8 +19,12 @@ class StencilConfig(object):
         return True if path.exists('stencil.cfg') else False
 
     @staticmethod
-    def create(self, project_name=''):
-        "creates the base config file for stencil generated projects"
+    def create(project_name):
+        """
+        creates the base config file for stencil generated projects
+
+        :param str project_name: the name of the flask project
+        """
         config = ConfigParser.SafeConfigParser()
         config.add_section('general')
         config.set('general', 'project_name', project_name)
@@ -44,33 +48,81 @@ class StencilConfig(object):
         "creates a stencil config file by inspecting a projects structure"
         pass
 
-    def get_project_name(self):
-        "returns the flask project name"
+    @property
+    def project_name(self):
+        """
+        The stencil project name.
+
+        This is used as a base to find where various blueprints live within a
+        stencil project.
+
+        :return: flask project name of the stencil project
+        :rtype: str
+        """
         return self.config.get('general', 'project_name')
 
-    def get_settings_path(self):
-        "returns the path of settings file"
+    @property
+    def settings(self):
+        """
+        the settings file associated with the flask project
+
+        :return: a path pointing to the settings file
+        :rtype: str
+        """
         return self.config.get('general', 'settings')
 
-    def get_factory_path(self):
-        "returns the path of the file that create the flask app"
+    @property
+    def factory_path(self):
+        """
+        the factory function that creates the flask app
+
+        :return: the path of the file that houses the factory
+        :rtype: str
+        """
         return self.config.get('general', 'factory_file')
 
-    def create_blueprint(self, blueprint_name):
-        "creates a section associated with a blueprint with associated details"
-        pass
+    def create_blueprint(self, blueprint_name, blueprint_data):
+        """
+        creates a section associated with a blueprint along with its details
+
+        :param str blueprint_name: the name of the blueprint
+        :param dict blueprint_data: a dictionary with the 'key' as the
+                                    filename/setting to be tracked along with
+                                    the data (most of the time being a path)
+        :raises: OSError: if the blueprint already exists in the config
+        :rtype: None
+        """
+        if self.has_blueprint(blueprint_name):
+            raise OSError("Blueprint already exists")
+        blueprint_name = blueprint_name.lower()
+        self.config.add_section(blueprint_name)
+        for key, val in blueprint_data.items():
+            self.config.set(blueprint_name, key, val)
+        self.__serialize()
 
     def has_blueprint(self, blueprint_name):
-        "checks to see if blueprint exists in the config file"
-        return self.config.has_section(blueprint_name)
+        """
+        checks to see if blueprint exists in the config file
+
+        :param str blueprint_name: the name of the blueprint
+        :rtype: bool
+        """
+        return self.config.has_section(blueprint_name.lower())
 
     def get_blueprint_info(self, blueprint_name):
-        "retrieves a list of files within the requested blueprint"
-        pass
+        """
+        retrieves a list of data within the requested blueprint
 
-    def serialize(self):
+        :param str blueprint_name: the name of the blueprint
+        :return: returns the data associated with the blueprint (name, value)
+        :rtype: list
+        """
+        return self.config.items(blueprint_name.lower())
+
+    def __serialize(self):
         "writes config data back to file"
-        pass
+        with open(self.name, 'w') as configfile:
+            self.config.write(configfile)
 
 
 class CodeInspector(object):

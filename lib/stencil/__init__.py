@@ -3,6 +3,7 @@ from __future__ import print_function
 import sys
 from .generators import StencilConfig
 from .generators.project import FlaskProject
+from .generators.blueprint import BlueprintGenerator
 
 
 class Stencil(object):
@@ -10,7 +11,6 @@ class Stencil(object):
     @staticmethod
     def run(args, prog_name):
         print(args)
-        # generators (for forms and models)
         # addons (based off existing project, and common patterns),
         # extras (static site generator)
         project_dependent = ['model', 'form', 'blueprint', 'task']
@@ -32,8 +32,7 @@ class Stencil(object):
                 # takes a name and *fields of name:type
                 print('form stuff')
             elif args.subparser_name == 'blueprint':
-                # takes a name
-                print('blueprint stuff')
+                BlueprintGenerator(args.name).create()
             # elif args.subparser_name == 'addon':
             #     # has multiple addons... maybe even groups...
             #     print('addon stuff')

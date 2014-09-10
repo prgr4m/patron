@@ -4,6 +4,8 @@ Project Generator:
 	be left out by sectional generation/scaffolding
 
 	- THIS TOOL SHOULD ONLY BE RUN FROM THE PROJECT ROOT!!!
+	- DOCUMENTATION!!!!!
+	- TESTING!!! Do not release into the wild until unittested. May work functionally but have some unittests
 	root directory:
 		manage.py:
 			- take out livereload (this should be an addon) @done(2014-09-07)
@@ -13,12 +15,11 @@ Project Generator:
 		- deploy fabric method (default to a2/ssh)
 		StencilConfig:
 		  - need to list out project name
-			- blueprints need the following
-				- what files are listed within the directory
-			- have a list of addons used
-			- where is the creation of the flask app
-			- where is the settings file for the flask app
-			- package dependencies (should be cross referenced with the requirements file)
+			- blueprints need the following @done(2014-09-10)
+				- what files are listed within the directory @done(2014-09-10)
+			- have a list of addons used @done(2014-09-10)
+			- where is the creation of the flask app @done(2014-09-10)
+			- where is the settings file for the flask app @done(2014-09-10)
 			- need to have subparser on cli to remove, inspect and generate a config for each project... from root
 	application package:
 		Here is a list of things I should be doing by default...
@@ -34,14 +35,14 @@ Project Generator:
 			- models.py template heading @done(2014-09-08)
 
 Blueprint Generator:
-	- needs to check if the blueprint exists already
+	- needs to check if the blueprint exists already @done(2014-09-10)
 	- create unittests when generated
-	- check for name collisions
+	- check for name collisions @done(2014-09-10)
 	- hook into app factory
-	- make sure that templates stay within the blueprint itself
-	- every models.py (gets a default heading)
-	- every forms.py (gets a default heading)
-	- add to stencil config
+	- make sure that templates stay within the blueprint itself @done(2014-09-10)
+	- every models.py (gets a default heading) @done(2014-09-10)
+	- every forms.py (gets a default heading) @done(2014-09-10)
+	- add to stencil config @done(2014-09-10)
 
 Models Generator:
 	- check heading of every page... doesn't exist? add it
