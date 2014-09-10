@@ -2,8 +2,8 @@
 import os
 import os.path as path
 import shutil
-import ConfigParser
-from . import is_name_valid, get_templates_dir, generate_templates
+from . import (StencilConfig, is_name_valid, get_templates_dir,
+               generate_templates)
 
 
 class FlaskProject(object):
@@ -28,11 +28,6 @@ class FlaskProject(object):
         self.__setup_tests_directory()
         self.__setup_tmp_directory()
         self.__setup_package_directory()
-
-    def __create_config(self):
-        """creates a project config so stencil can easily generate things"""
-        config = ConfigParser.SafeConfigParser()
-        config.read('stencil.cfg')
 
     def __setup_root_directory(self):
         template_root = path.join(self.tpl_root, 'root')
@@ -59,7 +54,7 @@ class FlaskProject(object):
                         'fabfile.py')
         shutil.copyfile(path.join(template_root, 'htaccess.txt'),
                         'htaccess')
-        self.__create_config()
+        StencilConfig().create(self.name)
 
     def __setup_tests_directory(self):
         os.mkdir('tests')
@@ -106,8 +101,7 @@ class FlaskProject(object):
             def create_templates():
                 os.mkdir('templates')
                 os.chdir('templates')
-                template_root = path.join(
-                    create_public_package.template_root, 'templates')
+                template_root = path.join(self.tpl_root, 'public', 'templates')
                 template_file = {
                     'public_base.jade': [dict(project_name=self.name)]
                 }

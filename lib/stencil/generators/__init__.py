@@ -4,6 +4,38 @@ import imp
 import os.path as path
 import re
 from string import Template
+import ConfigParser
+
+
+class StencilConfig(object):
+    "Config creator for stencil projects"
+    def __init__(self):
+        self.name = 'stencil.cfg'
+        self.config = ConfigParser.SafeConfigParser()
+
+    def create(self, project_name=''):
+        "creates the base config file for stencil generated projects"
+        self.config.add_section('General')
+        self.config.set('General', 'project_name', project_name)
+        self.config.set('General', 'blueprints', ['public'])
+        with open(self.name, 'w') as configfile:
+            self.config.write(configfile)
+
+    def generate_config(self):
+        "creates a stencil config file by inspecting a projects structure"
+        pass
+
+    def get_blueprints(self):
+        "retrieves list of blueprints within the config file"
+        pass
+
+    def create_blueprint(self, blueprint_name):
+        "creates a section associated with a blueprint with associated details"
+        pass
+
+    def __moonwalk(self):
+        "a backwards os.walk for finding stencil config files"
+        pass
 
 
 class CodeInspector(object):
@@ -36,18 +68,21 @@ def get_templates_dir():
 
 
 def generate_templates(template_root, template_files):
-    # template has to be a dictionary with a key as the actual template
-    # and the value being an array in the following format:
-    # 1 - a dictionary of values to be unpacked into the template
-    # 2 - if applicable, the actual destination name of the template
-    # ex:
-    # templates = {
-    #   'template_source': [
-    #       dict(template_variable=value),
-    #       'actual_name_on_file_once_generated' # if different from key
-    #   ]
-    # }
-    # this method/function is ideal for batch jobs
+    """
+    template has to be a dictionary with a key as the actual template
+    and the value being an array in the following format:
+        1 - a dictionary of values to be unpacked into the template
+        2 - if applicable, the actual destination name of the template
+
+    ex:
+        templates = {
+            'template_source': [
+                dict(template_variable=value),
+                'actual_name_on_file_once_generated' # if different from key
+            ]
+        }
+    this method/function is ideal for batch jobs
+    """
     for template_file, data in template_files.items():
         destination_file = data[1] if len(data) > 1 else template_file
         with open(destination_file, 'w') as f:

@@ -11,6 +11,15 @@ Project Generator:
 		- ADD REQUIREMENTS FILE!!!
 		- create hidden stencil project file that maps out what's been added and where's what
 		- deploy fabric method (default to a2/ssh)
+		StencilConfig:
+		  - need to list out project name
+			- blueprints need the following
+				- path on disk
+				- what files are listed within the directory
+			- have a list of addons used
+			- where is the creation of the flask app
+			- where is the settings file for the flask app
+			- package dependencies (should be cross referenced with the requirements file)
 	application package:
 		Here is a list of things I should be doing by default...
 		- do not create api.py... this is an addon @done(2014-09-08)
