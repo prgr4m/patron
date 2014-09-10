@@ -35,18 +35,18 @@ if __name__ == '__main__':
     models_parser = subparser.add_parser('model', help=models_help)
     forms_parser = subparser.add_parser('form', help=forms_help)
     blueprint_parser = subparser.add_parser('blueprint', help=blueprints_help)
-    addon_parser = subparser.add_parser('addon', help=addon_help)
-    fabric_parser = subparser.add_parser('fabric', help=fabric_help)
+    # addon_parser = subparser.add_parser('addon', help=addon_help)
+    task_parser = subparser.add_parser('task', help=fabric_help)
 
     name_group = [project_parser, models_parser, forms_parser, blueprint_parser,
-                  addon_parser, fabric_parser]
+                  task_parser] # don't forget to add back addon_parser
     name_help = {
         project_parser: 'name of the project',
         models_parser: 'name of the model',
         forms_parser: 'name of the form',
         blueprint_parser: 'name of the blueprint',
-        addon_parser: 'name of the addon',
-        fabric_parser: 'name of the task'
+        # addon_parser: 'name of the addon',
+        task_parser: 'name of the task'
     }
     for p in name_group:
         p.add_argument('name', help=name_help[p])

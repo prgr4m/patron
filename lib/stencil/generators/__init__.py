@@ -15,7 +15,7 @@ class StencilConfig(object):
         # do not create a config location... do that dynamically
 
     @staticmethod
-    def is_present(self):
+    def is_present():
         return True if path.exists('stencil.cfg') else False
 
     def create(self, project_name=''):

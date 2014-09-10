@@ -13,13 +13,18 @@ class Stencil(object):
         # generators (for forms and models)
         # addons (based off existing project, and common patterns),
         # extras (static site generator)
+        project_dependent = ['model', 'form', 'blueprint', 'task']
         if args.subparser_name == 'project':
             # takes a name (maybe even type -- old school and classy)
             options = dict(name=args.name)
             if hasattr(args, 'directory'):
                 options['directory'] = args.directory
             FlaskProject(**options).create()
-        else:
+        elif args.subparser_name in project_dependent:
+            # check to see if config is present
+            if not StencilConfig.is_present():
+                print("Need to be in a stencil generated project root!")
+                sys.exit()
             if args.subparser_name == 'model':
                 # takes a name and *fields of name:type
                 print('model stuff')
@@ -29,17 +34,14 @@ class Stencil(object):
             elif args.subparser_name == 'blueprint':
                 # takes a name
                 print('blueprint stuff')
-                if not StencilConfig.is_present():
-                    print("Need to be in project root!")
-                    sys.exit()
-            elif args.subparser_name == 'addon':
-                # has multiple addons... maybe even groups...
-                print('addon stuff')
-            elif args.subparser_name == 'fabric':
+            # elif args.subparser_name == 'addon':
+            #     # has multiple addons... maybe even groups...
+            #     print('addon stuff')
+            elif args.subparser_name == 'task':
                 # takes a name
                 print('fabric stuff')
-            else:
-                print("Please run: '{} -h' for usage info".format(prog_name))
-                sys.exit(0)
+        else:
+            print("Please run: '{} -h' for usage info".format(prog_name))
+            sys.exit(0)
 
 __all__ = []
