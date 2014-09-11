@@ -14,6 +14,8 @@ current_dir = path.dirname(path.realpath(__file__))
 lib_dir = path.join(path.abspath(path.join(current_dir, os.pardir)), 'lib')
 sys.path.insert(0, lib_dir)
 
+from stencil import Stencil
+
 cli_description = """Stencil - ステンシル - Sutenshiru
 [a generator for flask projects]"""
 
@@ -35,7 +37,7 @@ if __name__ == '__main__':
     models_parser = subparser.add_parser('model', help=models_help)
     forms_parser = subparser.add_parser('form', help=forms_help)
     blueprint_parser = subparser.add_parser('blueprint', help=blueprints_help)
-    # addon_parser = subparser.add_parser('addon', help=addon_help)
+    addon_parser = subparser.add_parser('addon', help=addon_help)
     task_parser = subparser.add_parser('task', help=task_help)
 
     name_group = [project_parser, models_parser, forms_parser, blueprint_parser,
@@ -51,6 +53,10 @@ if __name__ == '__main__':
     for p in name_group:
         p.add_argument('name', help=name_help[p])
 
+    addon_name_help = "Name of the addon to generate"
+    addon_parser.add_argument('name', choices=Stencil.get_addons(),
+                              help=addon_name_help)
+
     field_group = [models_parser, forms_parser]
     field_help = {
         models_parser: 'field_name:sqlalchemy_type',
@@ -63,5 +69,4 @@ if __name__ == '__main__':
     task_parser.add_argument('description', help=task_description_help)
 
     argcomplete.autocomplete(parser)
-    from stencil import Stencil
     Stencil.run(parser.parse_args(), parser.prog)

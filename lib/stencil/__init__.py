@@ -5,16 +5,21 @@ from .generators import StencilConfig
 from .generators.project import FlaskProject
 from .generators.blueprint import BlueprintGenerator
 from .generators.task import TaskGenerator
+from .generators.addons import AddonManager
 
 
 class Stencil(object):
     "The interface between the cli and the library"
     @staticmethod
+    def get_addons():
+        return AddonManager.list_addons()
+
+    @staticmethod
     def run(args, prog_name):
         print(args)
         # addons (based off existing project, and common patterns),
         # extras (static site generator)
-        project_dependent = ['model', 'form', 'blueprint', 'task']
+        project_dependent = ['model', 'form', 'blueprint', 'task', 'admin']
         if args.subparser_name == 'project':
             # takes a name (maybe even type -- old school and classy)
             options = dict(name=args.name)
@@ -34,9 +39,8 @@ class Stencil(object):
                 print('form stuff')
             elif args.subparser_name == 'blueprint':
                 BlueprintGenerator(args.name).create()
-            # elif args.subparser_name == 'addon':
-            #     # has multiple addons... maybe even groups...
-            #     print('addon stuff')
+            elif args.subparser_name == 'addon':
+                AddonManager.create(args.name)
             elif args.subparser_name == 'task':
                 TaskGenerator(args.name, args.description).create()
         else:

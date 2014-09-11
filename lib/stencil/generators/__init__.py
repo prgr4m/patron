@@ -99,7 +99,7 @@ class StencilConfig(object):
         self.config.add_section(blueprint_name)
         for key, val in blueprint_data.items():
             self.config.set(blueprint_name, key, val)
-        self.__serialize()
+        self._serialize()
 
     def has_blueprint(self, blueprint_name):
         """
@@ -120,7 +120,7 @@ class StencilConfig(object):
         """
         return self.config.items(blueprint_name.lower())
 
-    def __serialize(self):
+    def _serialize(self):
         "writes config data back to file"
         with open(self.name, 'w') as configfile:
             self.config.write(configfile)
