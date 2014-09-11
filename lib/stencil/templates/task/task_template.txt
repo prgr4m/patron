@@ -1,0 +1,4 @@
+@task
+def ${task_name}():
+    """${task_description}"""
+    pass

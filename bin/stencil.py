@@ -25,7 +25,7 @@ models_help = "Models with SQLAlchemy"
 forms_help = "Forms with WTForms"
 blueprints_help = "Blueprint scaffolding"
 addon_help = "Addons to a flask project"
-fabric_help = "Create tasks to be used with fabric"
+task_help = "Create tasks to be used with fabric"
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=cli_description)
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     forms_parser = subparser.add_parser('form', help=forms_help)
     blueprint_parser = subparser.add_parser('blueprint', help=blueprints_help)
     # addon_parser = subparser.add_parser('addon', help=addon_help)
-    task_parser = subparser.add_parser('task', help=fabric_help)
+    task_parser = subparser.add_parser('task', help=task_help)
 
     name_group = [project_parser, models_parser, forms_parser, blueprint_parser,
                   task_parser]  # don't forget to add back addon_parser
@@ -58,6 +58,9 @@ if __name__ == '__main__':
     }
     for p in field_group:
         p.add_argument('field', nargs='*', help=field_help[p])
+
+    task_description_help = "description of the task"
+    task_parser.add_argument('description', help=task_description_help)
 
     argcomplete.autocomplete(parser)
     from stencil import Stencil

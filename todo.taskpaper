@@ -36,7 +36,7 @@ Project Generator:
 
 Blueprint Generator:
 	- needs to check if the blueprint exists already @done(2014-09-10)
-	- create unittests when generated
+	- create unittests when generated @done(2014-09-10)
 	- check for name collisions @done(2014-09-10)
 	- hook into app factory
 	- make sure that templates stay within the blueprint itself @done(2014-09-10)
@@ -100,3 +100,8 @@ Addons:
 	banning interface:
 		- models with banning
 		- context processor hook or route hijacking... maybe use signals...
+Unittests:
+	- convert to Flask-Testing unittests
+	- models
+	- blueprints
+	- forms

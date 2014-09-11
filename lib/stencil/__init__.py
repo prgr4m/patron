@@ -4,6 +4,7 @@ import sys
 from .generators import StencilConfig
 from .generators.project import FlaskProject
 from .generators.blueprint import BlueprintGenerator
+from .generators.task import TaskGenerator
 
 
 class Stencil(object):
@@ -37,8 +38,7 @@ class Stencil(object):
             #     # has multiple addons... maybe even groups...
             #     print('addon stuff')
             elif args.subparser_name == 'task':
-                # takes a name
-                print('fabric stuff')
+                TaskGenerator(args.name, args.description).create()
         else:
             print("Please run: '{} -h' for usage info".format(prog_name))
             sys.exit(0)
