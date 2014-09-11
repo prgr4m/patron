@@ -1,16 +1,17 @@
 Project Generator:
-	- deploy fabric method (default to a2/ssh)
 	Obviously this establishes the base of this tool.
 	Here are what needs to be kept in from the original tool and what needs to
 	be left out by sectional generation/scaffolding
 
-	- THIS TOOL SHOULD ONLY BE RUN FROM THE PROJECT ROOT!!!
+	- THIS TOOL SHOULD ONLY BE RUN FROM THE PROJECT ROOT!!! @done(2014-09-10)
 	- DOCUMENTATION!!!!!
 	- TESTING!!! Do not release into the wild until unittested. May work functionally but have some unittests
+	- Change the public blueprint test specific not just to the site but to the public blueprint
 	root directory:
 		manage.py:
+		- deploy fabric method (default to a2/ssh) @fabric
 		StencilConfig:
-		  - need to list out project name
+		  - need to list out project name @done(2014-09-10)
 			- need to have subparser on cli to remove, inspect and generate a config for each project... from root
 	application package:
 		Here is a list of things I should be doing by default...
@@ -18,7 +19,7 @@ Project Generator:
 
 Blueprint Generator:
 	- hook into app factory
-	- change unittest format @today
+	- change unittest format to reflect what exactly is being tested @today
 
 Models Generator:
 	- check heading of every page... doesn't exist? add it
@@ -33,12 +34,11 @@ Addons:
 	admin:
 		- create auth @today
 		- create users @today
-		- hook into manage.py @today @cancelled(2014-09-10)
 		- hook into app factory (admin and auth) @today
-		- place login.jade into public templates @today
-		- place registration.jade into public templates @today
-		- add hook into public view for registration and login @today
-		- don't forget to add UserCommand to manage.py @today
+		- place login.jade into public templates
+		- place registration.jade into public templates
+		- add hook into public view for registration and login
+		- don't forget to add UserCommand to manage.py
 	api:
 		- create api.py
 		- hook into app factory
@@ -81,6 +81,7 @@ Unittests:
 	- models
 	- blueprints
 	- forms
+
 Archive:
 	- take out livereload (this should be an addon) @done(2014-09-07) @project(Project Generator / root directory / manage.py)
 	- keep the tests @done(2014-09-07) @project(Project Generator / root directory / manage.py)

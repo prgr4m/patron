@@ -3,6 +3,7 @@ from __future__ import print_function
 import imp
 import os.path as path
 import re
+import cStringIO
 from string import Template
 import ConfigParser
 
@@ -149,25 +150,44 @@ class InjectorBase(object):
         """
         Takes in a file to read
         StringIo object to store dynamic content
-        """"
-        pass
+        """
+        self.stream = cStringIO.StringIO()
+
+    def __del__(self):
+        self.stream.close()
 
     def inject(self):
         raise NotImplementedError("InjectorBase::inject must be overridden")
 
 
-class ManageInjector(InjectorBase):
-    """Responsible for injecting code into manage.py"""
+class AdminManageInjector(InjectorBase):
+    """
+    Responsible for injecting admin management hooks into manage.py
+    """
     def __init__(self):
-        super(ManageInjector, self).__init__()
+        super(AdminManageInjector, self).__init__()
         self.target_file = "manage.py"
+
+    def inject(self, snippets):
+        # read manage.py in
+        # insert the necessary imports
+        # add flask-script command into file
+        pass
 
 
 class FactoryInjector(InjectorBase):
-    """docstring for FactoryInjector"""
+    """
+    Responsible for registering extensions and blueprints with an app factory
+    """
     def __init__(self):
         super(FactoryInjector, self).__init__()
         self.target_file = path.join()
+
+    def inject(self):
+        # is it a blueprint or an extension?
+        # add import statements
+        # register the blueprint or extension
+        pass
 
 
 def is_name_valid(name_in):
