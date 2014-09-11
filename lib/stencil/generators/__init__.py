@@ -12,11 +12,8 @@ class StencilConfig(object):
     "Config creator for stencil projects"
     def __init__(self):
         self.config = ConfigParser.SafeConfigParser()
-        self.file_pointer = open('stencil.cfg')
-        self.config.readfp(open(self.file_pointer))
-
-    def __del__(self):
-        self.file_pointer.close()
+        self.filename = 'stencil.cfg'
+        self.config.readfp(open(self.filename))
 
     @staticmethod
     def is_present():
@@ -154,7 +151,7 @@ class StencilConfig(object):
 
     def save_config(self):
         "writes config data back to file"
-        with open(self.name, 'w') as configfile:
+        with open(self.filename, 'w') as configfile:
             self.config.write(configfile)
 
 

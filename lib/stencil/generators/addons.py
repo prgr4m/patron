@@ -46,7 +46,7 @@ class AddonManager(object):
         }
         generate_templates(templates_root, template_file)
         shutil.copyfile(path.join(templates_root, 'auth.py'),
-                        path.join(project_name, 'auth.py'))
+                        path.join(admin_root, 'auth.py'))
         for f in [x for x in os.listdir(path.join(templates_root, 'templates'))
                   if x not in ['.', '..']]:
             shutil.copyfile(path.join(templates_root, 'templates', f),
@@ -62,6 +62,12 @@ class AddonManager(object):
         generate_templates(test_directory, test_file)
         # hook into manage.py the commands -- manage injector...?
         self.config.addons = 'admin'
+        admin_data = {}
+        admin_package_files = ['forms', 'models', 'views', 'auth']
+        for f in admin_package_files:
+            admin_data[f] = path.join(project_name, 'admin', "{}.py".format(f))
+        admin_data['templates'] = path.join(project_name, 'templates', 'admin')
+        self.config.create_blueprint('admin', admin_data)
         with open("{}-requirements.txt".format(project_name), 'a') as req_file:
             packages = ['flask-admin', 'flask-login', 'flask-principal']
             for pkg in packages:
