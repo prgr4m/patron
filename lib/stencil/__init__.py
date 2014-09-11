@@ -19,7 +19,8 @@ class Stencil(object):
         print(args)
         # addons (based off existing project, and common patterns),
         # extras (static site generator)
-        project_dependent = ['model', 'form', 'blueprint', 'task', 'admin']
+        project_dependent = ['model', 'form', 'blueprint', 'task', 'admin',
+                             'addon']
         if args.subparser_name == 'project':
             # takes a name (maybe even type -- old school and classy)
             options = dict(name=args.name)
