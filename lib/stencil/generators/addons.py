@@ -5,7 +5,7 @@ any state to be maintained other than within the StencilConfig object when
 dealing with a generated flask project.
 """
 
-def generate_admin():
+def admin():
     # read from config where the admin blueprint will be residing
     # create files over
     # hook into app factory (both the admin blueprint and auth)
@@ -13,7 +13,7 @@ def generate_admin():
     # add to stencil config addons
     pass
 
-def generate_api():
+def api():
     # create an api blueprint (not an actual blueprint) but package in the
     # sense of a directory, __init__.py which contains the flask-restful code
     # and whatever resources to live within the directory
@@ -23,28 +23,28 @@ def generate_api():
     # add to stencil config addons
     pass
 
-def generate_sitemap():
+def sitemap():
     # create route in public blueprint
     # add to stencil config addons
     pass
 
-def generate_blog():
+def blog():
     # hmmm.... an extension of a blueprint? or a more detailed setup...
     pass
 
-def generate_humanizer():
+def humanizer():
     # this is in the same category of an api but not even registered with the
     # app itself but with the admin and the public blueprint. it gets its own
     # directory because it stores its own models, admin interfaces, csv data and
     # flask-script commands
     pass
 
-def generate_mail():
+def mail():
     # this is an extension setup... and settings.py config setup
     # add to requirements.txt
     pass
 
-def generate_ecommerce():
+def ecommerce():
     # creates a package and not a blueprint
     # satchless models
     # admin interfaces
