@@ -19,7 +19,7 @@ Project Generator:
 
 Blueprint Generator:
 	- hook into app factory
-	- change unittest format to reflect what exactly is being tested @today
+	- change unittest format to reflect what exactly is being tested @today @done(2014-09-11)
 
 Models Generator:
 	- check heading of every page... doesn't exist? add it

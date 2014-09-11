@@ -41,7 +41,7 @@ class Stencil(object):
             elif args.subparser_name == 'blueprint':
                 BlueprintGenerator(args.name).create()
             elif args.subparser_name == 'addon':
-                AddonManager.create(args.name)
+                AddonManager().create(args.name)
             elif args.subparser_name == 'task':
                 TaskGenerator(args.name, args.description).create()
         else:

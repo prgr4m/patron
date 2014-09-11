@@ -20,9 +20,9 @@ class AddonManager(object):
     def create(self, addon_name):
         if addon_name not in AddonManager.list_addons():
             raise ValueError("Unknown addon value!")
-        getattr(self, "__{}".format(addon_name))()
+        getattr(self, "_{}".format(addon_name))()
 
-    def __admin(self):
+    def _admin(self):
         templates_root = path.join(get_templates_dir(), 'admin')
         project_name = self.config.project_name
         admin_root = path.join(project_name, 'admin')
@@ -54,7 +54,7 @@ class AddonManager(object):
         # add to stencil config addons
         # add packages to requirements file
 
-    def __api(self):
+    def _api(self):
         # create an api blueprint (not an actual blueprint) but package in the
         # sense of a directory, __init__.py which contains the flask-restful code
         # and whatever resources to live within the directory
@@ -66,7 +66,7 @@ class AddonManager(object):
         # add to requirements file
         print("generating api addon -- still needs to be implemented")
 
-    def __sitemap(self):
+    def _sitemap(self):
         # create route in public blueprint
         # if has blog... do i just read from models as well? or just read the
         # urlmap from the app object?
@@ -74,24 +74,24 @@ class AddonManager(object):
         # add to config (addons)
         print("generating sitemap addon -- still needs to be implemented")
 
-    def __blog(self):
+    def _blog(self):
         # hmmm.... an extension of a blueprint? or a more detailed setup...
         # add whooshalchemy to requirements file
         print("generating blog addon -- still needs to be implemented")
 
-    def __humanizer(self):
+    def _humanizer(self):
         # this is in the same category of an api but not even registered with the
         # app itself but with the admin and the public blueprint. it gets its own
         # directory because it stores its own models, admin interfaces, csv data and
         # flask-script commands
         print("generating humanizer addon -- still needs to be implemented")
 
-    def __mail(self):
+    def _mail(self):
         # this is an extension setup... and settings.py config setup
         # add to requirements.txt
         print("generating mail addon -- still needs to be implemented")
 
-    def __commerce(self):
+    def _commerce(self):
         # creates a package and not a blueprint
         # satchless models
         # admin interfaces
@@ -99,7 +99,7 @@ class AddonManager(object):
         # add to requirements file
         print("generating commerce addon -- still needs to be implemented")
 
-    def __banner(self):
+    def _banner(self):
         # banning admin interface
         # banning manage.py commands
         # package not a blueprint
@@ -108,7 +108,7 @@ class AddonManager(object):
         print("generating banner addon -- still needs to be implemented")
 
 
-    def __websockets(self):
+    def _websockets(self):
         # add websocket functionality to a project as a blueprint to keep things
         # separated from other blueprints and should have its own routes to begin
         # with...
