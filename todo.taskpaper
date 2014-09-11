@@ -76,6 +76,8 @@ Addons:
 	banning interface:
 		- models with banning
 		- context processor hook or route hijacking... maybe use signals...
+	websockets:
+		- tbd
 Unittests:
 	- convert to Flask-Testing unittests
 	- models
