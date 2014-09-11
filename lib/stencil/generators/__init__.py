@@ -141,10 +141,33 @@ class CodeInspector(object):
             raise TypeError("module_path was not a string!")
 
 
-class CodeInjector(object):
-    """An object responsible for injecting code dynamically"""
+class InjectorBase(object):
+    """The base object for injecting code into an existing code base"""
+    indent = " " * 4
+
     def __init__(self):
+        """
+        Takes in a file to read
+        StringIo object to store dynamic content
+        """"
         pass
+
+    def inject(self):
+        raise NotImplementedError("InjectorBase::inject must be overridden")
+
+
+class ManageInjector(InjectorBase):
+    """Responsible for injecting code into manage.py"""
+    def __init__(self):
+        super(ManageInjector, self).__init__()
+        self.target_file = "manage.py"
+
+
+class FactoryInjector(InjectorBase):
+    """docstring for FactoryInjector"""
+    def __init__(self):
+        super(FactoryInjector, self).__init__()
+        self.target_file = path.join()
 
 
 def is_name_valid(name_in):

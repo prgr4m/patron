@@ -18,7 +18,7 @@ Project Generator:
 
 Blueprint Generator:
 	- hook into app factory
-	- change unittest format
+	- change unittest format @today
 
 Models Generator:
 	- check heading of every page... doesn't exist? add it
@@ -31,14 +31,14 @@ Forms Generator:
 
 Addons:
 	admin:
-		- create auth
-		- create users
-		- hook into manage.py
-		- hook into app factory (admin and auth)
-		- place login.jade into public templates
-		- place registration.jade into public templates
-		- add hook into public view for registration and login
-		- don't forget to add UserCommand to manage.py
+		- create auth @today
+		- create users @today
+		- hook into manage.py @today @cancelled(2014-09-10)
+		- hook into app factory (admin and auth) @today
+		- place login.jade into public templates @today
+		- place registration.jade into public templates @today
+		- add hook into public view for registration and login @today
+		- don't forget to add UserCommand to manage.py @today
 	api:
 		- create api.py
 		- hook into app factory
