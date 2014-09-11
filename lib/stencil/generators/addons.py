@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import os
 import os.path as path
-from . import StencilConfig
+import shutil
+from . import StencilConfig, get_templates_dir, generate_templates
 
 
 class AddonManager(object):
@@ -21,18 +23,36 @@ class AddonManager(object):
         getattr(self, "__{}".format(addon_name))()
 
     def __admin(self):
+        templates_root = path.join(get_templates_dir(), 'admin')
         project_name = self.config.project_name
         admin_root = path.join(project_name, 'admin')
         admin_templates_dir = path.join(project_name, 'templates', 'admin')
+        media_dir = path.join(project_name, 'media')
         os.mkdir(admin_root)
         os.mkdir(admin_templates_dir)
-        os.mkdir(path.join(project_name, 'media'))
-        # create files over
-        # views.py takes $project_name
+        os.mkdir(media_dir)
+        for f in [x for x in os.listdir(templates_root)
+                  if x not in ['.', '..', 'templates', 'auth.py', 'views.py']]:
+            shutil.copyfile(path.join(templates_root, f),
+                            path.join(admin_root, f))
+        template_file = {
+            'views.py': [
+                dict(project_name=project_name),
+                path.join(admin_root, 'views.py')
+            ]
+        }
+        generate_templates(templates_root, template_file)
+        shutil.copyfile(path.join(templates_root, 'auth.py'),
+                        path.join(project_name, 'auth.py'))
+        for f in [x for x in os.listdir(path.join(templates_root, 'templates'))
+                  if x not in ['.', '..']]:
+            shutil.copyfile(path.join(templates_root, 'templates', f),
+                            path.join(admin_templates_dir, f))
         # hook into app factory (both the admin blueprint and auth)
+        # create unittest for admin
         # hook into manage.py the commands
         # add to stencil config addons
-        pass
+        # add packages to requirements file
 
     def __api(self):
         # create an api blueprint (not an actual blueprint) but package in the
@@ -40,37 +60,44 @@ class AddonManager(object):
         # and whatever resources to live within the directory
         #
         # register with factory injector
+        # requires auth - do I just want to call admin?
         # create unittest
         # add to stencil config addons
-        pass
+        # add to requirements file
+        print("generating api addon -- still needs to be implemented")
 
     def __sitemap(self):
         # create route in public blueprint
+        # if has blog... do i just read from models as well? or just read the
+        # urlmap from the app object?
         # add to stencil config addons
-        pass
+        # add to config (addons)
+        print("generating sitemap addon -- still needs to be implemented")
 
     def __blog(self):
         # hmmm.... an extension of a blueprint? or a more detailed setup...
-        pass
+        # add whooshalchemy to requirements file
+        print("generating blog addon -- still needs to be implemented")
 
     def __humanizer(self):
         # this is in the same category of an api but not even registered with the
         # app itself but with the admin and the public blueprint. it gets its own
         # directory because it stores its own models, admin interfaces, csv data and
         # flask-script commands
-        pass
+        print("generating humanizer addon -- still needs to be implemented")
 
     def __mail(self):
         # this is an extension setup... and settings.py config setup
         # add to requirements.txt
-        pass
+        print("generating mail addon -- still needs to be implemented")
 
-    def __ecommerce(self):
+    def __commerce(self):
         # creates a package and not a blueprint
         # satchless models
         # admin interfaces
         # and unittests
-        pass
+        # add to requirements file
+        print("generating commerce addon -- still needs to be implemented")
 
     def __banner(self):
         # banning admin interface
@@ -78,10 +105,13 @@ class AddonManager(object):
         # package not a blueprint
         # helper decorator / function to be called before a request on the
         #   public side
-        pass
+        print("generating banner addon -- still needs to be implemented")
+
 
     def __websockets(self):
         # add websocket functionality to a project as a blueprint to keep things
         # separated from other blueprints and should have its own routes to begin
         # with...
-        pass
+        # add to requirements file
+        print("generating websockets addon -- still needs to be implemented")
+
