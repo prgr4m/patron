@@ -11,9 +11,12 @@ import ConfigParser
 class StencilConfig(object):
     "Config creator for stencil projects"
     def __init__(self):
-        self.name = 'stencil.cfg'
         self.config = ConfigParser.SafeConfigParser()
-        self.config.readfp(open(self.name))
+        self.file_pointer = open('stencil.cfg')
+        self.config.readfp(open(self.file_pointer))
+
+    def __del__(self):
+        self.file_pointer.close()
 
     @staticmethod
     def is_present():
@@ -102,7 +105,8 @@ class StencilConfig(object):
         if isinstance(new_addon, str):
             addons.append(new_addon)
         else:
-            addons.extend(new_addon)
+            for a in [x for x in new_addon if x not in addons]:
+                addons.append(a)
         self.config.set('general', 'addons', ",".join(addons))
         self.save_config()
 

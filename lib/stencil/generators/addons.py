@@ -23,6 +23,8 @@ class AddonManager(object):
         getattr(self, "_{}".format(addon_name))()
 
     def _admin(self):
+        if self.config.has_blueprint('admin'):
+            raise OSError("admin addon already exits")
         templates_root = path.join(get_templates_dir(), 'admin')
         project_name = self.config.project_name
         admin_root = path.join(project_name, 'admin')
@@ -59,13 +61,15 @@ class AddonManager(object):
         }
         generate_templates(test_directory, test_file)
         # hook into manage.py the commands -- manage injector...?
-        # add to stencil config addons
+        self.config.addons = 'admin'
         with open("{}-requirements.txt".format(project_name), 'a') as req_file:
             packages = ['flask-admin', 'flask-login', 'flask-principal']
             for pkg in packages:
                 req_file.write("{}{}".format(pkg, os.linesep))
 
     def _api(self):
+        # check to see if api already exists
+        # check to see if admin already exists
         # create an api blueprint (not an actual blueprint) but package in the
         # sense of a directory, __init__.py which contains the flask-restful code
         # and whatever resources to live within the directory
@@ -76,6 +80,7 @@ class AddonManager(object):
         # add to stencil config addons
         # add to requirements file (flask-jwt, flask-mitten as well?)
         print("generating api addon -- still needs to be implemented")
+        # self.config.addons = ['admin','api']
 
     def _sitemap(self):
         # create route in public blueprint
