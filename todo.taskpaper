@@ -84,6 +84,14 @@ Unittests:
 	- blueprints
 	- forms
 
+Extras:
+	These are prebuilt flask projects with a specific purpose in mind. These 
+	types of projects aren't meant to be extended so much as they have 
+	- static site generator
+	- service api endpoint (using json or xml)
+	- cms (similar to static site generator but dependent upon a database and a server)
+	- video steaming service?
+
 Archive:
 	- take out livereload (this should be an addon) @done(2014-09-07) @project(Project Generator / root directory / manage.py)
 	- keep the tests @done(2014-09-07) @project(Project Generator / root directory / manage.py)

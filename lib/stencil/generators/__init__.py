@@ -82,15 +82,41 @@ class StencilConfig(object):
         """
         return self.config.get('general', 'factory_file')
 
+    @property
+    def addons(self):
+        return self.config.get('general', 'addons')
+
+    @addons.setter
+    def addons(self, new_addon):
+        """
+        sets addons used in the stencil generated project
+
+        :param new_addon:
+            new_addon can either be a string or a list to be appended to the
+            current addons already listed
+        """
+        current = self.config.get('general', 'addons')
+        addons = current.split(',') if ',' in current else list(current)
+        if not isinstance(new_addon, (str, list)):
+            raise ValueError("Addon provided is an invalid type")
+        if isinstance(new_addon, str):
+            addons.append(new_addon)
+        else:
+            addons.extend(new_addon)
+        self.config.set('general', 'addons', ",".join(addons))
+        self.save_config()
+
     def create_blueprint(self, blueprint_name, blueprint_data):
         """
         creates a section associated with a blueprint along with its details
 
-        :param str blueprint_name: the name of the blueprint
-        :param dict blueprint_data: a dictionary with the 'key' as the
-                                    filename/setting to be tracked along with
-                                    the data (most of the time being a path)
-        :raises: OSError: if the blueprint already exists in the config
+        :param str blueprint_name:
+            the name of the blueprint
+        :param dict blueprint_data:
+            a dictionary with the 'key' as the filename/setting to be tracked
+            along with the data (most of the time being a path)
+        :raises: OSError:
+            if the blueprint already exists in the config
         :rtype: None
         """
         if self.has_blueprint(blueprint_name):
@@ -99,13 +125,14 @@ class StencilConfig(object):
         self.config.add_section(blueprint_name)
         for key, val in blueprint_data.items():
             self.config.set(blueprint_name, key, val)
-        self._serialize()
+        self.save_config()
 
     def has_blueprint(self, blueprint_name):
         """
         checks to see if blueprint exists in the config file
 
-        :param str blueprint_name: the name of the blueprint
+        :param str blueprint_name:
+            the name of the blueprint
         :rtype: bool
         """
         return self.config.has_section(blueprint_name.lower())
@@ -114,13 +141,14 @@ class StencilConfig(object):
         """
         retrieves a list of data within the requested blueprint
 
-        :param str blueprint_name: the name of the blueprint
+        :param str blueprint_name:
+            the name of the blueprint
         :return: returns the data associated with the blueprint (name, value)
         :rtype: list
         """
         return self.config.items(blueprint_name.lower())
 
-    def _serialize(self):
+    def save_config(self):
         "writes config data back to file"
         with open(self.name, 'w') as configfile:
             self.config.write(configfile)
@@ -187,6 +215,7 @@ class FactoryInjector(InjectorBase):
         # is it a blueprint or an extension?
         # add import statements
         # register the blueprint or extension
+        # both have an import statement either way
         pass
 
 

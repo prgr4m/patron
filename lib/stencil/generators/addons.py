@@ -32,7 +32,8 @@ class AddonManager(object):
         os.mkdir(admin_templates_dir)
         os.mkdir(media_dir)
         for f in [x for x in os.listdir(templates_root)
-                  if x not in ['.', '..', 'templates', 'auth.py', 'views.py']]:
+                  if x not in ['.', '..', 'templates', 'unittest', 'auth.py',
+                               'views.py']]:
             shutil.copyfile(path.join(templates_root, f),
                             path.join(admin_root, f))
         template_file = {
@@ -49,10 +50,20 @@ class AddonManager(object):
             shutil.copyfile(path.join(templates_root, 'templates', f),
                             path.join(admin_templates_dir, f))
         # hook into app factory (both the admin blueprint and auth)
-        # create unittest for admin
-        # hook into manage.py the commands
+        test_directory = path.join(templates_root, 'unittest')
+        test_file = {
+            'unittest.py': [
+                dict(project_name=project_name, blueprint_name='Admin'),
+                path.join('tests', 'test_admin.py')
+            ]
+        }
+        generate_templates(test_directory, test_file)
+        # hook into manage.py the commands -- manage injector...?
         # add to stencil config addons
-        # add packages to requirements file
+        with open("{}-requirements.txt".format(project_name), 'a') as req_file:
+            packages = ['flask-admin', 'flask-login', 'flask-principal']
+            for pkg in packages:
+                req_file.write("{}{}".format(pkg, os.linesep))
 
     def _api(self):
         # create an api blueprint (not an actual blueprint) but package in the
@@ -63,7 +74,7 @@ class AddonManager(object):
         # requires auth - do I just want to call admin?
         # create unittest
         # add to stencil config addons
-        # add to requirements file
+        # add to requirements file (flask-jwt, flask-mitten as well?)
         print("generating api addon -- still needs to be implemented")
 
     def _sitemap(self):
@@ -77,6 +88,7 @@ class AddonManager(object):
     def _blog(self):
         # hmmm.... an extension of a blueprint? or a more detailed setup...
         # add whooshalchemy to requirements file
+        # flask-pagedown or ckeditor or epiceditor...
         print("generating blog addon -- still needs to be implemented")
 
     def _humanizer(self):
@@ -114,4 +126,3 @@ class AddonManager(object):
         # with...
         # add to requirements file
         print("generating websockets addon -- still needs to be implemented")
-
