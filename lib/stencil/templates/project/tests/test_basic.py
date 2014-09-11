@@ -5,7 +5,7 @@ from $project_name import create_app
 from $project_name.extensions import db
 
 
-class BasicTestCase(unittest.TestCase):
+class ${blueprint_name}TestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app('testing')
         self.app_context = self.app.app_context()

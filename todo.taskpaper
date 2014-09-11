@@ -1,4 +1,5 @@
 Project Generator:
+	- deploy fabric method (default to a2/ssh)
 	Obviously this establishes the base of this tool.
 	Here are what needs to be kept in from the original tool and what needs to
 	be left out by sectional generation/scaffolding
@@ -8,41 +9,16 @@ Project Generator:
 	- TESTING!!! Do not release into the wild until unittested. May work functionally but have some unittests
 	root directory:
 		manage.py:
-			- take out livereload (this should be an addon) @done(2014-09-07)
-			- keep the tests @done(2014-09-07)
-		- ADD REQUIREMENTS FILE!!! @done(2014-09-09)
-		- create hidden stencil project file that maps out what's been added and where's what @done(2014-09-09)
-		- deploy fabric method (default to a2/ssh)
 		StencilConfig:
 		  - need to list out project name
-			- blueprints need the following @done(2014-09-10)
-				- what files are listed within the directory @done(2014-09-10)
-			- have a list of addons used @done(2014-09-10)
-			- where is the creation of the flask app @done(2014-09-10)
-			- where is the settings file for the flask app @done(2014-09-10)
 			- need to have subparser on cli to remove, inspect and generate a config for each project... from root
 	application package:
 		Here is a list of things I should be doing by default...
-		- do not create api.py... this is an addon @done(2014-09-08)
-		- do not create assets.py... for front-end @done(2014-09-08)
-		- auth.py belongs to admin addon @done(2014-09-08)
-		- extensions.py @done(2014-09-08)
-		- do not create helpers.py @done(2014-09-08)
-		- meta.jade template takes $project_name @done(2014-09-08)
 		public package:
-			- templates stay within itself @done(2014-09-08)
-			- remove registration method from view module @done(2014-09-08)
-			- models.py template heading @done(2014-09-08)
 
 Blueprint Generator:
-	- needs to check if the blueprint exists already @done(2014-09-10)
-	- create unittests when generated @done(2014-09-10)
-	- check for name collisions @done(2014-09-10)
 	- hook into app factory
-	- make sure that templates stay within the blueprint itself @done(2014-09-10)
-	- every models.py (gets a default heading) @done(2014-09-10)
-	- every forms.py (gets a default heading) @done(2014-09-10)
-	- add to stencil config @done(2014-09-10)
+	- change unittest format
 
 Models Generator:
 	- check heading of every page... doesn't exist? add it
@@ -105,3 +81,29 @@ Unittests:
 	- models
 	- blueprints
 	- forms
+Archive:
+	- take out livereload (this should be an addon) @done(2014-09-07) @project(Project Generator / root directory / manage.py)
+	- keep the tests @done(2014-09-07) @project(Project Generator / root directory / manage.py)
+	- ADD REQUIREMENTS FILE!!! @done(2014-09-09) @project(Project Generator / root directory / manage.py)
+	- create hidden stencil project file that maps out what's been added and where's what @done(2014-09-09) @project(Project Generator / root directory / manage.py)
+	- blueprints need the following @done(2014-09-10) @project(Project Generator / root directory / StencilConfig)
+		- what files are listed within the directory @done(2014-09-10)
+	- have a list of addons used @done(2014-09-10) @project(Project Generator / root directory / StencilConfig)
+	- where is the creation of the flask app @done(2014-09-10) @project(Project Generator / root directory / StencilConfig)
+	- where is the settings file for the flask app @done(2014-09-10) @project(Project Generator / root directory / StencilConfig)
+	- do not create api.py... this is an addon @done(2014-09-08) @project(Project Generator / application package)
+	- do not create assets.py... for front-end @done(2014-09-08) @project(Project Generator / application package)
+	- auth.py belongs to admin addon @done(2014-09-08) @project(Project Generator / application package)
+	- extensions.py @done(2014-09-08) @project(Project Generator / application package)
+	- do not create helpers.py @done(2014-09-08) @project(Project Generator / application package)
+	- meta.jade template takes $project_name @done(2014-09-08) @project(Project Generator / application package)
+	- templates stay within itself @done(2014-09-08) @project(Project Generator / application package / public package)
+	- remove registration method from view module @done(2014-09-08) @project(Project Generator / application package / public package)
+	- models.py template heading @done(2014-09-08) @project(Project Generator / application package / public package)
+	- needs to check if the blueprint exists already @done(2014-09-10) @project(Blueprint Generator)
+	- create unittests when generated @done(2014-09-10) @project(Blueprint Generator)
+	- check for name collisions @done(2014-09-10) @project(Blueprint Generator)
+	- make sure that templates stay within the blueprint itself @done(2014-09-10) @project(Blueprint Generator)
+	- every models.py (gets a default heading) @done(2014-09-10) @project(Blueprint Generator)
+	- every forms.py (gets a default heading) @done(2014-09-10) @project(Blueprint Generator)
+	- add to stencil config @done(2014-09-10) @project(Blueprint Generator)

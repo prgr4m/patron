@@ -29,17 +29,17 @@ class StencilConfig(object):
         config.add_section('general')
         config.set('general', 'project_name', project_name)
         config.set('general', 'settings',
-                        path.join(project_name, 'settings.py'))
+                   path.join(project_name, 'settings.py'))
         config.set('general', 'factory_file',
-                        path.join(project_name, '__init__.py'))
+                   path.join(project_name, '__init__.py'))
         config.set('general', 'addons', '')
         config.add_section('public')
         config.set('public', 'forms',
-                        path.join(project_name, 'public', 'forms.py'))
+                   path.join(project_name, 'public', 'forms.py'))
         config.set('public', 'models',
-                        path.join(project_name, 'public', 'models.py'))
+                   path.join(project_name, 'public', 'models.py'))
         config.set('public', 'views',
-                        path.join(project_name, 'public', 'views.py'))
+                   path.join(project_name, 'public', 'views.py'))
         with open('stencil.cfg', 'w') as configfile:
             config.write(configfile)
 
@@ -139,6 +139,12 @@ class CodeInspector(object):
             raise SyntaxError("not a valid python source file")
         except Exception:  # should be SyntaxError
             raise TypeError("module_path was not a string!")
+
+
+class CodeInjector(object):
+    """An object responsible for injecting code dynamically"""
+    def __init__(self):
+        pass
 
 
 def is_name_valid(name_in):
