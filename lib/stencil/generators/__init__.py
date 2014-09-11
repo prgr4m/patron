@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 import imp
+import os
 import os.path as path
 import re
 import cStringIO
@@ -218,6 +219,32 @@ class FactoryInjector(InjectorBase):
         # register the blueprint or extension
         # both have an import statement either way
         pass
+
+
+class RequirementsFileWriter(object):
+    """Appends flask package dependencies"""
+    def __init__(self, project_name):
+        target_filename = "{}-requirements.txt".format(project_name.lower())
+        if not path.exists(target_filename):
+            raise OSError("FileNotFoundError")  # wish I was using python3
+        self.requirements_file = open(target_filename, 'a')
+
+    def __del__(self):
+        self.requirements_file.close()
+
+    def add_requirements(self, requirements):
+        """
+        appends dependencies to the requirements file
+
+        :param str|list requirements:
+            a list or str containing a python package dependency
+        """
+        if not isinstance(requirements, (str, list)):
+            raise ValueError("Requirements need to either be a string or list")
+        if isinstance(requirements, str):
+            requirements = list(requirements)
+        for req in requirements:
+            self.requirements_file.write("{}{}".format(req, os.linesep))
 
 
 def is_name_valid(name_in):

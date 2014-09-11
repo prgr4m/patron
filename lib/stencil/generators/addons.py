@@ -3,13 +3,15 @@ from __future__ import print_function
 import os
 import os.path as path
 import shutil
-from . import StencilConfig, get_templates_dir, generate_templates
+from . import (StencilConfig, RequirementsFileWriter, get_templates_dir,
+               generate_templates)
 
 
 class AddonManager(object):
     """Manages various types of flask project addons"""
     def __init__(self):
         self.config = StencilConfig()
+        self.requirements = RequirementsFileWriter(self.config.project_name)
 
     @staticmethod
     def list_addons():
@@ -68,10 +70,8 @@ class AddonManager(object):
             admin_data[f] = path.join(project_name, 'admin', "{}.py".format(f))
         admin_data['templates'] = path.join(project_name, 'templates', 'admin')
         self.config.create_blueprint('admin', admin_data)
-        with open("{}-requirements.txt".format(project_name), 'a') as req_file:
-            packages = ['flask-admin', 'flask-login', 'flask-principal']
-            for pkg in packages:
-                req_file.write("{}{}".format(pkg, os.linesep))
+        packages = ['flask-admin', 'flask-login', 'flask-principal']
+        self.requirements.add_requirements(packages)
 
     def _api(self):
         # check to see if api already exists
