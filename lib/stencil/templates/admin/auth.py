@@ -18,7 +18,7 @@ from .admin.models import User
 # Look at the section of (Login using Authorization header) for more info
 # =============================================================================
 login_manager = LoginManager()
-login_manager.login_view = "frontend.login"
+login_manager.login_view = "admin.login"
 
 @login_manager.user_loader
 def load_user(userid):

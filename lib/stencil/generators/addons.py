@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+import os.path as path
 from . import StencilConfig
 
 
@@ -19,8 +21,14 @@ class AddonManager(object):
         getattr(self, "__{}".format(addon_name))()
 
     def __admin(self):
-        # read from config where the admin blueprint will be residing
+        project_name = self.config.project_name
+        admin_root = path.join(project_name, 'admin')
+        admin_templates_dir = path.join(project_name, 'templates', 'admin')
+        os.mkdir(admin_root)
+        os.mkdir(admin_templates_dir)
+        os.mkdir(path.join(project_name, 'media'))
         # create files over
+        # views.py takes $project_name
         # hook into app factory (both the admin blueprint and auth)
         # hook into manage.py the commands
         # add to stencil config addons

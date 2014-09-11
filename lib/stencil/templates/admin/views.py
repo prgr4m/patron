@@ -32,9 +32,6 @@ class MyAdminIndexView(AdminIndexView):
             login_user(user)
             identity_changed.send(current_app._get_current_object(),
                                   identity=Identity(user.id))
-            current_app.logger.debug("**********")
-            current_app.logger.debug("CurrentUser id: {0} - {1}".format(user.id, user.username))
-            current_app.logger.debug("**********")
             flash("Logged in successfully")
             return redirect(request.args.get("next") or url_for('.index'))
         return self.render('admin/login.jade', form=form)
@@ -120,13 +117,15 @@ class MediaFileAdmin(FileAdmin):
     def is_accessible(self):
         return login.current_user.is_authenticated()
 
-admin = Admin(name="$project_name", index_view=MyAdminIndexView(template='admin/index.jade'))
+admin = Admin(name="$project_name",
+              index_view=MyAdminIndexView(template='admin/index.jade'),
+              template_mode='bootstrap3')
 
 #admin.add_view(MyView(name='Hello'))
 admin.add_view(UserModelView(User, db.session))
 admin.add_view(RoleModelView(Role, db.session))
-admin.add_view(MediaFileAdmin(media_path, '/media/', name="Media Files", endpoint="media"))
+admin.add_view(MediaFileAdmin(media_path, '/media/', name="Media Files",
+                              endpoint="media"))
 
 logout_link = MenuLink(name="Logout", url="/admin/logout")
 admin.add_link(logout_link)
-
