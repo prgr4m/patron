@@ -3,23 +3,23 @@ Project Generator:
 	Here are what needs to be kept in from the original tool and what needs to
 	be left out by sectional generation/scaffolding
 
-	- THIS TOOL SHOULD ONLY BE RUN FROM THE PROJECT ROOT!!! @done(2014-09-10)
 	- DOCUMENTATION!!!!!
 	- TESTING!!! Do not release into the wild until unittested. May work functionally but have some unittests
 	- Change the public blueprint test specific not just to the site but to the public blueprint
+	- Make a generic deploy task in fabfile.py @fabric
+	FactoryInjector:
+		- have base yield by line @done(2014-09-12)
+		- regexp strategy for dynamically injecting and figuring out sections... @today
+		- have the base do the actual injecting? but each type of injector create the rules of injection
 	root directory:
 		manage.py:
-		- deploy fabric method (default to a2/ssh) @fabric
 		StencilConfig:
-		  - need to list out project name @done(2014-09-10)
-			- need to have subparser on cli to remove, inspect and generate a config for each project... from root
 	application package:
 		Here is a list of things I should be doing by default...
 		public package:
 
 Blueprint Generator:
 	- hook into app factory
-	- change unittest format to reflect what exactly is being tested @today @done(2014-09-11)
 
 Models Generator:
 	- check heading of every page... doesn't exist? add it
@@ -32,13 +32,7 @@ Forms Generator:
 
 Addons:
 	admin:
-		- create auth @today
-		- create users @today
 		- hook into app factory (admin and auth) @today
-		- place login.jade into public templates
-		- place registration.jade into public templates
-		- add hook into public view for registration and login
-		- don't forget to add UserCommand to manage.py
 	api:
 		- create api.py
 		- hook into app factory
@@ -93,6 +87,13 @@ Extras:
 	- video steaming service?
 
 Archive:
+	- THIS TOOL SHOULD ONLY BE RUN FROM THE PROJECT ROOT!!! @done(2014-09-10) @project(Project Generator)
+	  - need to list out project name @done(2014-09-10) @project(Project Generator / root directory / StencilConfig)
+		- need to have subparser on cli to remove, inspect and generate a config for each project... from root @done(2014-09-12)
+	- change unittest format to reflect what exactly is being tested @today @done(2014-09-11) @project(Blueprint Generator)
+	- create auth @today @done(2014-09-12) @project(Addons / admin)
+	- create users @today @done(2014-09-12) @project(Addons / admin)
+	- don't forget to add UserCommand to manage.py @done(2014-09-12) @project(Addons / admin)
 	- take out livereload (this should be an addon) @done(2014-09-07) @project(Project Generator / root directory / manage.py)
 	- keep the tests @done(2014-09-07) @project(Project Generator / root directory / manage.py)
 	- ADD REQUIREMENTS FILE!!! @done(2014-09-09) @project(Project Generator / root directory / manage.py)
