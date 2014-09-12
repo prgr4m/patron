@@ -47,7 +47,7 @@ class StencilConfig(object):
 
     @staticmethod
     def generate_config(self):
-        "creates a stencil config file by inspecting a projects structure"
+        "creates a stencil config file by inspecting a project's structure"
         pass
 
     @property
@@ -176,11 +176,14 @@ class InjectorBase(object):
     """The base object for injecting code into an existing code base"""
     indent = " " * 4
 
-    def __init__(self):
+    def __init__(self, target):
         """
-        Takes in a file to read
-        StringIo object to store dynamic content
+        Initializing the common base for code injection
+
+        :param str target:
+            the path of the target file to inject code to (safely)
         """
+        self.config = StencilConfig().project_name
         self.stream = cStringIO.StringIO()
 
     def __del__(self):
@@ -189,21 +192,41 @@ class InjectorBase(object):
     def inject(self):
         raise NotImplementedError("InjectorBase::inject must be overridden")
 
+    def read_target(self):
+        with open(self.target_file) as f:
+            for line in f:
+                yield line
 
-class AdminManageInjector(InjectorBase):
+
+class ManageInjector(InjectorBase):
     """
     Responsible for injecting admin management hooks into manage.py
     """
     def __init__(self):
-        super(AdminManageInjector, self).__init__()
+        super(ManageInjector, self).__init__()
         self.target_file = "manage.py"
 
-    def inject(self, snippets):
+    def inject(self, directive):
+        """
+        The method responsible for injecting code snippets into a (flask-script)
+        manage.py file.
+
+        :param str directive:
+            a known key to perform associated script injections
+        """
         # read manage.py in
         # insert the necessary imports
         # add flask-script command into file
         pass
 
+    def _users(self):
+        is_import_done = False
+        is_included = False
+        imp_stmnt = "from {proj_name}.admin.commands import UserAdminCommand"
+        mgr_cmd = "manager.add_command('user', UserAdminCommand)"
+        # self.stream
+        for line in self.read_target():
+            pass
 
 class FactoryInjector(InjectorBase):
     """
@@ -211,13 +234,34 @@ class FactoryInjector(InjectorBase):
     """
     def __init__(self):
         super(FactoryInjector, self).__init__()
-        self.target_file = path.join()
+        self.target_file = self.config.factory_path
 
-    def inject(self):
+    def inject(self, directive):
+        """
+        The method responsible for injecting code snippets into the app factory
+        file.
+
+        :param str directive:
+            a key that is used to look up known directives on how to inject code
+            into an app factory. I decided to keep file hacks contained rather
+            than dynamically through the method.
+        """
         # is it a blueprint or an extension?
         # add import statements
         # register the blueprint or extension
         # both have an import statement either way
+        pass
+
+    def _admin(self):
+        # contains auth
+        pass
+
+    def _blueprint(self):
+        # looing for a views file
+        pass
+
+    def _api(self):
+        # only responsible for including api
         pass
 
 

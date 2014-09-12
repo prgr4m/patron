@@ -3,8 +3,8 @@ from __future__ import print_function
 import os
 import os.path as path
 import shutil
-from . import (StencilConfig, RequirementsFileWriter, get_templates_dir,
-               generate_templates)
+from . import (StencilConfig, RequirementsFileWriter, FactoryInjector,
+               ManageInjector, get_templates_dir, generate_templates)
 
 
 class AddonManager(object):
@@ -54,6 +54,8 @@ class AddonManager(object):
             shutil.copyfile(path.join(templates_root, 'templates', f),
                             path.join(admin_templates_dir, f))
         # hook into app factory (both the admin blueprint and auth)
+        # import line
+        # extension line / blueprint line
         test_directory = path.join(templates_root, 'unittest')
         test_file = {
             'unittest.py': [
@@ -62,7 +64,7 @@ class AddonManager(object):
             ]
         }
         generate_templates(test_directory, test_file)
-        # hook into manage.py the commands -- manage injector...?
+        ManageInjector.inject('admin')
         self.config.addons = 'admin'
         admin_data = {}
         admin_package_files = ['forms', 'models', 'views', 'auth']
