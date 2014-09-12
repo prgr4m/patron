@@ -53,9 +53,7 @@ class AddonManager(object):
                   if x not in ['.', '..']]:
             shutil.copyfile(path.join(templates_root, 'templates', f),
                             path.join(admin_templates_dir, f))
-        # hook into app factory (both the admin blueprint and auth)
-        # import line
-        # extension line / blueprint line
+        # FactoryInjector().inject('admin')
         test_directory = path.join(templates_root, 'unittest')
         test_file = {
             'unittest.py': [
@@ -64,7 +62,7 @@ class AddonManager(object):
             ]
         }
         generate_templates(test_directory, test_file)
-        ManageInjector.inject('admin')
+        ManageInjector().inject('admin')
         self.config.addons = 'admin'
         admin_data = {}
         admin_package_files = ['forms', 'models', 'views', 'auth']
@@ -79,9 +77,8 @@ class AddonManager(object):
         # check to see if api already exists
         # check to see if admin already exists
         # create an api blueprint (not an actual blueprint) but package in the
-        # sense of a directory, __init__.py which contains the flask-restful code
-        # and whatever resources to live within the directory
-        #
+        # sense of a directory, __init__.py which contains the flask-restful
+        # code and whatever resources to live within the directory
         # register with factory injector
         # requires auth - do I just want to call admin?
         # create unittest
@@ -105,10 +102,10 @@ class AddonManager(object):
         print("generating blog addon -- still needs to be implemented")
 
     def _humanizer(self):
-        # this is in the same category of an api but not even registered with the
-        # app itself but with the admin and the public blueprint. it gets its own
-        # directory because it stores its own models, admin interfaces, csv data and
-        # flask-script commands
+        # this is in the same category of an api but not even registered with
+        # the app itself but with the admin and the public blueprint. it gets
+        # its own directory because it stores its own models, admin interfaces,
+        # csv data and flask-script commands
         print("generating humanizer addon -- still needs to be implemented")
 
     def _mail(self):
@@ -132,10 +129,9 @@ class AddonManager(object):
         #   public side
         print("generating banner addon -- still needs to be implemented")
 
-
     def _websockets(self):
         # add websocket functionality to a project as a blueprint to keep things
-        # separated from other blueprints and should have its own routes to begin
-        # with...
+        # separated from other blueprints and should have its own routes to
+        # begin with...
         # add to requirements file
         print("generating websockets addon -- still needs to be implemented")

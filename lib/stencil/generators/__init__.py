@@ -167,23 +167,23 @@ class CodeInspector(object):
                 ret_val = True
             return ret_val
         except SyntaxError:
-            raise SyntaxError("not a valid python source file")
+            raise SyntaxError("CodeInspector:Not a valid python source file")
         except Exception:  # should be SyntaxError
-            raise TypeError("module_path was not a string!")
+            raise TypeError("CodeInspector:module_path was not a string!")
 
 
 class InjectorBase(object):
     """The base object for injecting code into an existing code base"""
     indent = " " * 4
 
-    def __init__(self, target):
+    def __init__(self):
         """
         Initializing the common base for code injection
 
         :param str target:
             the path of the target file to inject code to (safely)
         """
-        self.config = StencilConfig().project_name
+        self.config = StencilConfig()
         self.stream = cStringIO.StringIO()
 
     def __del__(self):
@@ -195,7 +195,7 @@ class InjectorBase(object):
     def read_target(self):
         with open(self.target_file) as f:
             for line in f:
-                yield line
+                yield line.rstrip()
 
 
 class ManageInjector(InjectorBase):
@@ -214,19 +214,34 @@ class ManageInjector(InjectorBase):
         :param str directive:
             a known key to perform associated script injections
         """
-        # read manage.py in
-        # insert the necessary imports
-        # add flask-script command into file
-        pass
+        known_directives = ['admin']  # livereload, etc, will come later
+        if directive not in known_directives:
+            raise ValueError("ManageInjector:Unknown directive value")
+        getattr(self, "_{}".format(directive))()
 
-    def _users(self):
-        is_import_done = False
-        is_included = False
-        imp_stmnt = "from {proj_name}.admin.commands import UserAdminCommand"
+    def _admin(self):
+        match_queue = [r'db, migrate$', r"'db', MigrateCommand\)$"]
+        imp_stmnt = "from {proj_name}.admin.commands import UserAdminCommand"\
+            .format(proj_name=self.config.project_name)
         mgr_cmd = "manager.add_command('user', UserAdminCommand)"
-        # self.stream
+        inject_queue = [imp_stmnt, mgr_cmd]
+        current_search = match_queue.pop(0)
+        current_inject = inject_queue.pop(0)
         for line in self.read_target():
-            pass
+            if current_search is not None:
+                if re.search(current_search, line) is not None:
+                    line = "{line_in}{linesep}{injected_code}"\
+                        .format(line_in=line, linesep=os.linesep,
+                                injected_code=current_inject)
+                    if len(match_queue) > 0:
+                        current_search = match_queue.pop(0)
+                        current_inject = inject_queue.pop(0)
+                    else:
+                        current_search = None
+            print(line, file=self.stream)
+        with open(self.target_file, 'w') as new_manage:
+            new_manage.write(self.stream.getvalue())
+
 
 class FactoryInjector(InjectorBase):
     """
@@ -254,6 +269,7 @@ class FactoryInjector(InjectorBase):
 
     def _admin(self):
         # contains auth
+        # auth related are extensions
         pass
 
     def _blueprint(self):
