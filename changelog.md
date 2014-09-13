@@ -1,17 +1,22 @@
 # Changelog
 ---
 Version 0.4
-  - forms
+  features:
+    - static site generator (extras)
+    - sitemap (addon)
+    - mail (addon)
 
 Version 0.3
   features:
     - models
+    - forms
+    - fabric addon (generic deploy to server)
+    - api (using flask-restful) (addon)
 
 Version 0.2
   features:
     - blueprints generation
     - fabric tasks
-    - fabric addon (deploy to server)
     - admin addon
 
 Version 0.1
@@ -27,13 +32,10 @@ Version 0.1
   - addons (can have its own group for various addons with their own options)
     - livereload?
     - blog
-    - cms
-    - sitemap
-    - api (using flask-restful)
     - humanizer
-    - mail
     - ecommerce (with satchless)
     - banning interface
   - extras
     - static site generator
+    - cms
 

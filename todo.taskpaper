@@ -8,9 +8,6 @@ Project Generator:
 	- Change the public blueprint test specific not just to the site but to the public blueprint
 	- Make a generic deploy task in fabfile.py @fabric
 	FactoryInjector:
-		- have base yield by line @done(2014-09-12)
-		- regexp strategy for dynamically injecting and figuring out sections... @today
-		- have the base do the actual injecting? but each type of injector create the rules of injection
 	SettingsInjector:
 		- come up with strategy different from factory and manage injectors
 	root directory:
@@ -21,7 +18,6 @@ Project Generator:
 		public package:
 
 Blueprint Generator:
-	- hook into app factory
 
 Models Generator:
 	- check heading of every page... doesn't exist? add it
@@ -34,8 +30,6 @@ Forms Generator:
 
 Addons:
 	admin:
-		- hook into app factory (admin and auth) @today
-		- add to requirements file flask-admin, flask-login, flask-principal
 	api:
 		- create api.py
 		- hook into app factory
@@ -58,8 +52,6 @@ Addons:
 		- requires blog mainly because of all of the leg work it does
 		- hijacks public routing
 		- requires sitemaps
-	cron job / ops helpers:
-		- command(s) to hook into flask-script/click to generate crontab entry common to maintenance @nice_feature
 	humanizer:
 		- self explanatory
 		- this is a blueprint
@@ -90,6 +82,12 @@ Extras:
 	- video steaming service?
 
 Archive:
+	- have base yield by line @done(2014-09-12) @project(Project Generator / FactoryInjector)
+	- regexp strategy for dynamically injecting and figuring out sections... @today @done(2014-09-13) @project(Project Generator / FactoryInjector)
+	- have the base do the actual injecting? but each type of injector create the rules of injection @done(2014-09-13) @project(Project Generator / FactoryInjector)
+	- hook into app factory @done(2014-09-13) @project(Blueprint Generator)
+	- hook into app factory (admin and auth) @today @done(2014-09-13) @project(Addons / admin)
+	- add to requirements file flask-admin, flask-login, flask-principal @done(2014-09-13) @project(Addons / admin)
 	- THIS TOOL SHOULD ONLY BE RUN FROM THE PROJECT ROOT!!! @done(2014-09-10) @project(Project Generator)
 	  - need to list out project name @done(2014-09-10) @project(Project Generator / root directory / StencilConfig)
 		- need to have subparser on cli to remove, inspect and generate a config for each project... from root @done(2014-09-12)

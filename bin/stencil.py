@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # PYTHON_ARGCOMPLETE_OK
 __author__ = "John Boisselle <ping_me@johnboisselle.com>"
-__version__ = "0.1.2"
+__version__ = "0.2.0"
 
 import argparse
 import argcomplete
