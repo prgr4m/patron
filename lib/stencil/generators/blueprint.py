@@ -42,7 +42,6 @@ class BlueprintGenerator(object):
             else:
                 shutil.copyfile(path.join(template_root, f),
                                 path.join(self.name.lower(), f))
-        FactoryInjector().inject('blueprint', self.name.lower())
         os.chdir(project_root)
         blueprint_data = {
             'forms': path.join(self.config.project_name,
@@ -61,3 +60,4 @@ class BlueprintGenerator(object):
             ]
         }
         generate_templates(template_root, template_file)
+        FactoryInjector().inject('blueprint', self.name.lower())

@@ -4,6 +4,7 @@ import imp
 import os
 import os.path as path
 import re
+import sys
 import cStringIO
 from string import Template
 import ConfigParser
@@ -269,24 +270,29 @@ class FactoryInjector(InjectorBase):
         else:
             injection_context = getattr(self, "_{}".format(directive))()
         content = open(self.target_file, 'r').read()
+        inject_line = "{linesep}{stmt}"
         for section in re.split(r'\n\n', content):
             if re.search(r'import', section) is not None:
                 for imp_stmt in injection_context['import']:
-                    section += imp_stmt + os.linesep
+                    section += inject_line.format(linesep=os.linesep,
+                                                  stmt=imp_stmt)
                 print(section, file=self.stream)
-            elif re.search(r'extensions', section) is not None and \
-                injection_context.has_key('extension'):
+            elif re.search(r'def register_extensions', section) is not None \
+                and injection_context.has_key('extension'):
                 for ext_stmt in injection_context['extension']:
-                    section += ext_stmt + os.linesep
-                print(section, file=self.stream)
-            elif re.search(r'blueprint', section) is not None and \
-                injection_context.has_key('blueprint'):
-                section += injection_context['blueprint'] + os.linesep
-                print(section, file=self.stream)
+                    section += inject_line.format(linesep=os.linesep,
+                                                  stmt=ext_stmt)
+                print(os.linesep + section, file=self.stream)
+            elif re.search(r'def register_blueprints', section) is not None \
+                and injection_context.has_key('blueprint'):
+                section += inject_line\
+                    .format(linesep=os.linesep,
+                            stmt=injection_context['blueprint'])
+                print(os.linesep + section, file=self.stream)
             else:
-                print(section, file=self.stream)
-        with open(self.target_file, 'w') as init_file::
-            manage_file.write(self.stream.getvalue())
+                print(os.linesep + section, file=self.stream)
+        with open(self.target_file, 'w') as init_file:
+            init_file.write(self.stream.getvalue().rstrip())
 
     def _admin(self):
         project_name = self.config.project_name
@@ -312,10 +318,9 @@ class FactoryInjector(InjectorBase):
                 "from {proj_name}.{bp_name}.views import {bp_name}"\
                     .format(proj_name=project_name, bp_name=name)
             ],
-            'blueprint': [
-                "app.register_blueprint({bp_name}, url_prefix='/{bp_name}')"\
-                    .format(bp_name=name)
-            ]
+            'blueprint':
+                "{ndnt}app.register_blueprint({bp_nm}, url_prefix='/{bp_nm}')"\
+                    .format(ndnt=self.indent, bp_nm=name)
         }
         return injection_directive
 
