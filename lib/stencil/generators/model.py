@@ -33,10 +33,10 @@ class ModelGenerator(object):
         sys.stdout = sys.__stdout__
 
     def create(self, *fields):
-        # with self._model():
-        #     for field in self._parse_fields(*fields):
-        #         print(field)
-        # self._serialize()
+        with self._model():
+            for field in self._parse_fields(*fields):
+                print(field)
+        self._serialize()
         # create unittest
         pass
 
@@ -63,4 +63,4 @@ class ModelGenerator(object):
 
     def _serialize(self):
         with open(self.output_target, 'a') as outfile:
-           outfile.write(self.stream.getvalue())
+            outfile.write(self.stream.getvalue())

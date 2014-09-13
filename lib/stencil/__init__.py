@@ -20,7 +20,7 @@ class Stencil(object):
         # addons (based off existing project, and common patterns),
         # extras (static site generator)
         project_dependent = ['model', 'form', 'blueprint', 'task', 'admin',
-                             'addon']
+                             'addon', 'pkg']
         if args.subparser_name == 'project':
             # takes a name (maybe even type -- old school and classy)
             options = dict(name=args.name)
@@ -44,6 +44,9 @@ class Stencil(object):
                 AddonManager().create(args.name)
             elif args.subparser_name == 'task':
                 TaskGenerator(args.name, args.description).create()
+            elif args.subparser_name == 'pkg':
+                # still needs to be implemented
+                print("Package creation")
         else:
             print("Please run: '{} -h' for usage info".format(prog_name))
             sys.exit(0)
