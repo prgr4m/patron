@@ -3,7 +3,7 @@ import os
 import os.path as path
 import shutil
 import fnmatch
-from . import (StencilConfig, is_name_valid, get_templates_dir,
+from . import (StencilConfig, FactoryInjector, is_name_valid, get_templates_dir,
                generate_templates)
 
 
@@ -42,7 +42,7 @@ class BlueprintGenerator(object):
             else:
                 shutil.copyfile(path.join(template_root, f),
                                 path.join(self.name.lower(), f))
-        # hook into app factory to register the blueprint
+        FactoryInjector().inject('blueprint', self.name.lower())
         os.chdir(project_root)
         blueprint_data = {
             'forms': path.join(self.config.project_name,

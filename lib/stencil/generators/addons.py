@@ -53,7 +53,7 @@ class AddonManager(object):
                   if x not in ['.', '..']]:
             shutil.copyfile(path.join(templates_root, 'templates', f),
                             path.join(admin_templates_dir, f))
-        # FactoryInjector().inject('admin')
+        FactoryInjector().inject('admin')
         test_directory = path.join(templates_root, 'unittest')
         test_file = {
             'unittest.py': [

@@ -251,7 +251,7 @@ class FactoryInjector(InjectorBase):
         super(FactoryInjector, self).__init__()
         self.target_file = self.config.factory_path
 
-    def inject(self, directive):
+    def inject(self, directive, name=None):
         """
         The method responsible for injecting code snippets into the app factory
         file.
@@ -261,24 +261,73 @@ class FactoryInjector(InjectorBase):
             into an app factory. I decided to keep file hacks contained rather
             than dynamically through the method.
         """
-        # is it a blueprint or an extension?
-        # add import statements
-        # register the blueprint or extension
-        # both have an import statement either way
-        pass
+        known_directives = ['admin', 'blueprint', 'api']
+        if directive not in known_directives:
+            raise ValueError("FactoryInjector:Unknown value for directive")
+        if directive == 'blueprint' and name is not None:
+            injection_context = self._blueprint(name)
+        else:
+            injection_context = getattr(self, "_{}".format(directive))()
+        content = open(self.target_file, 'r').read()
+        for section in re.split(r'\n\n', content):
+            if re.search(r'import', section) is not None:
+                for imp_stmt in injection_context['import']:
+                    section += imp_stmt + os.linesep
+                print(section, file=self.stream)
+            elif re.search(r'extensions', section) is not None and \
+                injection_context.has_key('extension'):
+                for ext_stmt in injection_context['extension']:
+                    section += ext_stmt + os.linesep
+                print(section, file=self.stream)
+            elif re.search(r'blueprint', section) is not None and \
+                injection_context.has_key('blueprint'):
+                section += injection_context['blueprint'] + os.linesep
+                print(section, file=self.stream)
+            else:
+                print(section, file=self.stream)
+        with open(self.target_file, 'w') as init_file::
+            manage_file.write(self.stream.getvalue())
 
     def _admin(self):
-        # contains auth
-        # auth related are extensions
-        pass
+        project_name = self.config.project_name
+        injection_directive = {
+            'import': [
+                "from {proj_name}.admin.views import admin"\
+                    .format(proj_name=project_name),
+                "from {proj_name}.admin.auth import login_manager, principals"\
+                    .format(proj_name=project_name)
+            ],
+            'extension': [
+                "{}principals.init_app(app)".format(self.indent),
+                "{}login_manager.init_app(app)".format(self.indent),
+                "{}admin.init_app(app)".format(self.indent)
+            ]
+        }
+        return injection_directive
 
-    def _blueprint(self):
-        # looing for a views file
-        pass
+    def _blueprint(self, name):
+        project_name = self.config.project_name
+        injection_directive = {
+            'import': [
+                "from {proj_name}.{bp_name}.views import {bp_name}"\
+                    .format(proj_name=project_name, bp_name=name)
+            ],
+            'blueprint': [
+                "app.register_blueprint({bp_name}, url_prefix='/{bp_name}')"\
+                    .format(bp_name=name)
+            ]
+        }
+        return injection_directive
 
     def _api(self):
         # only responsible for including api
         pass
+
+
+class SettingsInjector(InjectorBase):
+    """Injects attributes into the Config object"""
+    def __init__(self):
+        super(SettingsInjector, self).__init__()
 
 
 class RequirementsFileWriter(object):

@@ -11,6 +11,8 @@ Project Generator:
 		- have base yield by line @done(2014-09-12)
 		- regexp strategy for dynamically injecting and figuring out sections... @today
 		- have the base do the actual injecting? but each type of injector create the rules of injection
+	SettingsInjector:
+		- come up with strategy different from factory and manage injectors
 	root directory:
 		manage.py:
 		StencilConfig:
@@ -33,6 +35,7 @@ Forms Generator:
 Addons:
 	admin:
 		- hook into app factory (admin and auth) @today
+		- add to requirements file flask-admin, flask-login, flask-principal
 	api:
 		- create api.py
 		- hook into app factory
