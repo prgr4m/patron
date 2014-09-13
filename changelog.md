@@ -4,7 +4,7 @@ Version 0.4
   features:
     - static site generator (extras)
     - sitemap (addon)
-    - mail (addon)
+    - humanizer (addon) (possibly consolidate into mail/contact)
 
 Version 0.3
   features:
@@ -12,6 +12,7 @@ Version 0.3
     - forms
     - fabric addon (generic deploy to server)
     - api (using flask-restful) (addon)
+    - mail/contact (addon)
 
 Version 0.2
   features:
@@ -32,7 +33,6 @@ Version 0.1
   - addons (can have its own group for various addons with their own options)
     - livereload?
     - blog
-    - humanizer
     - ecommerce (with satchless)
     - banning interface
   - extras

@@ -22,11 +22,11 @@ Blueprint Generator:
 Models Generator:
 	- check heading of every page... doesn't exist? add it
 	- every model generated must have a __str__ and __repr__ method
-	- needs to know what blueprint to add to since tool runs from root of project
+	- needs to know what namespace/blueprint to add to since tool runs from root of project
 
 Forms Generator:
 	- check heading of every page... doesn't exist? add it
-	- needs to know what blueprint to add to since tool runs from root of project
+	- needs to know what namespace/blueprint to add to since tool runs from root of project
 
 Addons:
 	admin:
