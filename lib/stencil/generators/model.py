@@ -41,9 +41,8 @@ class ModelGenerator(object):
                 print(field)
         self._serialize()
         template_root = path.join(get_templates_dir(), 'model')
-        test_filename = path.join('tests',
-                                  "test_{model_name}_model.py"\
-                                    .format(model_name=self.name))
+        fname_fmt = "test_{model_name}_model.py".format(model_name=self.name)
+        test_filename = path.join('tests', fname_fmt)
         template_file = {
             'unittest.py': [
                 dict(project_name=self.config.project_name,
@@ -71,11 +70,14 @@ class ModelGenerator(object):
                 continue
             # else:  # for later when I add the new features
             attribs = field.split(':')
-
-            # look up type and inject to field_type
+            f_map = ModelGenerator.get_known_fields(mode="all")
+            if attribs[1] not in f_map.keys():
+                raise KeyError("ModelGenerator:Unknown field type given")
+            f_name = attribs[0]
+            f_type = f_map[attribs[1]]
             field_def = field_stmt_def.format(indent=self.indent,
-                                              name=None,
-                                              field_type=None,
+                                              name=f_name,
+                                              field_type=f_type,
                                               linesep=os.linesep)
             yield field_def
 
@@ -99,11 +101,12 @@ class ModelGenerator(object):
                                                         self.name))
         print(os.linesep)
 
-    def get_known_fields(self):
+    @staticmethod
+    def get_known_fields(mode='keys'):
         field_map = {
             'smallint': 'db.SmallInteger',
             'integer': 'db.Integer',
-            'bigint': 'db.BigInteger'
+            'bigint': 'db.BigInteger',
             'string': 'db.String(50)',
             'text': 'db.Text',
             'date': 'db.Date',
@@ -118,6 +121,8 @@ class ModelGenerator(object):
             'unicode': 'db.Unicode()',
             'unitext': 'db.UnicodeText()'
         }
+        if mode == 'keys':
+            return field_map.keys()
         return field_map
 
     def _serialize(self):

@@ -6,6 +6,7 @@ from .generators.project import FlaskProject
 from .generators.blueprint import BlueprintGenerator
 from .generators.task import TaskGenerator
 from .generators.addons import AddonManager
+from .generators.model import ModelGenerator
 
 
 class Stencil(object):
@@ -13,6 +14,10 @@ class Stencil(object):
     @staticmethod
     def get_addons():
         return AddonManager.list_addons()
+
+    @staticmethod
+    def get_field_types():
+       return ModelGenerator.get_known_fields()
 
     @staticmethod
     def run(args, prog_name):

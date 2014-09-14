@@ -23,7 +23,7 @@ project_help = "Create a modular flask project base"
 project_dir_help = """rename the target directory while maintaining project
 internals"""
 
-models_help = "Models with SQLAlchemy"
+models_help = "Models with Flask-SQLAlchemy"
 forms_help = "Forms with WTForms"
 blueprints_help = "Blueprint scaffolding"
 addon_help = "Addons to a flask project"
@@ -65,8 +65,11 @@ if __name__ == '__main__':
                               help=addon_name_help)
 
     field_group = [models_parser, forms_parser]
+    model_field_ex = "Ex: 'username:string'"
+    model_field_help = "field_name:sqlalchemy_type {} {}"\
+        .format(Stencil.get_field_types(), model_field_ex)
     field_help = {
-        models_parser: 'field_name:sqlalchemy_type',
+        models_parser: model_field_help,
         forms_parser: 'field_name:wtforms_type'
     }
     for p in field_group:
