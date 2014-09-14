@@ -8,6 +8,7 @@ Project Generator:
 	- Change the public blueprint test specific not just to the site but to the public blueprint
 	- Make a generic deploy task in fabfile.py @fabric
 	- package generation (similar to blueprint w/o registering with app. tracked in config [as blueprint] and hooked into other blueprints) @cli
+	- CATCH ALL EXCEPTIONS!!!
 	FactoryInjector:
 	SettingsInjector:
 		- come up with strategy different from factory and manage injectors

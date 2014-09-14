@@ -35,9 +35,9 @@ class ModelGenerator(object):
         self.stream.close()
         sys.stdout = sys.__stdout__
 
-    def create(self, *fields):
+    def create(self, fields):
         with self._model():
-            for field in self._parse_fields(*fields):
+            for field in self._parse_fields(fields):
                 print(field)
         self._serialize()
         template_root = path.join(get_templates_dir(), 'model')
@@ -53,8 +53,8 @@ class ModelGenerator(object):
         }
         generate_templates(template_root, template_file)
 
-    def _parse_fields(self, *fields):
-        field_stmt_def = "{indent}{name} = db.Column({field_type}){linesep}"
+    def _parse_fields(self, fields):
+        field_stmt_def = "{indent}{name} = db.Column({field_type})"
         # for the time being its only name:field_type and only supporting basic
         # types: integer, string(size), text, datetime, float, boolean
         #
@@ -62,6 +62,7 @@ class ModelGenerator(object):
         # passed to the Column definition...
         # also, I could just create an empty column for custom types or for
         # defining relationships between models
+        print(fields, file=sys.__stdout__)
         for field in fields:
             if ':' not in field:
                 # debating on just giving name and making empty column or for
@@ -77,8 +78,7 @@ class ModelGenerator(object):
             f_type = f_map[attribs[1]]
             field_def = field_stmt_def.format(indent=self.indent,
                                               name=f_name,
-                                              field_type=f_type,
-                                              linesep=os.linesep)
+                                              field_type=f_type)
             yield field_def
 
     @contextmanager
@@ -88,18 +88,18 @@ class ModelGenerator(object):
         id_def = "{}id = db.Column(db.Integer, primary_key=True)"\
             .format(self.indent)
         print(os.linesep)
-        print(model_def + os.linesep)
-        print(table_def + os.linesep)
-        print(id_def + os.linesep)
+        print(model_def)
+        print(table_def)
+        print(id_def)
         yield
-        print(os.linesep)
-        print("def __str__(self):" + os.linesep)
-        print("{}pass".format(self.indent) + os.linesep)
-        print(os.linesep)
-        print("def __repr__(self):" + os.linesep)
-        print("{}return \"<{}: Customize me!>\"".format(self.indent,
+        print()
+        print("{}def __str__(self):".format(self.indent))
+        print("{}pass".format(self.indent * 2))
+        print()
+        print("{}def __repr__(self):".format(self.indent))
+        print("{}return \"<{}: Customize me!>\"".format(self.indent * 2,
                                                         self.name))
-        print(os.linesep)
+        print()
 
     @staticmethod
     def get_known_fields(mode='keys'):

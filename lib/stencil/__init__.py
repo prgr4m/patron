@@ -39,7 +39,7 @@ class Stencil(object):
                 sys.exit()
             if args.subparser_name == 'model':
                 # takes a name and *fields of name:type
-                print('model stuff')
+                ModelGenerator(args.namespace, args.name).create(args.field)
             elif args.subparser_name == 'form':
                 # takes a name and *fields of name:type
                 print('form stuff')

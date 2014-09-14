@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-import imp
 import os
 import os.path as path
 import re
@@ -162,15 +161,20 @@ class CodeInspector(object):
     @staticmethod
     def has_collision(module_path, attribute):
         ret_val = False
-        try:
-            test = imp.load_source('module_test', module_path)
-            if hasattr(test, attribute):
-                ret_val = True
-            return ret_val
-        except SyntaxError:
-            raise SyntaxError("CodeInspector:Not a valid python source file")
-        except Exception:  # should be SyntaxError
-            raise TypeError("CodeInspector:module_path was not a string!")
+        search_types = {
+            'models': "class {}",
+            'forms': "class {}",
+            'views': "def {}",
+            'fabfile': "def {}"
+        }
+        mod_name, file_ext = path.splitext(path.split(module_path)[-1])
+        if mod_name not in search_types.keys():
+            raise StandardError("CodeInspector:Unknown module type")
+        search_pattern = search_types[mod_name].format(attribute)
+        content = open(module_path, 'r').read()
+        if re.search(search_pattern, content) is not None:
+            return True
+        return False
 
 
 class InjectorBase(object):
