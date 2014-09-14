@@ -21,6 +21,10 @@ Project Generator:
 Blueprint Generator:
 
 Models Generator:
+	In the future I should have extensible formatting to generate model fields...
+	Example
+		'name:str', 'name:string', 'name:str:30' - where it also give a length but defaults to 30
+	Some fields should have a sensible default for the type if nothing is supplied not the column
 	- check heading of every page... doesn't exist? add it
 	- every model generated must have a __str__ and __repr__ method
 	- needs to know what namespace/blueprint to add to since tool runs from root of project
