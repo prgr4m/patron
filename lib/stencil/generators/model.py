@@ -3,8 +3,10 @@ from __future__ import print_function
 import cStringIO
 from contextlib import contextmanager
 import os
+import os.path as path
 import sys
-from . import StencilConfig, CodeInspector, is_name_valid
+from . import (StencilConfig, CodeInspector, is_name_valid, get_templates_dir,
+               generate_templates)
 
 
 class ModelGenerator(object):
@@ -13,11 +15,12 @@ class ModelGenerator(object):
     indent = " " * 4
 
     def __init__(self, namespace, name):
-        config = StencilConfig()
-        if not config.has_blueprint(namespace):
+        self.config = StencilConfig()
+        if not self.config.has_blueprint(namespace):
             raise OSError("ModelGenerator:Blueprint doesn't exist")
-        for key, val in config.get_blueprint_info(namespace):
+        for key, val in self.config.get_blueprint_info(namespace):
             if key == 'models':
+                self.namespace = namespace
                 self.output_target = val
                 break
         if not is_name_valid(name):
@@ -37,11 +40,33 @@ class ModelGenerator(object):
             for field in self._parse_fields(*fields):
                 print(field)
         self._serialize()
-        # create unittest
-        pass
+        template_root = path.join(get_templates_dir(), 'model')
+        test_filename = path.join('tests',
+                                  "test_{model_name}_model.py"\
+                                    .format(model_name=self.name))
+        template_file = {
+            'unittest.py': [
+                dict(project_name=self.config.project_name,
+                     blueprint_name=self.namespace,
+                     model_name=self.name),
+                test_filename
+            ]
+        }
+        generate_templates(template_root, template_file)
 
     def _parse_fields(self, *fields):
-        pass
+        # check each item to make sure that they are formatted, if not, drop it
+        # make sure its type is recognized to an extentent and to capitalize it
+        field_stmt_def = "{indent}{name} = db.Column({field_type}){linesep}"
+        for field in fields:
+            if ':' not in field:
+                continue
+            # check for type
+            field_def = field_stmt_def.format(indent=self.indent,
+                                              name=None,
+                                              field_type=None,
+                                              linesep=os.linesep)
+            yield field_def
 
     @contextmanager
     def _model(self):
