@@ -11,7 +11,7 @@ Project Generator:
 	- CATCH ALL EXCEPTIONS!!!
 	FactoryInjector:
 	SettingsInjector:
-		- come up with strategy different from factory and manage injectors
+		- come up with strategy different from factory and manage injectors @addons
 	root directory:
 		manage.py:
 		StencilConfig:
@@ -26,12 +26,13 @@ Models Generator:
 	Example
 		'name:str', 'name:string', 'name:str:30' - where it also give a length but defaults to 30
 	Some fields should have a sensible default for the type if nothing is supplied not the column
-	- check heading of every page... doesn't exist? add it
-	- every model generated must have a __str__ and __repr__ method
-	- needs to know what namespace/blueprint to add to since tool runs from root of project
 
 Forms Generator:
-	- check heading of every page... doesn't exist? add it
+	Obviously there are going to be a couple of iterations within this generator and models. 
+	They are both similar but different in implementation since flask-sqlalchemy has everything 
+	tucked nicely away under the db object and wtforms isn't. So I'll eventually have to write 
+	an import checker with some crazy regex action!... yay!/s
+	- check heading of every page... doesn't exist? add it @cancelled(2014-09-14)
 	- needs to know what namespace/blueprint to add to since tool runs from root of project
 
 Addons:
@@ -63,7 +64,7 @@ Addons:
 		- this is a blueprint
 	mail:
 		- flask-mail integration
-		- cli/interactive driven
+		- cli/interactive driven?
 		- hooks into registration and alters config object
 	ecommerce:
 		- with satchless and stripe
@@ -88,6 +89,8 @@ Extras:
 	- video steaming service?
 
 Archive:
+	- every model generated must have a __str__ and __repr__ method @done(2014-09-14) @project(Models Generator)
+	- needs to know what namespace/blueprint to add to since tool runs from root of project @done(2014-09-14) @project(Models Generator)
 	- have base yield by line @done(2014-09-12) @project(Project Generator / FactoryInjector)
 	- regexp strategy for dynamically injecting and figuring out sections... @today @done(2014-09-13) @project(Project Generator / FactoryInjector)
 	- have the base do the actual injecting? but each type of injector create the rules of injection @done(2014-09-13) @project(Project Generator / FactoryInjector)

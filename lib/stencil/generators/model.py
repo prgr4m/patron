@@ -87,7 +87,7 @@ class ModelGenerator(object):
         table_def = "{}__tablename__ = '{}'".format(self.indent, self.name)
         id_def = "{}id = db.Column(db.Integer, primary_key=True)"\
             .format(self.indent)
-        print(os.linesep)
+        print()
         print(model_def)
         print(table_def)
         print(id_def)
