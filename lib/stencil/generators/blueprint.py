@@ -26,6 +26,7 @@ class BlueprintGenerator(object):
         template_root = path.join(get_templates_dir(), 'blueprint')
         os.chdir(self.config.project_name)
         os.makedirs(path.join(self.name, 'templates'))
+        open(path.join(self.name, '__init__.py'), 'w').close()
         for f in [x for x in os.listdir(template_root)
                   if x not in ['.', '..', 'unittest.py']]:
             if fnmatch.fnmatch(f, '*.jade'):
