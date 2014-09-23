@@ -282,13 +282,13 @@ class FactoryInjector(InjectorBase):
                                                   stmt=imp_stmt)
                 print(section, file=self.stream)
             elif re.search(r'def register_extensions', section) is not None \
-                and injection_context.has_key('extension'):
+                and 'extension' in injection_context:
                 for ext_stmt in injection_context['extension']:
                     section += inject_line.format(linesep=os.linesep,
                                                   stmt=ext_stmt)
                 print(os.linesep + section, file=self.stream)
             elif re.search(r'def register_blueprints', section) is not None \
-                and injection_context.has_key('blueprint'):
+                and 'blueprint' in injection_context:
                 section += inject_line\
                     .format(linesep=os.linesep,
                             stmt=injection_context['blueprint'])
@@ -344,9 +344,18 @@ class SettingsInjector(InjectorBase):
         if directive not in known_directives:
             raise ValueError('SettingsInjector:Uknown directive for injection')
         injection_context = getattr(self, "_{}".format(directive))()
-        # read the settings file (generator) and then line by line add to end of
-        # class. make sure that there is 2 spaces between each class!
-
+        # make sure that there is 2 spaces between each class!
+        watching, linesep = False, os.linesep
+        for src_line in self.read_target():
+            if watching:
+                if src_line == '':
+                    self.stream.writelines(["{}{}{}".format(self.indent,
+                                                            line,
+                                                            linesep)
+                                            for line in injection_context])
+            if re.search(section, src_line):
+                watching = True
+            self.stream.write("{}{linesep}".format(src_line, linesep))
 
     def _mail(self):
         """
