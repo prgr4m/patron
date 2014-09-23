@@ -17,7 +17,7 @@ class AddonManager(object):
     def list_addons():
         "lists all known addons"
         return ['admin', 'api', 'banner', 'blog', 'commerce', 'humanizer',
-                'mail', 'sitemap', 'websockets']
+                'mail', 'websockets']
 
     def create(self, addon_name):
         if addon_name not in AddonManager.list_addons():
@@ -87,14 +87,6 @@ class AddonManager(object):
         # add to requirements file (flask-jwt, flask-mitten as well?)
         print("generating api addon -- still needs to be implemented")
         # self.config.addons = ['admin','api']
-
-    def _sitemap(self):
-        # create route in public blueprint
-        # if has blog... do i just read from models as well? or just read the
-        # urlmap from the app object?
-        # add to stencil config addons
-        # add to config (addons)
-        print("generating sitemap addon -- still needs to be implemented")
 
     def _blog(self):
         # hmmm.... an extension of a blueprint? or a more detailed setup...

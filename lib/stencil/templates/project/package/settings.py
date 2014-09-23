@@ -14,8 +14,10 @@ class Config(object):
     DEBUG = False
     TESTING = False
 
+
 class ProdConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'postgres://username:password@host:port/database'
+
 
 class DevConfig(Config):
     DEBUG = True
@@ -26,11 +28,13 @@ class DevConfig(Config):
     ASSETS_DEBUG = True
     CACHE_TYPE = "simple"
 
+
 class TestConfig(Config):
     TESTING = True
     DB_NAME = "$project_name-testing.db"
     DB_PATH = path.join(Config.PROJECT_ROOT, DB_NAME)
     SQLALCHEMY_DATABASE_URI = "sqlite:///{0}".format(DB_PATH)
+
 
 config = {
     'development': DevConfig,
@@ -38,4 +42,3 @@ config = {
     'production': ProdConfig,
     'default': DevConfig
 }
-

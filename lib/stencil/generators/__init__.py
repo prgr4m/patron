@@ -337,6 +337,32 @@ class SettingsInjector(InjectorBase):
     """Injects attributes into the Config object"""
     def __init__(self):
         super(SettingsInjector, self).__init__()
+        self.target_file = self.config.settings
+
+    def inject(self, directive, section='DevConfig'):
+        known_directives = ['mail', 'flat_pages']
+        if directive not in known_directives:
+            raise ValueError('SettingsInjector:Uknown directive for injection')
+        injection_context = getattr(self, "_{}".format(directive))()
+        # read the settings file (generator) and then line by line add to end of
+        # class. make sure that there is 2 spaces between each class!
+
+
+    def _mail(self):
+        """
+        This targets the general Config object
+        """
+        pass
+
+    def _flat_pages(self):
+        injection_directive = [
+            "FLATPAGES_ROOT = path.join('${proj_name}', 'articles')"\
+                .format(self.config.project_name),
+            "FLATPAGES_AUTO_RELOAD = DEBUG",
+            "FLATPAGES_EXTENSION = '.md'",
+            "FLATPAGES_ENCODING = 'utf8'"
+        ]
+        return injection_directive
 
 
 class RequirementsFileWriter(object):
