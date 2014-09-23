@@ -107,6 +107,9 @@ class FlaskProject(object):
                 generate_templates(template_root, template_file)
                 shutil.copyfile(path.join(template_root, 'index.jade'),
                                 'index.jade')
+                shutil.copyfile(path.join(template_root,
+                                          'sitemap_template.xml'),
+                                'sitemap_template.xml')
 
             os.mkdir('public')
             os.chdir('public')

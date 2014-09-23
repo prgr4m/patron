@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+import datetime as dt
 import os.path as path
 from flask.blueprints import Blueprint
+from flask.globals import current_app
+from flask.helpers import make_response
 from flask.templating import render_template
 
 templates_dir = path.join(path.dirname(path.abspath(__file__)), 'templates')
@@ -15,3 +18,19 @@ def processor():
 @frontend.route('/')
 def index():
     return render_template('index.jade')
+
+
+@frontend.route('/sitemap.xml', methods=['GET'])
+def sitemap():
+    # also need to add priority and changefreq to all urls
+    pages = []
+    ten_days_ago = dt.datetime.now() - dt.timedelta(days=10)
+    for rule in current_app.url_map.iter_rules():
+        if "GET" in rule.methods and len(rule.arguments) == 0:
+            if not (rule.rule.startswith('/admin') or
+                    rule.rule.startswith('/_debug')):
+                pages.append([rule.rule, ten_days_ago])
+    sitemap_xml = render_template('sitemap_template.xml', pages=pages)
+    response = make_response(sitemap_xml)
+    response.headers['Content-Type'] = 'application/xml'
+    return response
