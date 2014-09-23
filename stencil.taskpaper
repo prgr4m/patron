@@ -9,6 +9,8 @@ Project Generator:
 	- Make a generic deploy task in fabfile.py @fabric
 	- package generation (similar to blueprint w/o registering with app. tracked in config [as blueprint] and hooked into other blueprints) @cli
 	- CATCH ALL EXCEPTIONS!!!
+	- add sitemap functionality by default to the public route
+	- add livereload for development requirements
 	FactoryInjector:
 	SettingsInjector:
 		- come up with strategy different from factory and manage injectors @addons
@@ -47,12 +49,14 @@ Addons:
 		- only public facing routes and only include api routes if no auth
 	livereload:
 		- this is questionable since I should separate client from server
+		- not questionable for static site generator for previewing content
 	blog:
 		- its own custom blueprint...
 		- dependent upon admin
 		- custom admin views
 		- ckeditor integration
 		- rss feed functionality that hooks into public blueprint
+		- has 2 versions, flat-pages version and database driven with admin
 	cms:
 		- should be its own type of project scaffold since it requires several components and functionality rolled into one
 		- requires admin
