@@ -32,6 +32,8 @@ class Stencil(object):
             if hasattr(args, 'directory'):
                 options['directory'] = args.directory
             FlaskProject(**options).create()
+        elif args.subparser_name == 'static':
+            print("static site hook here...")
         elif args.subparser_name in project_dependent:
             # check to see if config is present
             if not StencilConfig.is_present():
