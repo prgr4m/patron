@@ -11,17 +11,8 @@ Project Generator:
 	- CATCH ALL EXCEPTIONS!!!
 	- add sitemap functionality by default to the public route
 	- add livereload for development requirements
-	FactoryInjector:
 	SettingsInjector:
 		- come up with strategy different from factory and manage injectors @addons
-	root directory:
-		manage.py:
-		StencilConfig:
-	application package:
-		Here is a list of things I should be doing by default...
-		public package:
-
-Blueprint Generator:
 
 Models Generator:
 	In the future I should have extensible formatting to generate model fields...
@@ -38,17 +29,15 @@ Forms Generator:
 	- needs to know what namespace/blueprint to add to since tool runs from root of project
 
 Addons:
-	admin:
 	api:
 		- create api.py
 		- hook into app factory
 		- should be its own blueprint/package?
 		- dependent upon admin because of auth
 	sitemap:
-		- added to public blueprint
+		- added to public blueprint @done(2014-09-23)
 		- only public facing routes and only include api routes if no auth
 	livereload:
-		- this is questionable since I should separate client from server
 		- not questionable for static site generator for previewing content
 	blog:
 		- its own custom blueprint...
@@ -57,12 +46,6 @@ Addons:
 		- ckeditor integration
 		- rss feed functionality that hooks into public blueprint
 		- has 2 versions, flat-pages version and database driven with admin
-	cms:
-		- should be its own type of project scaffold since it requires several components and functionality rolled into one
-		- requires admin
-		- requires blog mainly because of all of the leg work it does
-		- hijacks public routing
-		- requires sitemaps
 	humanizer:
 		- self explanatory
 		- this is a blueprint
@@ -89,7 +72,6 @@ Extras:
 	types of projects aren't meant to be extended so much as they have 
 	- static site generator
 	- service api endpoint (using json or xml)
-	- cms (similar to static site generator but dependent upon a database and a server)
 	- video steaming service?
 
 Archive:
