@@ -35,7 +35,6 @@ Addons:
 		- should be its own blueprint/package?
 		- dependent upon admin because of auth
 	sitemap:
-		- added to public blueprint @done(2014-09-23)
 		- only public facing routes and only include api routes if no auth
 	livereload:
 		- not questionable for static site generator for previewing content
@@ -75,6 +74,7 @@ Extras:
 	- video steaming service?
 
 Archive:
+	- added to public blueprint @done(2014-09-23) @project(Addons / sitemap)
 	- every model generated must have a __str__ and __repr__ method @done(2014-09-14) @project(Models Generator)
 	- needs to know what namespace/blueprint to add to since tool runs from root of project @done(2014-09-14) @project(Models Generator)
 	- have base yield by line @done(2014-09-12) @project(Project Generator / FactoryInjector)
