@@ -44,18 +44,6 @@ class StaticProject(object):
         shutil.copyfile(path.join(template_root, 'requirements.txt'),
                         "{}-requirements.txt".format(self.name.lower()))
 
-    def __setup_tests_directory(self):
-        os.mkdir('tests')
-        open(path.join('tests', '__init__.py'), 'w').close()
-        tpl_dir = path.join(self.tpl_root, 'tests')
-        tpl_file = {
-            'test_basic.py': [
-                dict(project_name=self.name, blueprint_name='Public'),
-                path.join('tests', 'test_public.py')
-            ]
-        }
-        generate_templates(tpl_dir, tpl_file)
-
     def __setup_package_directory(self):
         template_root = path.join(self.tpl_root, 'package')
 
