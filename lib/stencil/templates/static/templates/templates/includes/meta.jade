@@ -1,0 +1,40 @@
+//- meta.jade
+//- ===========================================================================
+//- Things that do not change but are applicable sitewide
+//- ===========================================================================
+
+//- Favicon
+//- ===========================================================================
+link(rel="icon", type="image.png", href="#{url_for('static', filename='favicon.png')}")
+<!--[if (IE 9)(IE 10)]>
+<link rel="icon" type="image/vnd.microsoft.icon" href="#{url_for('static', filename='favicon.ico')}" />
+<![endif]-->
+
+//- Web App Related
+//- ===========================================================================
+meta(name="viewport", content="width=device-width,initial-scale=1.0,user-scalable=no")
+
+//- apple related
+meta(name="apple-mobile-web-app-title", content="${project_name}")
+meta(name="apple-mobile-web-app-capable", content="yes")
+meta(name="apple-mobile-web-app-status-bar-style", conent="black")
+link(name="apple-touch-icon", href="#{url_for('static', filename='apple-touch-icon.png')}")
+link(name="apple-touch-icon", sizes="57x57", href="#{url_for('static', filename='apple-touch-icon-57x57-precomposed.png')}")
+link(name="apple-touch-icon", sizes="72x72", href="#{url_for('static', filename='apple-touch-icon-72x72-precomposed.png')}")
+link(name="apple-touch-icon", sizes="144x144", href="#{url_for('static', filename='apple-touch-icon-114x114-precomposed.png')}")
+link(name="apple-touch-icon", sizes="144x144", href="#{url_for('static', filename='apple-touch-icon-144x144-precomposed.png')}")
+
+//- android related
+meta(name="mobile-web-app-capable", content="yes")
+link(rel="icon", sizes="192x192", href="#{url_for('static', filename='${project_name}-android-icon.png')}")
+
+
+//- Social Network items here (opengraph, twitter) -- if public facing project
+//- ===========================================================================
+
+
+//- Internet Exploder crap
+//- ===========================================================================
+<!--[if lt IE 9]>
+<meta http-equiv="refresh", content="0;http://browsehappy.com" />
+<![endif]-->

@@ -1,0 +1,10 @@
+Flask
+Flask-Script
+Flask-DebugToolbar
+pyjade
+Frozen-Flask
+Flask-FlatPages
+livereload
+pygments
+python-optimage
+webassets
