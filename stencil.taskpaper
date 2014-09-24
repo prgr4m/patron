@@ -10,7 +10,6 @@ Project Generator:
 	- package generation (similar to blueprint w/o registering with app. tracked in config [as blueprint] and hooked into other blueprints) @cli
 	- CATCH ALL EXCEPTIONS!!!
 	- add sitemap functionality by default to the public route
-	- add livereload for development requirements
 	- refactor interface between lib and bin so mccabe can shutup
 	SettingsInjector:
 		- come up with strategy different from factory and manage injectors @addons
@@ -77,6 +76,7 @@ Extras:
 	- video steaming service?
 
 Archive:
+	- add livereload for development requirements @done(2014-09-24) @project(Project Generator)
 	- added to public blueprint @done(2014-09-23) @project(Addons / sitemap)
 	- every model generated must have a __str__ and __repr__ method @done(2014-09-14) @project(Models Generator)
 	- needs to know what namespace/blueprint to add to since tool runs from root of project @done(2014-09-14) @project(Models Generator)
