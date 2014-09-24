@@ -71,6 +71,8 @@ Extras:
 	These are prebuilt flask projects with a specific purpose in mind. These 
 	types of projects aren't meant to be extended so much as they have 
 	- static site generator
+	- static site generator using python-optimage
+	- static site generator using webassets cli through fabric
 	- service api endpoint (using json or xml)
 	- video steaming service?
 

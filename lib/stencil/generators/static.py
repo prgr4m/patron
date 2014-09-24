@@ -2,6 +2,7 @@
 import os
 import os.path as path
 import shutil
+import fnmatch
 from . import is_name_valid, get_templates_dir, generate_templates
 
 
@@ -15,7 +16,8 @@ class StaticProject(object):
             self.name = name
         else:
             raise StandardError("Name supplied to StaticProject is not valid")
-        self.root_path = directory if isinstance(directory, str) else name
+        root_path = directory if isinstance(directory, str) else name
+        self.root_path = path.join(os.getcwd(), root_path)
         if path.exists(self.root_path):
             raise OSError("Directory already exists")
         self.tpl_root = path.join(get_templates_dir(), 'static')
@@ -96,9 +98,40 @@ class StaticProject(object):
             template_root = path.join(self.tpl_root, 'static')
             os.mkdir('static')
             for f in [x for x in os.listdir(template_root)
-                      if x not in ['.', '..']]:
+                      if x not in ['.', '..', 'sass']]:
                 shutil.copyfile(path.join(template_root, f),
                                 path.join('static', f))
+
+            def make_sass_dir():
+                template_root = path.join(self.tpl_root, 'static', 'sass')
+                sass_root = path.join('static', 'sass')
+                sass_dirs = [path.join(sass_root, d)
+                             for d in ['base', 'lib', 'modules']]
+                for d in sass_dirs:
+                    os.makedirs(d)
+
+                base_files = ['_base.sass', '_mixins.sass', '_variables.sass']
+
+                for f in os.listdir(template_root):
+                    if f not in ['.', '..']:
+                        if fnmatch.fnmatch(f, '_*.sass'):
+                            if f in base_files:
+                                target_dir = path.join(sass_root, 'base')
+                            else:
+                                target_dir = path.join(sass_root, 'modules')
+                        else:
+                            target_dir = sass_root
+
+                        shutil.copyfile(path.join(template_root, f),
+                                        path.join(target_dir, f))
+
+            static_dirs = [path.join('static', d)
+                           for d in ['css', 'coffee', 'img', 'fonts',
+                                     path.join('js', 'vendor')]]
+            for d in static_dirs:
+                os.makedirs(d)
+
+            make_sass_dir()
 
         os.mkdir(self.name)
         os.chdir(self.name)
@@ -117,4 +150,19 @@ class StaticProject(object):
         create_public_package()
 
     def __setup_blog_directory(self):
-        print(os.getcwd())
+        os.chdir(path.join(self.root_path, self.name))
+        os.mkdir('blog')
+        template_root = path.join(self.tpl_root, 'blog')
+        open(path.join('blog', '__init__.py'), 'w').close()
+        shutil.copyfile(path.join(template_root, 'commands.py'),
+                        path.join('blog', 'commands.py'))
+        template_files = {
+            'views.py': [
+                dict(project_name=self.name),
+                path.join('blog', 'views.py')
+            ]
+        }
+        generate_templates(template_root, template_files)
+        shutil.copytree(path.join(template_root, 'templates'),
+                        path.join('blog', 'templates'))
+
