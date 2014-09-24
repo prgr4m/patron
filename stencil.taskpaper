@@ -11,6 +11,7 @@ Project Generator:
 	- CATCH ALL EXCEPTIONS!!!
 	- add sitemap functionality by default to the public route
 	- add livereload for development requirements
+	- refactor interface between lib and bin so mccabe can shutup
 	SettingsInjector:
 		- come up with strategy different from factory and manage injectors @addons
 
