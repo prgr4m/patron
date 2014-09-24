@@ -7,6 +7,7 @@ from .generators.blueprint import BlueprintGenerator
 from .generators.task import TaskGenerator
 from .generators.addons import AddonManager
 from .generators.model import ModelGenerator
+from .generators.static import StaticProject
 
 
 class Stencil(object):
@@ -17,7 +18,7 @@ class Stencil(object):
 
     @staticmethod
     def get_field_types():
-       return ModelGenerator.get_known_fields()
+        return ModelGenerator.get_known_fields()
 
     @staticmethod
     def run(args, prog_name):
@@ -33,7 +34,10 @@ class Stencil(object):
                 options['directory'] = args.directory
             FlaskProject(**options).create()
         elif args.subparser_name == 'static':
-            print("static site hook here...")
+            options = dict(name=args.name)
+            if hasattr(args, 'directory'):
+                options['directory'] = args.directory
+            StaticProject(**options).create()
         elif args.subparser_name in project_dependent:
             # check to see if config is present
             if not StencilConfig.is_present():

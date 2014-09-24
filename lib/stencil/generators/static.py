@@ -117,4 +117,4 @@ class StaticProject(object):
         create_public_package()
 
     def __setup_blog_directory(self):
-        pass
+        print(os.getcwd())

@@ -20,8 +20,7 @@ cli_description = """Stencil - ステンシル - Sutenshiru
 [a generator for flask projects]"""
 
 project_help = "Create a modular flask project base"
-project_dir_help = """rename the target directory while maintaining project
-internals"""
+dir_help = "rename the target directory while maintaining project internals"
 
 models_help = "Models with Flask-SQLAlchemy"
 forms_help = "Forms with WTForms"
@@ -35,7 +34,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=cli_description)
     subparser = parser.add_subparsers(dest='subparser_name')
     project_parser = subparser.add_parser('project', help=project_help)
-    project_parser.add_argument('-d', '--directory', help=project_dir_help)
     models_parser = subparser.add_parser('model', help=models_help)
     forms_parser = subparser.add_parser('form', help=forms_help)
     blueprint_parser = subparser.add_parser('blueprint', help=blueprints_help)
@@ -43,6 +41,10 @@ if __name__ == '__main__':
     task_parser = subparser.add_parser('task', help=task_help)
     package_parser = subparser.add_parser('pkg', help=package_help)
     static_parser = subparser.add_parser('static', help=static_help)
+
+    directory_group = [project_parser, static_parser]
+    for p in directory_group:
+        p.add_argument('-d', '--directory', help=dir_help)
 
     namespace_help = "name of blueprint/package to be targeted"
     namespace_group = [models_parser, forms_parser]
