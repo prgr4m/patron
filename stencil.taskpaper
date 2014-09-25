@@ -25,7 +25,6 @@ Forms Generator:
 	They are both similar but different in implementation since flask-sqlalchemy has everything 
 	tucked nicely away under the db object and wtforms isn't. So I'll eventually have to write 
 	an import checker with some crazy regex action!... yay!/s
-	- check heading of every page... doesn't exist? add it @cancelled(2014-09-14)
 	- needs to know what namespace/blueprint to add to since tool runs from root of project
 
 Addons:
@@ -35,9 +34,7 @@ Addons:
 		- should be its own blueprint/package?
 		- dependent upon admin because of auth
 	sitemap:
-		- only public facing routes and only include api routes if no auth
 	livereload:
-		- not questionable for static site generator for previewing content
 	blog:
 		- its own custom blueprint...
 		- dependent upon admin
@@ -47,7 +44,7 @@ Addons:
 		- has 2 versions, flat-pages version and database driven with admin
 	humanizer:
 		- self explanatory
-		- this is a blueprint
+		- this is a package!
 	mail:
 		- flask-mail integration
 		- cli/interactive driven?
@@ -69,13 +66,15 @@ Unittests:
 Extras:
 	These are prebuilt flask projects with a specific purpose in mind. These 
 	types of projects aren't meant to be extended so much as they have 
-	- static site generator
 	- static site generator using python-optimage
 	- static site generator using webassets cli through fabric
 	- service api endpoint (using json or xml)
 	- video steaming service?
 
 Archive:
+	- static site generator @done(2014-09-25) @project(Extras)
+	- only public facing routes and only include api routes if no auth @done(2014-09-25) @project(Addons / sitemap)
+	- not questionable for static site generator for previewing content @done(2014-09-25) @project(Addons / livereload)
 	- add livereload for development requirements @done(2014-09-24) @project(Project Generator)
 	- added to public blueprint @done(2014-09-23) @project(Addons / sitemap)
 	- every model generated must have a __str__ and __repr__ method @done(2014-09-14) @project(Models Generator)

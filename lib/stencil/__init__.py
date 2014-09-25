@@ -55,9 +55,6 @@ class Stencil(object):
                 AddonManager().create(args.name)
             elif args.subparser_name == 'task':
                 TaskGenerator(args.name, args.description).create()
-            elif args.subparser_name == 'pkg':
-                # still needs to be implemented
-                print("Package creation")
         else:
             print("Please run: '{} -h' for usage info".format(prog_name))
             sys.exit(0)

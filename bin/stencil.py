@@ -5,7 +5,7 @@ __author__ = "John Boisselle <ping_me@johnboisselle.com>"
 __version__ = "0.2.0"
 
 import argparse
-import argcomplete
+# import argcomplete
 import os
 import os.path as path
 import sys
@@ -27,7 +27,6 @@ forms_help = "Forms with WTForms"
 blueprints_help = "Blueprint scaffolding"
 addon_help = "Addons to a flask project"
 task_help = "Create tasks to be used with fabric"
-package_help = "Similar to blueprints but without a url endpoint"
 static_help = "Create a static site generator w/o a database"
 
 if __name__ == '__main__':
@@ -39,7 +38,6 @@ if __name__ == '__main__':
     blueprint_parser = subparser.add_parser('blueprint', help=blueprints_help)
     addon_parser = subparser.add_parser('addon', help=addon_help)
     task_parser = subparser.add_parser('task', help=task_help)
-    package_parser = subparser.add_parser('pkg', help=package_help)
     static_parser = subparser.add_parser('static', help=static_help)
 
     directory_group = [project_parser, static_parser]
@@ -52,14 +50,13 @@ if __name__ == '__main__':
         p.add_argument('namespace', help=namespace_help)
 
     name_group = [project_parser, models_parser, forms_parser, blueprint_parser,
-                  task_parser, package_parser, static_parser]
+                  task_parser, static_parser]
     name_help = {
         project_parser: 'name of the project',
         models_parser: 'name of the model',
         forms_parser: 'name of the form',
         blueprint_parser: 'name of the blueprint',
         task_parser: 'name of the task',
-        package_parser: 'name of the package',
         static_parser: 'name of the static project'
     }
     for p in name_group:
@@ -83,5 +80,5 @@ if __name__ == '__main__':
     task_description_help = "description of the task"
     task_parser.add_argument('description', help=task_description_help)
 
-    argcomplete.autocomplete(parser)
+    # argcomplete.autocomplete(parser)
     Stencil.run(parser.parse_args(), parser.prog)
