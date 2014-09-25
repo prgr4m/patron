@@ -2,7 +2,7 @@
 from flask import Flask
 from flask.templating import render_template
 from $project_name.settings import config
-from $project_name.extensions import toolbar, pages
+from $project_name.extensions import pages
 from $project_name.public.views import frontend
 from $project_name.blog.views import blog
 
@@ -20,7 +20,6 @@ def create_app(config_obj='default'):
     return app
 
 def register_extensions(app):
-    toolbar.init_app(app)
     pages.init_app(app)
 
 def register_blueprints(app):

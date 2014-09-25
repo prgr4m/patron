@@ -1,6 +1,5 @@
 Flask
 Flask-Script
-Flask-DebugToolbar
 pyjade
 Frozen-Flask
 Flask-FlatPages

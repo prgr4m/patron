@@ -21,7 +21,8 @@ def processor():
 @frontend.route('/<page>')
 def show(page):
     try:
-        return render_template("%s.jade")
+        print "page={}".format(page)
+        return render_template("{}.jade".format(page))
     except TemplateNotFound:
         abort(404)
 

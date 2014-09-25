@@ -135,16 +135,14 @@ class StaticProject(object):
 
         os.mkdir(self.name)
         os.chdir(self.name)
-        template_files = {
-            '__init__.py': [dict(project_name=self.name)],
-            'settings.py': [
-                dict(project_name=self.name,
-                     project_key="{}_KEY".format(self.name.upper()))
-            ]
-        }
+        for x in [x for x in os.listdir(template_root)
+                  if x not in ['.', '..', '__init__.py']]:
+            shutil.copyfile(path.join(template_root, x), x)
+        template_files = {'__init__.py': [dict(project_name=self.name)]}
         generate_templates(template_root, template_files)
-        shutil.copyfile(path.join(template_root, 'extensions.py'),
-                        'extensions.py')
+        # shutil.copyfile(path.join(template_root, 'extensions.py'),
+        #                 'extensions.py')
+
         create_app_templates()
         create_static_directory()
         create_public_package()
@@ -165,4 +163,5 @@ class StaticProject(object):
         generate_templates(template_root, template_files)
         shutil.copytree(path.join(template_root, 'templates'),
                         path.join('blog', 'templates'))
+        os.mkdir(path.join('blog', 'articles'))
 

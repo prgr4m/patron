@@ -5,7 +5,6 @@ import os
 import os.path as path
 from livereload import Server
 from flask_script import Manager
-from flask_migrate import MigrateCommand
 from $project_name import create_app
 from $project_name.blog.commands import Article
 from $project_name.freezer import freezer
