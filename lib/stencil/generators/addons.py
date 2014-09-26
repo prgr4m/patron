@@ -31,7 +31,7 @@ class AddonManager(object):
         project_name = self.config.project_name
         admin_root = path.join(project_name, 'admin')
         admin_templates_dir = path.join(project_name, 'templates', 'admin')
-        media_dir = path.join(project_name, 'media')
+        media_dir = path.join(project_name, 'static', 'media')
         os.mkdir(admin_root)
         open(path.join(admin_root, '__init__.py'), 'w').close()
         os.mkdir(admin_templates_dir)

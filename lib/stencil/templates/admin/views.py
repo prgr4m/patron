@@ -15,7 +15,8 @@ from .auth import admin_permission
 from .models import User, Role
 from .forms import UserAdminForm, LoginForm, UserRegistrationForm
 
-media_path = os.path.join(os.path.dirname(__file__), os.pardir, 'media')
+media_path = os.path.join(os.path.dirname(__file__),
+                          os.pardir, 'static', 'media')
 
 class MyAdminIndexView(AdminIndexView):
     @expose('/')

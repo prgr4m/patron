@@ -2,7 +2,7 @@
 from __future__ import print_function
 import cStringIO
 from contextlib import contextmanager
-import os
+# import os
 import os.path as path
 import sys
 from . import (StencilConfig, CodeInspector, is_name_valid, get_templates_dir,
@@ -107,7 +107,7 @@ class ModelGenerator(object):
             'smallint': 'db.SmallInteger',
             'integer': 'db.Integer',
             'bigint': 'db.BigInteger',
-            'string': 'db.String(50)',
+            'string': 'db.String',
             'text': 'db.Text',
             'date': 'db.Date',
             'datetime': 'db.DateTime',
