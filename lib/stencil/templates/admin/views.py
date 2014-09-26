@@ -119,8 +119,7 @@ class MediaFileAdmin(FileAdmin):
         return login.current_user.is_authenticated()
 
 admin = Admin(name="$project_name",
-              index_view=MyAdminIndexView(template='admin/index.jade'),
-              template_mode='bootstrap3')
+              index_view=MyAdminIndexView(template='admin/index.jade'))
 
 #admin.add_view(MyView(name='Hello'))
 admin.add_view(UserModelView(User, db.session))
