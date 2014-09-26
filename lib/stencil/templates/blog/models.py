@@ -16,9 +16,9 @@ class BlogPost(db.Model):
     title = db.Column(db.String(50), unique=True, nullable=False)
     summary = db.Column(db.String(100))
     content = db.Column(db.Text, nullable=False)
-    date_created = db.Column(db.DateTime, default=dt.datetime.now)
-    date_published = db.Column(db.DateTime)
-    date_updated = db.Column(db.DateTime)
+    created = db.Column(db.DateTime, default=dt.datetime.now)
+    published = db.Column(db.DateTime)
+    updated = db.Column(db.DateTime)
     tags = db.relationship('Tag', secondary=tags_posts,
                            backref=db.backref('posts', lazy='dynamic'))
 

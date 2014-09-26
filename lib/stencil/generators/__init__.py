@@ -3,7 +3,7 @@ from __future__ import print_function
 import os
 import os.path as path
 import re
-import sys
+# import sys
 import cStringIO
 from string import Template
 import ConfigParser
@@ -160,7 +160,6 @@ class CodeInspector(object):
     "Imports a given module and inspects for code generation collisions"
     @staticmethod
     def has_collision(module_path, attribute):
-        ret_val = False
         search_types = {
             'models': "class {}",
             'forms': "class {}",
@@ -282,13 +281,13 @@ class FactoryInjector(InjectorBase):
                                                   stmt=imp_stmt)
                 print(section, file=self.stream)
             elif re.search(r'def register_extensions', section) is not None \
-                and 'extension' in injection_context:
+                    and 'extension' in injection_context:
                 for ext_stmt in injection_context['extension']:
                     section += inject_line.format(linesep=os.linesep,
                                                   stmt=ext_stmt)
                 print(os.linesep + section, file=self.stream)
             elif re.search(r'def register_blueprints', section) is not None \
-                and 'blueprint' in injection_context:
+                    and 'blueprint' in injection_context:
                 section += inject_line\
                     .format(linesep=os.linesep,
                             stmt=injection_context['blueprint'])
@@ -302,10 +301,10 @@ class FactoryInjector(InjectorBase):
         project_name = self.config.project_name
         injection_directive = {
             'import': [
-                "from {proj_name}.admin.views import admin"\
-                    .format(proj_name=project_name),
-                "from {proj_name}.admin.auth import login_manager, principals"\
-                    .format(proj_name=project_name)
+                "from {proj_name}.admin.views import admin"
+                .format(proj_name=project_name),
+                "from {proj_name}.admin.auth import login_manager, principals"
+                .format(proj_name=project_name)
             ],
             'extension': [
                 "{}principals.init_app(app)".format(self.indent),
@@ -319,12 +318,12 @@ class FactoryInjector(InjectorBase):
         project_name = self.config.project_name
         injection_directive = {
             'import': [
-                "from {proj_name}.{bp_name}.views import {bp_name}"\
-                    .format(proj_name=project_name, bp_name=name)
+                "from {proj_name}.{bp_name}.views import {bp_name}"
+                .format(proj_name=project_name, bp_name=name)
             ],
             'blueprint':
-                "{ndnt}app.register_blueprint({bp_nm}, url_prefix='/{bp_nm}')"\
-                    .format(ndnt=self.indent, bp_nm=name)
+                "{ndnt}app.register_blueprint({bp_nm}, url_prefix='/{bp_nm}')"
+                .format(ndnt=self.indent, bp_nm=name)
         }
         return injection_directive
 
@@ -365,8 +364,8 @@ class SettingsInjector(InjectorBase):
 
     def _flat_pages(self):
         injection_directive = [
-            "FLATPAGES_ROOT = path.join('${proj_name}', 'articles')"\
-                .format(self.config.project_name),
+            "FLATPAGES_ROOT = path.join('${proj_name}', 'articles')"
+            .format(self.config.project_name),
             "FLATPAGES_AUTO_RELOAD = DEBUG",
             "FLATPAGES_EXTENSION = '.md'",
             "FLATPAGES_ENCODING = 'utf8'"

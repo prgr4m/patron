@@ -5,6 +5,7 @@ import os.path as path
 import shutil
 from . import (StencilConfig, RequirementsFileWriter, FactoryInjector,
                ManageInjector, get_templates_dir, generate_templates)
+from .blueprint import BlueprintGenerator
 
 
 class AddonManager(object):
@@ -93,8 +94,26 @@ class AddonManager(object):
         # ckeditor add to admin static
         # check to see if admin already exists
         # if so, inject and change definition of admin to inlcude static
-        # if not, copy over admin templating
-        print("generating blog addon -- still needs to be implemented")
+        template_root = path.join(get_templates_dir(), 'blog')
+        target_dir = path.join(self.config.project_name, 'blog')
+        if not self.config.has_blueprint('admin'):
+            self._admin()
+            print("auto generated admin addon")
+        BlueprintGenerator('blog').create()
+        remove_files = ['models.py', 'views.py', path.join('templates',
+                                                           'index.jade')]
+        for f in remove_files:
+            os.remove(path.join(target_dir, f))
+        for f in [f for f in os.listdir(template_root)
+                  if f not in ['.', '..', 'templates', 'admin_templates']]:
+            shutil.copyfile(path.join(template_root, f),
+                            path.join(target_dir, f))
+        template_root = path.join(template_root, 'templates')
+        target_dir = path.join(target_dir, 'templates')
+        for f in [f for f in os.listdir(template_root)
+                  if f not in ['.', '..']]:
+            shutil.copyfile(path.join(template_root, f),
+                            path.join(target_dir, f))
 
     def _humanizer(self):
         # this is in the same category of an api but not even registered with
