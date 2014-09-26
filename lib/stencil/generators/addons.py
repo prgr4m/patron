@@ -91,7 +91,10 @@ class AddonManager(object):
     def _blog(self):
         # hmmm.... an extension of a blueprint? or a more detailed setup...
         # add whooshalchemy to requirements file
-        # flask-pagedown or ckeditor or epiceditor...
+        # ckeditor add to admin static
+        # check to see if admin already exists
+        # if so, inject and change definition of admin to inlcude static
+        # if not, copy over admin templating
         print("generating blog addon -- still needs to be implemented")
 
     def _humanizer(self):
