@@ -3,7 +3,7 @@ import os
 from flask import abort, redirect
 from flask.globals import current_app, request, session
 from flask.helpers import url_for, flash
-from flask_login import login_required, login_user, logout_user
+from flask_login import login_user, logout_user
 import flask_login as login
 from flask_principal import Identity, AnonymousIdentity, identity_changed
 from flask_admin.base import Admin, AdminIndexView, BaseView, MenuLink, expose
@@ -13,10 +13,12 @@ from wtforms.fields import PasswordField
 from ..extensions import db
 from .auth import admin_permission
 from .models import User, Role
-from .forms import UserAdminForm, LoginForm, UserRegistrationForm
+from .forms import LoginForm, UserRegistrationForm
+
 
 media_path = os.path.join(os.path.dirname(__file__),
                           os.pardir, 'static', 'media')
+
 
 class MyAdminIndexView(AdminIndexView):
     @expose('/')
@@ -61,6 +63,7 @@ class MyAdminIndexView(AdminIndexView):
         flash("You are now logged out")
         return redirect(url_for('.index'))
 
+
 class MyView(BaseView):
     @expose('/')
     def index(self):
@@ -70,6 +73,7 @@ class MyView(BaseView):
 
     def is_accessible(self):
         return login.current_user.is_authenticated()
+
 
 class UserModelView(ModelView):
     column_list = ('username', 'email', 'created_at', 'active', 'roles')
@@ -108,20 +112,23 @@ class UserModelView(ModelView):
             return True
         return False
 
+
 class RoleModelView(ModelView):
     def is_accessible(self):
         if admin_permission.can():
             return True
         return False
 
+
 class MediaFileAdmin(FileAdmin):
     def is_accessible(self):
         return login.current_user.is_authenticated()
 
+
 admin = Admin(name="$project_name",
               index_view=MyAdminIndexView(template='admin/index.jade'))
 
-#admin.add_view(MyView(name='Hello'))
+# admin.add_view(MyView(name='Hello'))
 admin.add_view(UserModelView(User, db.session))
 admin.add_view(RoleModelView(Role, db.session))
 admin.add_view(MediaFileAdmin(media_path, '/media/', name="Media Files",

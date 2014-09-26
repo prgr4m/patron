@@ -89,19 +89,16 @@ class AddonManager(object):
         # self.config.addons = ['admin','api']
 
     def _blog(self):
-        # hmmm.... an extension of a blueprint? or a more detailed setup...
         # add whooshalchemy to requirements file
         # ckeditor add to admin static
-        # check to see if admin already exists
-        # if so, inject and change definition of admin to inlcude static
         template_root = path.join(get_templates_dir(), 'blog')
         target_dir = path.join(self.config.project_name, 'blog')
         if not self.config.has_blueprint('admin'):
             self._admin()
             print("auto generated admin addon")
         BlueprintGenerator('blog').create()
-        remove_files = ['models.py', 'views.py', path.join('templates',
-                                                           'index.jade')]
+        remove_files = ['models.py', 'views.py', 'forms.py',
+                        path.join('templates', 'index.jade')]
         for f in remove_files:
             os.remove(path.join(target_dir, f))
         for f in [f for f in os.listdir(template_root)
@@ -114,6 +111,13 @@ class AddonManager(object):
                   if f not in ['.', '..']]:
             shutil.copyfile(path.join(template_root, f),
                             path.join(target_dir, f))
+        template_root = path.join(get_templates_dir(), 'blog',
+                                  'admin_templates')
+        target_dir = path.join(self.config.project_name, 'templates', 'admin')
+        for f in [f for f in os.listdir(template_root) if f not in ['.', '..']]:
+            shutil.copyfile(path.join(template_root, f),
+                            path.join(target_dir, f))
+        admin_file = path.join(self.config.project_name, 'admin', 'views.py')
 
     def _humanizer(self):
         # this is in the same category of an api but not even registered with
@@ -125,6 +129,7 @@ class AddonManager(object):
     def _mail(self):
         # this is an extension setup... and settings.py config setup
         # add to requirements.txt
+        # also add a contact form to public/forms
         print("generating mail addon -- still needs to be implemented")
 
     def _commerce(self):
