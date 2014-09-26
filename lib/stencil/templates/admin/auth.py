@@ -4,7 +4,7 @@ from flask.helpers import url_for
 from flask_login import LoginManager, current_user
 from flask_principal import (Principal, Permission, RoleNeed, UserNeed,
                              identity_loaded)
-from .admin.models import User
+from .models import User
 
 
 # Login Configuration

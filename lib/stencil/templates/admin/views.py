@@ -11,7 +11,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.fileadmin import FileAdmin
 from wtforms.fields import PasswordField
 from ..extensions import db
-from ..auth import admin_permission
+from .auth import admin_permission
 from .models import User, Role
 from .forms import UserAdminForm, LoginForm, UserRegistrationForm
 
