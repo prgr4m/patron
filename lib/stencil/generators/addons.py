@@ -16,8 +16,7 @@ class AddonManager(object):
     @staticmethod
     def list_addons():
         "lists all known addons"
-        return ['admin', 'api', 'banner', 'blog', 'commerce', 'humanizer',
-                'mail', 'websockets']
+        return ['admin', 'api', 'ban', 'blog', 'commerce', 'humanizer', 'mail']
 
     def create(self, addon_name):
         if addon_name not in AddonManager.list_addons():
@@ -117,17 +116,10 @@ class AddonManager(object):
         # add to requirements file
         print("generating commerce addon -- still needs to be implemented")
 
-    def _banner(self):
+    def _ban(self):
         # banning admin interface
         # banning manage.py commands
         # package not a blueprint
         # helper decorator / function to be called before a request on the
         #   public side
         print("generating banner addon -- still needs to be implemented")
-
-    def _websockets(self):
-        # add websocket functionality to a project as a blueprint to keep things
-        # separated from other blueprints and should have its own routes to
-        # begin with...
-        # add to requirements file
-        print("generating websockets addon -- still needs to be implemented")
