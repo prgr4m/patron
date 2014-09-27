@@ -229,8 +229,8 @@ class AdminInjector(InjectorBase):
         injection_context = {
             'import': ['from ..blog.admin import BlogPostView, TagView'],
             'views': [
-                'admin.add_view(BlogPostView(db.session))',
-                'admin.add_view(TagView(db.session))'
+                'admin.add_view(BlogPostView())',
+                'admin.add_view(TagView())'
             ]
         }
         return injection_context
