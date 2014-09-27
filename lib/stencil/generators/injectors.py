@@ -192,16 +192,45 @@ class SettingsInjector(InjectorBase):
         """
         pass
 
-    def _flat_pages(self):
-        injection_directive = [
-            "FLATPAGES_ROOT = path.join('${proj_name}', 'articles')"
-            .format(self.config.project_name),
-            "FLATPAGES_AUTO_RELOAD = DEBUG",
-            "FLATPAGES_EXTENSION = '.md'",
-            "FLATPAGES_ENCODING = 'utf8'"
-        ]
-        return injection_directive
-
 
 class AdminInjector(InjectorBase):
-    pass
+    def __init__(self):
+        super(AdminInjector, self).__init__()
+        admin_items = self.config.get_blueprint_info('admin')
+        for item in admin_items:
+            if item[0] == 'views':
+                self.target_file = item[1]
+                break
+
+    def inject(self, directive):
+        known_directives = ['blog']
+        if directive not in known_directives:
+            raise ValueError("AdminInjector:Unknown directive given to inject.")
+        injection_context = getattr(self, "_{}".format(directive))()
+        watching_imports, watching_views = True, False
+        for line in self.read_target():
+            if watching_imports:
+                if line == "":
+                    for import_directive in injection_context['import']:
+                        print(import_directive, file=self.stream)
+                    watching_imports = False
+            if re.search(r'^admin.add_view', line):
+                watching_views = True
+            if watching_views:
+                if line == "":
+                    for view_addition in injection_context['views']:
+                        print(view_addition, file=self.stream)
+                    watching_views = False
+            print(line, file=self.stream)
+        with open(self.target_file, 'w') as new_admin:
+            new_admin.write(self.stream.getvalue())
+
+    def _blog(self):
+        injection_context = {
+            'import': ['from ..blog.admin import BlogPostView, TagView'],
+            'views': [
+                'admin.add_view(BlogPostView(db.session))',
+                'admin.add_view(TagView(db.session))'
+            ]
+        }
+        return injection_context

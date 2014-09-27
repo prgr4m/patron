@@ -3,9 +3,11 @@ from __future__ import print_function
 import os
 import os.path as path
 import shutil
-from . import (StencilConfig, RequirementsFileWriter, FactoryInjector,
-               ManageInjector, get_templates_dir, generate_templates)
+import subprocess
+from . import (StencilConfig, RequirementsFileWriter, get_templates_dir,
+               generate_templates)
 from .blueprint import BlueprintGenerator
+from .injectors import FactoryInjector, ManageInjector, AdminInjector
 
 
 class AddonManager(object):
@@ -117,7 +119,14 @@ class AddonManager(object):
         for f in [f for f in os.listdir(template_root) if f not in ['.', '..']]:
             shutil.copyfile(path.join(template_root, f),
                             path.join(target_dir, f))
-        admin_file = path.join(self.config.project_name, 'admin', 'views.py')
+        AdminInjector().inject('blog')
+        ckeditor_options = {
+            'basic': 'ckeditor#basic/4.3.3',
+            'standard': 'ckeditor#standard/4.3.3',
+            'full': 'ckeditor#standard/4.3.3'
+        }
+        bower_install = ["bower", "install", ckeditor_options['standard']]
+        subprocess.call(bower_install)
 
     def _humanizer(self):
         # this is in the same category of an api but not even registered with

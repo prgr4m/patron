@@ -3,8 +3,9 @@ import os
 import os.path as path
 import shutil
 import fnmatch
-from . import (StencilConfig, FactoryInjector, is_name_valid, get_templates_dir,
+from . import (StencilConfig, is_name_valid, get_templates_dir,
                generate_templates)
+from .injectors import FactoryInjector
 
 
 class BlueprintGenerator(object):

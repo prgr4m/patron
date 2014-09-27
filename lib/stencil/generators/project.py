@@ -44,6 +44,10 @@ class FlaskProject(object):
             'wsgi_template.txt': [
                 dict(project_name=self.name),
                 "{}.wsgi".format(self.name.lower())
+            ],
+            'bowerrc': [
+                dict(js_vendor=path.join(self.name, 'static', 'js', 'vendor')),
+                '.bowerrc'
             ]
         }
         generate_templates(template_root, template_files)
