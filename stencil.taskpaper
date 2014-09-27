@@ -42,7 +42,9 @@ Addons:
 		- ckeditor integration @done(2014-09-27)
 		- rss feed functionality that hooks into public blueprint @done(2014-09-27)
 		- has 2 versions, flat-pages version and database driven with admin
-		- sitemap injection for both database and static
+		- sitemap injection for both database and static (posts and tags)
+		- add feed link in head on blog root for both database and static
+		- sanitize user content
 	humanizer:
 		- self explanatory
 		- this is a package!

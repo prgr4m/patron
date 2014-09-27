@@ -234,3 +234,52 @@ class AdminInjector(InjectorBase):
             ]
         }
         return injection_context
+
+
+class SitemapInjector(InjectorBase):
+    def __init__(self):
+        super(SitemapInjector, self).__init__()
+        public_items = self.config.get_blueprint_info('public')
+        for item in public_items:
+            if item[0] == 'views':
+                self.target_file = item[1]
+                break
+
+    def inject(self, directive):
+        known_directives = ['blog']
+        if directive not in known_directives:
+            raise ValueError("SitemapInjector:Unknown directive given")
+        injection = getattr(self, "_{}".format(directive))()
+        watching_import, watching_page_append = True, False
+        for line in self.read_target():
+            if watching_import:
+                if line == '':
+                    print(injection['import'], file=self.stream)
+                    watching_import = False
+            if re.search(r'sitemap.xml', line):
+                watching_page_append = True
+            if watching_page_append:
+                if re.search(r'sitemap_xml'):
+                    for code in injection['code']:
+                        print(code, file=self.stream)
+                    watching_page_append = False
+            print(line, file=self.stream)
+        with open(self.target_file, 'w') as pub_view:
+            pub_view.write(self.stream.getvalue())
+
+    def _blog(self):
+        injection = {
+            'import': ["from ..blog.models import BlogPost, Tag"],
+            'code': [
+                "{}posts = BlogPost.query.filter(BlogPost.published){}"
+                .format(self.indent, '\\'),
+                "{}.order_by(BlogPost.published).all()".format(self.indent * 2),
+                "{}for p in posts:".format(self.indent),
+                "{}url = url_for('blog.article', path=p.slug)"
+                .format(self.indent * 2),
+                "{}mod_time = p.updated.isoformat()"
+                .format(self.indent * 2),
+                "{}pages.append([url, mod_time])".format(self.indent * 2)
+            ]
+        }
+        return injection
