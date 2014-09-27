@@ -18,6 +18,7 @@ class BlogPost(db.Model):
     created = db.Column(db.DateTime, default=dt.datetime.now)
     published = db.Column(db.DateTime)
     updated = db.Column(db.DateTime)
+    slug = db.Column(db.String(50), unique=True, nullable=False)
     tags = db.relationship('Tag', secondary=tags_posts,
                            backref=db.backref('posts', lazy='dynamic'))
 

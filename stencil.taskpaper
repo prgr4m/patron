@@ -9,7 +9,7 @@ Project Generator:
 	- Make a generic deploy task in fabfile.py @fabric
 	- package generation (similar to blueprint w/o registering with app. tracked in config [as blueprint] and hooked into other blueprints) @cli
 	- CATCH ALL EXCEPTIONS!!!
-	- add sitemap functionality by default to the public route
+	- add sitemap functionality by default to the public route @done(2014-09-27)
 	- refactor interface between lib and bin so mccabe can shutup
 	SettingsInjector:
 		- come up with strategy different from factory and manage injectors @addons
@@ -36,12 +36,13 @@ Addons:
 	sitemap:
 	livereload:
 	blog:
-		- its own custom blueprint...
-		- dependent upon admin
-		- custom admin views
-		- ckeditor integration
-		- rss feed functionality that hooks into public blueprint
+		- its own custom blueprint... @done(2014-09-27)
+		- dependent upon admin @done(2014-09-27)
+		- custom admin views @done(2014-09-27)
+		- ckeditor integration @done(2014-09-27)
+		- rss feed functionality that hooks into public blueprint @done(2014-09-27)
 		- has 2 versions, flat-pages version and database driven with admin
+		- sitemap injection for both database and static
 	humanizer:
 		- self explanatory
 		- this is a package!

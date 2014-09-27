@@ -7,19 +7,10 @@ from .models import BlogPost, Tag
 from .forms import CKTextAreaField
 
 
-def date_fmt():
-    return '%a %b %d, %Y - %I:%M:%S %p'
-
-
 class BlogPostView(ModelView):
     form_overrides = dict(text=CKTextAreaField, published=BooleanField)
-    column_list = ('title', 'created', 'published', 'updated')
-    column_formatters = {
-        'created': lambda v, c, m, n: m.created.strftime(date_fmt()),
-        'published': lambda v, c, m, n: m.published.strftime(date_fmt()),
-        'updated': lambda v, c, m, n: m.updated.strftime(date_fmt())
-    }
-    form_excluded_columns = ('created', 'updated')
+    column_list = ('title', 'created', 'published', 'updated', 'tags')
+    form_excluded_columns = ('created', 'updated', 'slug')
     create_template = "admin/blog_create.jade"
     edit_template = "admin/blog_edit.jade"
 
@@ -35,6 +26,7 @@ class BlogPostView(ModelView):
                 new_blog_post.published = now
             else:
                 new_blog_post.published = None
+            new_blog_post.slug = new_blog_post.slugify()
             new_blog_post.updated = now
             db.session.add(new_blog_post)
             db.session.commit()
@@ -45,6 +37,7 @@ class BlogPostView(ModelView):
     def update_model(self, form, model):
         try:
             published = model.published
+            title = model.title
             form.populate_obj(model)
             now = dt.datetime.now()
             model.updated = now
@@ -53,6 +46,8 @@ class BlogPostView(ModelView):
                     model.published = now
             else:
                 model.published = None
+            if form.title.data != title:
+                model.slug = model.slugify()
             db.session.commit()
             return True
         except Exception:

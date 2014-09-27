@@ -18,7 +18,7 @@ block page_head
 
 block page_content
   h2 #{article.title}
-  #{article.html | safe}
+  #{article.content | safe}
 
 block page_scripts
   //- page scripts here

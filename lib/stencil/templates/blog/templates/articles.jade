@@ -22,7 +22,7 @@ block page_content
     if articles|length
       for article in articles
         li
-          a(href="#{url_for('blog.article', path=article.path)}")
+          a(href="#{url_for('blog.article', path=article.slug)}")
             #{article.title}
     else
       li No blog entries
