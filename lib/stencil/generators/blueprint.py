@@ -58,7 +58,8 @@ class BlueprintGenerator(object):
             'unittest.py': [
                 dict(project_name=self.config.project_name,
                      blueprint_name=self.name.capitalize()),
-                path.join('tests', "test_{}.py".format(self.name.lower()))
+                path.join('tests',
+                          "test_{}_blueprint.py".format(self.name.lower()))
             ]
         }
         generate_templates(template_root, template_file)

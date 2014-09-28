@@ -66,7 +66,7 @@ class FlaskProject(object):
         tpl_file = {
             'test_basic.py': [
                 dict(project_name=self.name, blueprint_name='Public'),
-                path.join('tests', 'test_public.py')
+                path.join('tests', 'test_public_blueprint.py')
             ]
         }
         generate_templates(tpl_dir, tpl_file)

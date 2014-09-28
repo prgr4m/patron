@@ -2,4 +2,3 @@
 import datetime as dt
 from ..extensions import db
 
-

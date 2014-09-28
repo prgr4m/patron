@@ -73,11 +73,20 @@ class ModelGenerator(object):
             # else:  # for later when I add the new features
             attribs = field.split(':')
             f_map = ModelGenerator.get_known_fields(mode="all")
-            if attribs[1] not in f_map:
+            user_field_type = attribs[1].split('-')[0] if '-' in attribs[1]\
+                else attribs[1].split('-')[0]
+            if user_field_type not in f_map:
                 raise KeyError("ModelGenerator:Unknown field type given")
             f_name = attribs[0]
             # setup default values for a type if it isn't present...
-            f_type = f_map[attribs[1]]
+            field_type = attribs[1]
+            if '-' in field_type:
+                f_info = field_type.split('-')
+                f_type = "{}({})".format(f_map[f_info[0]], f_info[1])
+            elif field_type == 'string':
+                f_type = "{}({})".format(f_map[field_type], 50)
+            else:
+                f_type = f_map[attribs[1]]
             field_def = field_stmt_def.format(indent=self.indent,
                                               name=f_name,
                                               field_type=f_type)
@@ -86,9 +95,11 @@ class ModelGenerator(object):
     @contextmanager
     def _model(self):
         model_def = "class {}(db.Model):".format(self.name)
-        table_def = "{}__tablename__ = '{}'".format(self.indent, self.name)
+        table_def = "{}__tablename__ = '{}'".format(self.indent,
+                                                    self.name.lower())
         id_def = "{}id = db.Column(db.Integer, primary_key=True)"\
             .format(self.indent)
+        print()
         print(model_def)
         print(table_def)
         print(id_def)
@@ -112,15 +123,15 @@ class ModelGenerator(object):
             'text': 'db.Text',
             'date': 'db.Date',
             'datetime': 'db.DateTime',
-            'time': 'db.Time()',
-            'enum': 'db.Enum()',
-            'float': 'db.Float()',
-            'numeric': 'db.Numeric()',
-            'bool': 'db.Boolean()',
-            'binary': 'db.LargeBinary()',
-            'pickle': 'db.PickleType()',
-            'unicode': 'db.Unicode()',
-            'unitext': 'db.UnicodeText()'
+            'time': 'db.Time',
+            'enum': 'db.Enum',
+            'float': 'db.Float',
+            'numeric': 'db.Numeric',
+            'bool': 'db.Boolean',
+            'binary': 'db.LargeBinary',
+            'pickle': 'db.PickleType',
+            'unicode': 'db.Unicode',
+            'unitext': 'db.UnicodeText'
         }
         if mode == 'keys':
             return field_map.keys()
