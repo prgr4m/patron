@@ -41,7 +41,8 @@ class ModelGenerator(object):
                 print(field)
         self._serialize()
         template_root = path.join(get_templates_dir(), 'model')
-        fname_fmt = "test_{model_name}_model.py".format(model_name=self.name)
+        fname_fmt = "test_{model_name}_model.py"\
+            .format(model_name=self.name.lower())
         test_filename = path.join('tests', fname_fmt)
         template_file = {
             'unittest.py': [
@@ -72,9 +73,10 @@ class ModelGenerator(object):
             # else:  # for later when I add the new features
             attribs = field.split(':')
             f_map = ModelGenerator.get_known_fields(mode="all")
-            if attribs[1] not in f_map.keys():
+            if attribs[1] not in f_map:
                 raise KeyError("ModelGenerator:Unknown field type given")
             f_name = attribs[0]
+            # setup default values for a type if it isn't present...
             f_type = f_map[attribs[1]]
             field_def = field_stmt_def.format(indent=self.indent,
                                               name=f_name,
@@ -87,7 +89,6 @@ class ModelGenerator(object):
         table_def = "{}__tablename__ = '{}'".format(self.indent, self.name)
         id_def = "{}id = db.Column(db.Integer, primary_key=True)"\
             .format(self.indent)
-        print()
         print(model_def)
         print(table_def)
         print(id_def)
