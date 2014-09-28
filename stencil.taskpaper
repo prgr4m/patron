@@ -11,9 +11,9 @@ Project Generator:
 	- CATCH ALL EXCEPTIONS!!!
 	- add sitemap functionality by default to the public route @done(2014-09-27)
 	- refactor interface between lib and bin so mccabe can shutup
+	- all injector code should have their own template scripts
 	SettingsInjector:
 		- come up with strategy different from factory and manage injectors @addons
-		- take out crazy looking injections and place into template files
 
 Models Generator:
 	In the future I should have extensible formatting to generate model fields...
@@ -60,7 +60,7 @@ Addons:
 		- models with banning
 		- context processor hook or route hijacking... maybe use signals...
 	websockets:
-		- tbd
+		- tbd (or just use tornado.io)
 Unittests:
 	- convert to Flask-Testing unittests
 	- models
