@@ -27,19 +27,16 @@ class Stencil(object):
         # extras (static site generator)
         project_dependent = ['model', 'form', 'blueprint', 'task', 'admin',
                              'addon', 'pkg']
-        if args.subparser_name == 'project':
-            # takes a name (maybe even type -- old school and classy)
+        if args.subparser_name in ['project', 'static']:
             options = dict(name=args.name)
             if hasattr(args, 'directory'):
                 options['directory'] = args.directory
-            FlaskProject(**options).create()
-        elif args.subparser_name == 'static':
-            options = dict(name=args.name)
-            if hasattr(args, 'directory'):
-                options['directory'] = args.directory
-            StaticProject(**options).create()
+            project_type = {
+                'project': FlaskProject(**options),
+                'static': StaticProject(**options)
+            }
+            project_type[args.subparser_name].create()
         elif args.subparser_name in project_dependent:
-            # check to see if config is present
             if not StencilConfig.is_present():
                 print("Need to be in a stencil generated project root!")
                 sys.exit()
