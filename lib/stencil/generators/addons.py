@@ -7,7 +7,8 @@ import subprocess
 from . import (StencilConfig, RequirementsFileWriter, get_templates_dir,
                generate_templates)
 from .blueprint import BlueprintGenerator
-from .injectors import FactoryInjector, ManageInjector, AdminInjector
+from .injectors import (FactoryInjector, ManageInjector, AdminInjector,
+                        SitemapInjector)
 
 
 class AddonManager(object):
@@ -92,7 +93,6 @@ class AddonManager(object):
 
     def _blog(self):
         # add whooshalchemy to requirements file
-        # ckeditor add to admin static
         template_root = path.join(get_templates_dir(), 'blog')
         target_dir = path.join(self.config.project_name, 'blog')
         if not self.config.has_blueprint('admin'):
@@ -120,6 +120,7 @@ class AddonManager(object):
             shutil.copyfile(path.join(template_root, f),
                             path.join(target_dir, f))
         AdminInjector().inject('blog')
+        SitemapInjector().inject('blog')
         ckeditor_options = {
             'basic': 'ckeditor#basic/4.3.3',
             'standard': 'ckeditor#standard/4.3.3',

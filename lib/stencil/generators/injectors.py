@@ -2,8 +2,9 @@
 from __future__ import print_function
 import cStringIO
 import os
+import os.path as path
 import re
-from . import StencilConfig
+from . import StencilConfig, get_templates_dir
 
 
 class InjectorBase(object):
@@ -250,36 +251,34 @@ class SitemapInjector(InjectorBase):
         if directive not in known_directives:
             raise ValueError("SitemapInjector:Unknown directive given")
         injection = getattr(self, "_{}".format(directive))()
-        watching_import, watching_page_append = True, False
+        watch_helpers, watch_import, watch_page_append = True, False, False
         for line in self.read_target():
-            if watching_import:
+            if watch_helpers:
+                if re.search(r'from flask.helpers', line):
+                    if not re.search(r'url_for', line):
+                        line = line.rstrip()
+                        line = "{}, url_for".format(line)
+                        watch_helpers = False
+                        watch_import = True
+            if watch_import:
                 if line == '':
                     print(injection['import'], file=self.stream)
-                    watching_import = False
+                    watch_import = False
             if re.search(r'sitemap.xml', line):
-                watching_page_append = True
-            if watching_page_append:
-                if re.search(r'sitemap_xml'):
-                    for code in injection['code']:
-                        print(code, file=self.stream)
-                    watching_page_append = False
+                watch_page_append = True
+            if watch_page_append and re.search(r'sitemap_xml =', line):
+                print(injection['code'], file=self.stream)
+                watch_page_append = False
             print(line, file=self.stream)
         with open(self.target_file, 'w') as pub_view:
             pub_view.write(self.stream.getvalue())
 
     def _blog(self):
+        template = path.join(get_templates_dir(), 'injectors', 'sitemap.txt')
+        code = open(template, 'r').read()
+        code = code.format(indent=self.indent)
         injection = {
-            'import': ["from ..blog.models import BlogPost, Tag"],
-            'code': [
-                "{}posts = BlogPost.query.filter(BlogPost.published){}"
-                .format(self.indent, '\\'),
-                "{}.order_by(BlogPost.published).all()".format(self.indent * 2),
-                "{}for p in posts:".format(self.indent),
-                "{}url = url_for('blog.article', path=p.slug)"
-                .format(self.indent * 2),
-                "{}mod_time = p.updated.isoformat()"
-                .format(self.indent * 2),
-                "{}pages.append([url, mod_time])".format(self.indent * 2)
-            ]
+            'import': "from ..blog.models import BlogPost, Tag",
+            'code': code
         }
         return injection

@@ -1,0 +1,6 @@
+{indent}posts = BlogPost.query.filter(BlogPost)\
+{indent}{indent}.order_by(BlogPost.published).all()
+{indent}for p in posts:
+{indent}{indent}url = url_for('blog.article', path=p.slug)
+{indent}{indent}mod_time = p.updated.isoformat()
+{indent}{indent}pages.append([url, mod_time])
