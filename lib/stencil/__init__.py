@@ -23,8 +23,6 @@ class Stencil(object):
     @staticmethod
     def run(args, prog_name):
         print(args)
-        # addons (based off existing project, and common patterns),
-        # extras (static site generator)
         project_dependent = ['model', 'form', 'blueprint', 'task', 'admin',
                              'addon', 'pkg']
         if args.subparser_name in ['project', 'static']:

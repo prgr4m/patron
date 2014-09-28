@@ -12,6 +12,7 @@ Project Generator:
 	- add sitemap functionality by default to the public route @done(2014-09-27)
 	- refactor interface between lib and bin so mccabe can shutup
 	- all injector code should have their own template scripts
+	- double check to make sure the static generator sitemap reads all pages!
 	SettingsInjector:
 		- come up with strategy different from factory and manage injectors @addons
 
