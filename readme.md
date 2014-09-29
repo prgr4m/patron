@@ -75,8 +75,6 @@ use a little love in having a manage.py (either flask-script or click) hook to
 do what I'm doing. They would definitely produce better looking code at that!
 
 ## Notice about this repo
-This is just a public mirror of my private mercurial repo on bitbucket.
-
 I'm not accepting pull requests to change the templates used (pyjade) but will
 be happy to have issues opened.
 
