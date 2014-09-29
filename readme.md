@@ -48,7 +48,7 @@ following formats:
 
 ```
 name:relationship:Class:backref
-  ex: tags:relationship:Tag:post
+  ex: tags:relationship:Tag:post:lazy-dynamic
       tags = db.relationship('Tag', backref='post', lazy='dynamic')
 ```
 ```
