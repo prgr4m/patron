@@ -18,7 +18,7 @@ together using only what you need incrementally.
 
 ## Requirements
 bower needs to be installed globally on your system. This is for ckeditor to be
-used with blog addon in the admin interface.
+used with blog addon in the admin interface... and just python 2.x.
 
 ## Usage
 Stencil help is pretty self explanatory... the only thing that might be confusing
@@ -88,6 +88,7 @@ blog addon autogenerates the admin addon.
 - addons, addons, addons
 - argcompletion especially for model generation
 - unittests
+- python 3.x support
 
 ## Copyright
 Copyright (c) 2014 John Boisselle. MIT Licensed.
