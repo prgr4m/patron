@@ -15,3 +15,5 @@ syntax: glob
 changelog-personal.md
 stencil-personal.taskpaper
 
+.git
+.gitignore
