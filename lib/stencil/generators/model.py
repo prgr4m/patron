@@ -56,24 +56,45 @@ class ModelGenerator(object):
 
     def _parse_fields(self, fields):
         col_stmt_def = "{indent}{name} = db.Column({field_type})"
-        rel_stmt_def = "{indent}{name} = db.relationship({relation_defintion})"
+        rel_stmt_def = "{indent}{name} = db.relationship({relation_definition})"
         for field in fields:
             if ':' not in field:
                 continue
             attribs = field.split(':')
             if attribs[1] == 'relationship':
                 data = dict(indent=self.indent, name=attribs[0])
-                # need to walk through the attributes
-                # one-to-one
-                # db.relationship('ClassName', backref='name', uselist=False)
-                #
-                # one-to-many
-                # class and backref
-                # class, backref-name-lazy_type,
-                # lazy-{select,joined,subquery,dynamic}
-                #
-                # many-to-many
-                # class, secondary-table_name, backref-name-lazy_type
+                if len(attribs) < 3:
+                    err = "Need at minimum a class and backref"
+                    raise ValueError("ModelGenerator:{}".format(err))
+                relation_definition = "'{class_name}', {rel_def}"
+                rel_data = dict(class_name=attribs[2])
+                lazy_keywords = ('select', 'joined', 'subquery', 'dynamic')
+                r_def = []
+                for attr in attribs[3:]:
+                    if attr.startswith('backref-'):
+                        b_ref = attr.split('-')[1:]
+                        ref_def = "backref=db.backref('{}', lazy='{}')"
+                        if len(b_ref) == 1:
+                            lazy_type = 'dynamic'
+                        else:
+                            lazy_type = b_ref[1]
+                        r_def.append(ref_def.format(b_ref[0], lazy_type))
+                    elif attr.startswith('lazy-'):
+                        lazy_type = attr.split('-')[1]
+                        if lazy_type not in lazy_keywords:
+                            r_def.append("lazy='dynamic'")
+                        else:
+                            r_def.append("lazy='{}'".format(lazy_type))
+                    elif attr.startswith('secondary-'):
+                        r_def.append("secondary={}".format(attr.split('-')[1]))
+                    else:
+                        if attr == 'uselist':
+                            r_def.append("uselist=False")
+                        else:
+                            r_def.append("backref='{}'".format(attr))
+                rel_data['rel_def'] = ', '.join(r_def)
+                data['relation_definition'] = relation_definition\
+                    .format(**rel_data)
                 field_def = rel_stmt_def.format(**data)
             else:
                 f_map = ModelGenerator.get_known_fields(mode="all")
@@ -98,11 +119,12 @@ class ModelGenerator(object):
                             f_type = "{}, {}=True".format(f_type, attr)
                         elif '-' in attr and attr.split('-')[0] == 'default':
                             default_value = attr.split('-')[1]
-                            f_type = "{}, default={}".format(f_type, default_value)
+                            f_type = "{}, default={}"\
+                                .format(f_type, default_value)
                         elif '-' in attr and attr.split('-')[0] == 'foreign':
                             reference = attr.split('-')[1]
-                            f_type = "{}, db.ForeignKey('{}')".format(f_type,
-                                                                    reference)
+                            f_type = "{}, db.ForeignKey('{}')"\
+                                .format(f_type, reference)
                         else:
                             continue
                 field_def = col_stmt_def.format(indent=self.indent,
