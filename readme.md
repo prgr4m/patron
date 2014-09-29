@@ -4,7 +4,7 @@
 
 ## Overview
 Stencil is a generator for [Flask](http://flask.pocoo.org) modeled after 
-[Padrino](http://padrinorb.com)'s generators particular to **my** workflow. I 
+[Padrino](http://padrinorb.com)'s generators particular to my workflow. I 
 originally wrote Stencil as an overall project management tool (regardless of 
 codebase) but have separated functionality into different projects and have
 changed my workflow since then. A lot of scaffolds or best practices lump both
@@ -14,8 +14,8 @@ separately.
 This cli generator is solely focused on flask and does not include anything in
 regards to front-end development. I use pyjade for templates since I use jade 
 for templating with gulp and use a conversion script between the two (not
-included). So what's so great about this then? Like padrino's generators,
-things are generated and injected for you with functionality pieced
+included). So what's so great about this then? Similar to padrino's generators,
+stencil code is generated and injected for you with functionality pieced
 together using only what you need. Have a project but don't need an admin?
 Tired of handwriting your models completely from scratch?
 
@@ -70,18 +70,19 @@ blog addon autogenerates the admin addon.
 Wouldn't it be cool if the respective flask extensions or even core had this 
 functionality baked in? I know flask-sqlalchemy or whatever orm you use could 
 use a little love in having a manage.py (either flask-script or click) hook to
-do what I'm doing.
+do what I'm doing. They would definitely produce better looking code at that!
 
 ## Notice about this repo
-This is just a (limited) public mirror of my private mercurial repo on
-bitbucket.
+This is just a public mirror of my private mercurial repo on bitbucket.
 
-Since this is particular to my workflow, my personal version will
-be different from the version you are obviously viewing. My version will have a
-collection of addon patterns I've already created while the rest is up for you 
-to provide on your own. I'm not accepting pull requests to change the templates
-(pyjade) used but will be happy to have issues opened. You can do as you please
-with this code, just give credit where credit is due.
+I'm not accepting pull requests to change the templates used (pyjade) but will
+be happy to have issues opened.
+
+## Todo
+
+- Form generator similar to model generator
+- addons, addons, addons
+- unittests
 
 ## Copyright
 Copyright (c) 2014 John Boisselle. MIT Licensed.

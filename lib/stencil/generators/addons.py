@@ -93,7 +93,7 @@ class AddonManager(object):
         # self.config.addons = ['admin','api']
 
     def _blog(self):
-        # add whooshalchemy to requirements file
+        # add whooshalchemy to requirements file?
         template_root = path.join(get_templates_dir(), 'blog')
         target_dir = path.join(self.config.project_name, 'blog')
         if not self.config.has_blueprint('admin'):
@@ -157,4 +157,6 @@ class AddonManager(object):
         # package not a blueprint
         # helper decorator / function to be called before a request on the
         #   public side
+        # useful for setting up rules if forms get abused until you can
+        # properly setup rules for your webserver
         print("generating banner addon -- still needs to be implemented")
