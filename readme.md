@@ -58,14 +58,11 @@ when defining a relationship within a model its a little tricky. here's the
 following formats:
 
 ```
-name:relation:Class:backref
-  ex: tags:relation:Tag:post:lazy-dynamic
-      tags = db.relationship('Tag', backref='post', lazy='dynamic')
-```
-```
 name:relation:Class:backref:lazytype-type
   ex: tags:relation:Tag:post:lazy-joined
       tags = db.relationship('Tag', backref='post', lazy='joined')
+  ex: tags:relation:Tag:post:lazy-dynamic
+      tags = db.relationship('Tag', backref='post', lazy='dynamic')
 ```
 ```
 name:relation:Class:secondary-table_ref:backref-refname-lazytype
@@ -75,6 +72,7 @@ name:relation:Class:secondary-table_ref:backref-refname-lazytype
 Of course you're going to have to setup the secondary/join table yourself.
 
 Lazy types are: select, joined, subquery, dynamic
+
 For one-to-one relationships just tack on `uselist`
 
 Model generation only generates what you tell it. Always make sure to actually
@@ -87,7 +85,7 @@ blog addon autogenerates the admin addon.
 
 ## Food for thought
 Wouldn't it be cool if the respective flask extensions or even core had this 
-functionality baked in? (Yes, I know flask isn't padrino)
+functionality baked in? (Yes, I know... flask isn't padrino)
 
 ## Notice about this repo
 I'm not accepting pull requests to change the templates used (pyjade) but will
