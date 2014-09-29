@@ -22,7 +22,7 @@ class Stencil(object):
 
     @staticmethod
     def run(args, prog_name):
-        print(args)
+        # print(args)
         project_dependent = ['model', 'form', 'blueprint', 'task', 'admin',
                              'addon', 'pkg']
         if args.subparser_name in ['project', 'static']:
