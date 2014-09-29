@@ -1,7 +1,5 @@
 # Stencil - ステンシル - Sutenshiru
 
----
-
 ## Overview
 Stencil is a generator for [Flask](http://flask.pocoo.org) modeled after 
 [Padrino](http://padrinorb.com)'s generators particular to my workflow. I 
@@ -24,7 +22,6 @@ bower needs to be installed globally on your system. This is for ckeditor to be
 used with blog addon in the admin interface.
 
 ## Usage
----
 Stencil help is pretty self explanatory... the only thing that might be confusing
 is with the model generator when describing fields and relationships.
 
@@ -49,16 +46,21 @@ so why not use parenthesis instead of a hyphen?
 when defining a relationship within a model its a little tricky. here's the 
 following formats:
 
+```
 name:relationship:Class:backref
   ex: tags:relationship:Tag:post
       tags = db.relationship('Tag', backref='post', lazy='dynamic')
+```
+```
 name:relationship:Class:backref:lazytype-type
   ex: tags:relationship:Tag:post:lazy-joined
       tags = db.relationship('Tag', backref='post', lazy='joined')
+```
+```
 name:relationship:Class:secondary-table_ref:backref-refname-lazytype
   ex: tags:relationship:Tag:secondary-tags_posts:backref-posts-dynamic
       tags = db.relationship('Tag', secondary=tags_posts, backref=db.backref('posts', lazy='dynamic'))
-
+```
 Of course you're going to have to setup the secondary/join table yourself.
 
 All blueprints and models also generate their own unittest files and blueprints
