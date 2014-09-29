@@ -56,13 +56,6 @@ class ModelGenerator(object):
 
     def _parse_fields(self, fields):
         field_stmt_def = "{indent}{name} = db.Column({field_type})"
-        # for the time being its only name:field_type and only supporting basic
-        # types: integer, string(size), text, datetime, float, boolean
-        #
-        # eventually I'll add more (like length - if applicable) and parameters
-        # passed to the Column definition...
-        # also, I could just create an empty column for custom types or for
-        # defining relationships between models
         print(fields, file=sys.__stdout__)
         for field in fields:
             if ':' not in field:
@@ -87,6 +80,20 @@ class ModelGenerator(object):
                 f_type = "{}({})".format(f_map[field_type], 50)
             else:
                 f_type = f_map[attribs[1]]
+            if len(attribs) > 2:
+                working_attribs = attribs[2:]
+                for attr in working_attribs:
+                    if attr in ['index', 'nullable', 'unique']:
+                        f_type = "{}, {}=True".format(f_type, attr)
+                    elif '-' in attr and attr.split('-')[0] == 'default':
+                        default_value = attr.split('-')[1]
+                        f_type = "{}, default={}".format(f_type, default_value)
+                    elif '-' in attr and attr.split('-')[0] == 'foreign':
+                        reference = attr.split('-')[1]
+                        f_type = "{}, db.ForeignKey('{}')".format(f_type,
+                                                                  reference)
+                    else:
+                        continue
             field_def = field_stmt_def.format(indent=self.indent,
                                               name=f_name,
                                               field_type=f_type)
