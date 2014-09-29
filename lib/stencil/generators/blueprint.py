@@ -54,13 +54,15 @@ class BlueprintGenerator(object):
                                self.name.lower(), 'views.py')
         }
         self.config.create_blueprint(self.name, blueprint_data)
+        t_filename = path.join('tests',
+                               "test_{}_blueprint.py".format(self.name.lower()))
         template_file = {
             'unittest.py': [
                 dict(project_name=self.config.project_name,
                      blueprint_name=self.name.capitalize()),
-                path.join('tests',
-                          "test_{}_blueprint.py".format(self.name.lower()))
+                t_filename
             ]
         }
         generate_templates(template_root, template_file)
+        print("Unittest generated at {}".format(t_filename))
         FactoryInjector().inject('blueprint', self.name.lower())

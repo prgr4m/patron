@@ -53,6 +53,7 @@ class ModelGenerator(object):
             ]
         }
         generate_templates(template_root, template_file)
+        print("Generated unittest at {}".format(test_filename))
 
     def _parse_fields(self, fields):
         col_stmt_def = "{indent}{name} = db.Column({field_type})"
@@ -180,3 +181,5 @@ class ModelGenerator(object):
     def _serialize(self):
         with open(self.output_target, 'a') as outfile:
             outfile.write(self.stream.getvalue())
+        print("Created {} model at {}".format(self.name, self.output_target),
+              file=sys.__stdout__)
