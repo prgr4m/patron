@@ -20,7 +20,8 @@ class AddonManager(object):
     @staticmethod
     def list_addons():
         "lists all known addons"
-        return ['admin', 'api', 'ban', 'blog', 'commerce', 'humanizer', 'mail']
+        # return ['admin', 'api', 'ban', 'blog', 'commerce', 'humanizer', 'mail']
+        return ['admin', 'blog']
 
     def create(self, addon_name):
         if addon_name not in AddonManager.list_addons():

@@ -21,7 +21,7 @@ Tired of handwriting your models completely from scratch?
 
 ## Requirements
 bower needs to be installed globally on your system. This is for ckeditor to be
-used with blog addon.
+used with blog addon in the admin interface.
 
 ## Usage
 ---
@@ -64,6 +64,8 @@ Of course you're going to have to setup the secondary/join table yourself.
 All blueprints and models also generate their own unittest files and blueprints
 auto register with the app factory.
 
+blog addon autogenerates the admin addon.
+
 ## Food for thought
 Wouldn't it be cool if the respective flask extensions or even core had this 
 functionality baked in? I know flask-sqlalchemy or whatever orm you use could 
@@ -75,11 +77,11 @@ This is just a (limited) public mirror of my private mercurial repo on
 bitbucket.
 
 Since this is particular to my workflow, my personal version will
-be different from the version you are obviously viewing. My version has a
+be different from the version you are obviously viewing. My version will have a
 collection of addon patterns I've already created while the rest is up for you 
-to provide on your own. I'm not accepting pull requests but will be happy to
-have issues opened. You can do as you please with this code, just give credit
-where credit is due.
+to provide on your own. I'm not accepting pull requests to change the templates
+(pyjade) used but will be happy to have issues opened. You can do as you please
+with this code, just give credit where credit is due.
 
 ## Copyright
 Copyright (c) 2014 John Boisselle. MIT Licensed.

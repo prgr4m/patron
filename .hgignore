@@ -12,3 +12,6 @@ syntax: glob
 # osx stuff
 .DS_Store
 
+changelog-personal.md
+stencil-personal.taskpaper
+

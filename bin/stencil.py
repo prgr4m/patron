@@ -23,7 +23,7 @@ project_help = "Create a modular flask project base"
 dir_help = "rename the target directory while maintaining project internals"
 
 models_help = "Models with Flask-SQLAlchemy"
-forms_help = "Forms with WTForms"
+# forms_help = "Forms with WTForms"
 blueprints_help = "Blueprint scaffolding"
 addon_help = "Addons to a flask project"
 task_help = "Create tasks to be used with fabric"
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     subparser = parser.add_subparsers(dest='subparser_name')
     project_parser = subparser.add_parser('project', help=project_help)
     models_parser = subparser.add_parser('model', help=models_help)
-    forms_parser = subparser.add_parser('form', help=forms_help)
+    # forms_parser = subparser.add_parser('form', help=forms_help)
     blueprint_parser = subparser.add_parser('blueprint', help=blueprints_help)
     addon_parser = subparser.add_parser('addon', help=addon_help)
     task_parser = subparser.add_parser('task', help=task_help)
@@ -45,16 +45,17 @@ if __name__ == '__main__':
         p.add_argument('-d', '--directory', help=dir_help)
 
     namespace_help = "name of blueprint/package to be targeted"
-    namespace_group = [models_parser, forms_parser]
+    # namespace_group = [models_parser, forms_parser]
+    namespace_group = [models_parser]
     for p in namespace_group:
         p.add_argument('namespace', help=namespace_help)
 
-    name_group = [project_parser, models_parser, forms_parser, blueprint_parser,
-                  task_parser, static_parser]
+    name_group = [project_parser, models_parser, blueprint_parser,
+                  task_parser, static_parser]  # add back forms_parser later
     name_help = {
         project_parser: 'name of the project',
         models_parser: 'name of the model',
-        forms_parser: 'name of the form',
+        # forms_parser: 'name of the form',
         blueprint_parser: 'name of the blueprint',
         task_parser: 'name of the task',
         static_parser: 'name of the static project'
@@ -66,13 +67,14 @@ if __name__ == '__main__':
     addon_parser.add_argument('name', choices=Stencil.get_addons(),
                               help=addon_name_help)
 
-    field_group = [models_parser, forms_parser]
+    # field_group = [models_parser, forms_parser]
+    field_group = [models_parser]
     model_field_ex = "Ex: 'username:string'"
     model_field_help = "field_name:sqlalchemy_type {} {}"\
         .format(Stencil.get_field_types(), model_field_ex)
     field_help = {
         models_parser: model_field_help,
-        forms_parser: 'field_name:wtforms_type'
+        # forms_parser: 'field_name:wtforms_type'
     }
     for p in field_group:
         p.add_argument('field', nargs='*', help=field_help[p])
