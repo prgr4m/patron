@@ -2,51 +2,84 @@
 
 ---
 
-# Overview
+## Overview
 Stencil is a generator for [Flask](http://flask.pocoo.org) modeled after 
-[Padrino](http://padrinorb.com)'s generators particular to my workflow. I 
-originally wrote [Stencil](https://bitbucket.org/prgr4m/stencil-original) 
-but have changed my workflow since then and have separated a web based project 
-into client and server workflows since they are 2 different problems to be 
-solved.
+[Padrino](http://padrinorb.com)'s generators particular to **my** workflow. I 
+originally wrote Stencil as an overall project management tool (regardless of 
+codebase) but have separated functionality into different projects and have
+changed my workflow since then. A lot of scaffolds or best practices lump both
+the frontend and backend together when they are 2 problems to be solved
+separately.
 
-There are a couple of things that will be kept in from the original stencil 
-codebase:
+This cli generator is solely focused on flask and does not include anything in
+regards to front-end development. I use pyjade for templates since I use jade 
+for templating with gulp and use a conversion script between the two (not
+included). So what's so great about this then? Like padrino's generators,
+things are generated and injected for you with functionality pieced
+together using only what you need. Have a project but don't need an admin?
+Tired of handwriting your models completely from scratch?
 
-- livereload for the development server
-- app factory creation
-- admin and user models (with slight modifications)
+## Requirements
+bower needs to be installed globally on your system. This is for ckeditor to be
+used with blog addon.
 
-Significant changes will be made:
+## Usage
+---
+Stencil help is pretty self explanatory... the only thing that might be confusing
+is with the model generator when describing fields and relationships.
 
-- Transitioning to flask-classy
-- Possible integration with flask-bouncer
-- Add-ons with piecemeal features
-- Underlying codebase as a whole
-- argcomplete
-- model scaffolding
-- form scaffolding
-- admin interface customization
-- fabric scripts generation rather than an empty stub
-- cms
-- blog
-- sitemap
-- banning interface
-- ecommerce addon
-- jade templates
-- transition script for node workflow to flask (using jade)
+ex:
+```
+stencil model public Person name:string-40:unique age:integer:default-21
+```
+'public' being the blueprint targeted models.py file
 
-Stencil's multiple project creation and asset management has been broken off 
-into another project (still to be written) as my focus is making this tool 
-solely for flask and only flask. You know, the whole Unix philosophy...
+would be translated into:
+```
+...
+name = db.Column(db.String(40), unique=True)
+age = db.Column(db.Integer, default=21)
+...
+```
+so why not use parenthesis instead of a hyphen?
 
-I still have yet to find a tool for flask that'll give me the flexibility and 
-speed of development such as rails, padrino and django. Yeah, I'm a python 
-coder but I don't use django... and I write code in ruby but I don't use rails 
-either. I just don't care for too much fluff when I don't need it in a project.
-But then again, flask doesn't assume anything, and you can build things 
-particular to your needs, which is why I love it! Hence the reason for creating 
-this tooling.
+- less to type
+- my terminal craps itself so I switched to a hyphen
+
+when defining a relationship within a model its a little tricky. here's the 
+following formats:
+
+name:relationship:Class:backref
+  ex: tags:relationship:Tag:post
+      tags = db.relationship('Tag', backref='post', lazy='dynamic')
+name:relationship:Class:backref:lazytype-type
+  ex: tags:relationship:Tag:post:lazy-joined
+      tags = db.relationship('Tag', backref='post', lazy='joined')
+name:relationship:Class:secondary-table_ref:backref-refname-lazytype
+  ex: tags:relationship:Tag:secondary-tags_posts:backref-posts-dynamic
+      tags = db.relationship('Tag', secondary=tags_posts, backref=db.backref('posts', lazy='dynamic'))
+
+Of course you're going to have to setup the secondary/join table yourself.
+
+All blueprints and models also generate their own unittest files and blueprints
+auto register with the app factory.
+
+## Food for thought
+Wouldn't it be cool if the respective flask extensions or even core had this 
+functionality baked in? I know flask-sqlalchemy or whatever orm you use could 
+use a little love in having a manage.py (either flask-script or click) hook to
+do what I'm doing.
+
+## Notice about this repo
+This is just a (limited) public mirror of my private mercurial repo on
+bitbucket.
+
+Since this is particular to my workflow, my personal version will
+be different from the version you are obviously viewing. My version has a
+collection of addon patterns I've already created while the rest is up for you 
+to provide on your own. I'm not accepting pull requests but will be happy to
+have issues opened. You can do as you please with this code, just give credit
+where credit is due.
 
 ## Copyright
 Copyright (c) 2014 John Boisselle. MIT Licensed.
