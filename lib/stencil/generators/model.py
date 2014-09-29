@@ -61,7 +61,7 @@ class ModelGenerator(object):
             if ':' not in field:
                 continue
             attribs = field.split(':')
-            if attribs[1] == 'relationship':
+            if attribs[1] == 'relation':
                 data = dict(indent=self.indent, name=attribs[0])
                 if len(attribs) < 3:
                     err = "Need at minimum a class and backref"

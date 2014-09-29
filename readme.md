@@ -47,21 +47,24 @@ when defining a relationship within a model its a little tricky. here's the
 following formats:
 
 ```
-name:relationship:Class:backref
-  ex: tags:relationship:Tag:post:lazy-dynamic
+name:relation:Class:backref
+  ex: tags:relation:Tag:post:lazy-dynamic
       tags = db.relationship('Tag', backref='post', lazy='dynamic')
 ```
 ```
-name:relationship:Class:backref:lazytype-type
-  ex: tags:relationship:Tag:post:lazy-joined
+name:relation:Class:backref:lazytype-type
+  ex: tags:relation:Tag:post:lazy-joined
       tags = db.relationship('Tag', backref='post', lazy='joined')
 ```
 ```
-name:relationship:Class:secondary-table_ref:backref-refname-lazytype
-  ex: tags:relationship:Tag:secondary-tags_posts:backref-posts-dynamic
+name:relation:Class:secondary-table_ref:backref-refname-lazytype
+  ex: tags:relation:Tag:secondary-tags_posts:backref-posts-dynamic
       tags = db.relationship('Tag', secondary=tags_posts, backref=db.backref('posts', lazy='dynamic'))
 ```
 Of course you're going to have to setup the secondary/join table yourself.
+
+Lazy types are: select, joined, subquery, dynamic
+For one-to-one relationships just tack on `uselist`
 
 All blueprints and models also generate their own unittest files and blueprints
 auto register with the app factory.
