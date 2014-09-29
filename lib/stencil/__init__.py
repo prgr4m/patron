@@ -30,10 +30,10 @@ class Stencil(object):
             if hasattr(args, 'directory'):
                 options['directory'] = args.directory
             project_type = {
-                'project': FlaskProject(**options),
-                'static': StaticProject(**options)
+                'project': FlaskProject,
+                'static': StaticProject
             }
-            project_type[args.subparser_name].create()
+            project_type[args.subparser_name](**options).create()
         elif args.subparser_name in project_dependent:
             if not StencilConfig.is_present():
                 print("Need to be in a stencil generated project root!")
