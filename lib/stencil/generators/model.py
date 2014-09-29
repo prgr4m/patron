@@ -15,9 +15,18 @@ class ModelGenerator(object):
     indent = " " * 4
 
     def __init__(self, namespace, name):
+        """
+        Constructor
+        :raises StandardError:
+            when a blueprint isn't registered with Stencil
+        :raises ValueError:
+            when an invalid name is used when creating a model
+        :raises TypeError:
+            when a model already exists in the blueprint model file
+        """
         self.config = StencilConfig()
         if not self.config.has_blueprint(namespace):
-            raise OSError("ModelGenerator:Blueprint doesn't exist")
+            raise StandardError("ModelGenerator:Blueprint doesn't exist")
         for key, val in self.config.get_blueprint_info(namespace):
             if key == 'models':
                 self.namespace = namespace
@@ -56,6 +65,11 @@ class ModelGenerator(object):
         print("Generated unittest at {}".format(test_filename))
 
     def _parse_fields(self, fields):
+        """
+        :raises ValueError:
+            when establishing a relation and not enough params have
+            been supplied
+        """
         col_stmt_def = "{indent}{name} = db.Column({field_type})"
         rel_stmt_def = "{indent}{name} = db.relationship({relation_definition})"
         for field in fields:
