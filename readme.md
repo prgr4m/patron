@@ -82,6 +82,7 @@ be happy to have issues opened.
 
 - Form generator similar to model generator
 - addons, addons, addons
+- argcompletion especially for model generation
 - unittests
 
 ## Copyright
