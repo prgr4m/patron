@@ -55,48 +55,59 @@ class ModelGenerator(object):
         generate_templates(template_root, template_file)
 
     def _parse_fields(self, fields):
-        field_stmt_def = "{indent}{name} = db.Column({field_type})"
-        print(fields, file=sys.__stdout__)
+        col_stmt_def = "{indent}{name} = db.Column({field_type})"
+        rel_stmt_def = "{indent}{name} = db.relationship({relation_defintion})"
         for field in fields:
             if ':' not in field:
-                # debating on just giving name and making empty column or for
-                # defining a relationship field... for now I just want to make
-                # this work and then I'll refine it...
                 continue
-            # else:  # for later when I add the new features
             attribs = field.split(':')
-            f_map = ModelGenerator.get_known_fields(mode="all")
-            user_field_type = attribs[1].split('-')[0] if '-' in attribs[1]\
-                else attribs[1].split('-')[0]
-            if user_field_type not in f_map:
-                raise KeyError("ModelGenerator:Unknown field type given")
-            f_name = attribs[0]
-            # setup default values for a type if it isn't present...
-            field_type = attribs[1]
-            if '-' in field_type:
-                f_info = field_type.split('-')
-                f_type = "{}({})".format(f_map[f_info[0]], f_info[1])
-            elif field_type == 'string':
-                f_type = "{}({})".format(f_map[field_type], 50)
+            if attribs[1] == 'relationship':
+                data = dict(indent=self.indent, name=attribs[0])
+                # need to walk through the attributes
+                # one-to-one
+                # db.relationship('ClassName', backref='name', uselist=False)
+                #
+                # one-to-many
+                # class and backref
+                # class, backref-name-lazy_type,
+                # lazy-{select,joined,subquery,dynamic}
+                #
+                # many-to-many
+                # class, secondary-table_name, backref-name-lazy_type
+                field_def = rel_stmt_def.format(**data)
             else:
-                f_type = f_map[attribs[1]]
-            if len(attribs) > 2:
-                working_attribs = attribs[2:]
-                for attr in working_attribs:
-                    if attr in ['index', 'nullable', 'unique']:
-                        f_type = "{}, {}=True".format(f_type, attr)
-                    elif '-' in attr and attr.split('-')[0] == 'default':
-                        default_value = attr.split('-')[1]
-                        f_type = "{}, default={}".format(f_type, default_value)
-                    elif '-' in attr and attr.split('-')[0] == 'foreign':
-                        reference = attr.split('-')[1]
-                        f_type = "{}, db.ForeignKey('{}')".format(f_type,
-                                                                  reference)
-                    else:
-                        continue
-            field_def = field_stmt_def.format(indent=self.indent,
-                                              name=f_name,
-                                              field_type=f_type)
+                f_map = ModelGenerator.get_known_fields(mode="all")
+                user_field_type = attribs[1].split('-')[0] if '-' in attribs[1]\
+                    else attribs[1].split('-')[0]
+                if user_field_type not in f_map:
+                    raise KeyError("ModelGenerator:Unknown field type given")
+                f_name = attribs[0]
+                # setup default values for a type if it isn't present...
+                field_type = attribs[1]
+                if '-' in field_type:
+                    f_info = field_type.split('-')
+                    f_type = "{}({})".format(f_map[f_info[0]], f_info[1])
+                elif field_type == 'string':
+                    f_type = "{}({})".format(f_map[field_type], 50)
+                else:
+                    f_type = f_map[attribs[1]]
+                if len(attribs) > 2:
+                    working_attribs = attribs[2:]
+                    for attr in working_attribs:
+                        if attr in ['index', 'nullable', 'unique']:
+                            f_type = "{}, {}=True".format(f_type, attr)
+                        elif '-' in attr and attr.split('-')[0] == 'default':
+                            default_value = attr.split('-')[1]
+                            f_type = "{}, default={}".format(f_type, default_value)
+                        elif '-' in attr and attr.split('-')[0] == 'foreign':
+                            reference = attr.split('-')[1]
+                            f_type = "{}, db.ForeignKey('{}')".format(f_type,
+                                                                    reference)
+                        else:
+                            continue
+                field_def = col_stmt_def.format(indent=self.indent,
+                                                name=f_name,
+                                                field_type=f_type)
             yield field_def
 
     @contextmanager

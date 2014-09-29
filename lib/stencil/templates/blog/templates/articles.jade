@@ -15,6 +15,7 @@ block page_head
   //- social stuff such as open graph and twitter meta tags should 
   //- go here if site is public facing
   #{super()}
+  link(href="#{url_for('blog.feed')}", type="application/atom+xml", title="My Awesome Blog", rel="alternate")
 
 block page_content
   h2 List of pages
