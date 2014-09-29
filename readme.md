@@ -38,6 +38,17 @@ name = db.Column(db.String(40), unique=True)
 age = db.Column(db.Integer, default=21)
 ...
 ```
+
+Another example:
+```
+cat_id:integer:foreign-nyaa.id
+```
+would be
+```
+cat_id = db.Column(db.Integer, db.ForeignKey('nyaa.id'))
+```
+Column attributes are: index, nullable, unique, default
+
 so why not use parenthesis instead of a hyphen?
 
 - less to type
@@ -66,6 +77,9 @@ Of course you're going to have to setup the secondary/join table yourself.
 Lazy types are: select, joined, subquery, dynamic
 For one-to-one relationships just tack on `uselist`
 
+Model generation only generates what you tell it. Always make sure to actually
+double check your models before running a migration.
+
 All blueprints and models also generate their own unittest files and blueprints
 auto register with the app factory.
 
@@ -73,9 +87,7 @@ blog addon autogenerates the admin addon.
 
 ## Food for thought
 Wouldn't it be cool if the respective flask extensions or even core had this 
-functionality baked in? I know flask-sqlalchemy or whatever orm you use could 
-use a little love in having a manage.py (either flask-script or click) hook to
-do what I'm doing. They would definitely produce better looking code at that!
+functionality baked in? (Yes, I know flask isn't padrino)
 
 ## Notice about this repo
 I'm not accepting pull requests to change the templates used (pyjade) but will
