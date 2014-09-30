@@ -14,7 +14,8 @@ regards to front-end development. I use pyjade for templates since I use jade
 for templating with gulp and use a conversion script between the two. So what's
   so great about this then? Similar to padrino's generators,
 stencil code is generated and injected for you with functionality pieced
-together using only what you need incrementally.
+together using only what you need incrementally. This tool's focus is for speed 
+of development and not just as a base.
 
 ## Requirements
 bower needs to be installed globally on your system. This is for ckeditor to be
@@ -88,6 +89,7 @@ blog addon autogenerates the admin addon.
 - addons, addons, addons
 - argcompletion especially for model generation
 - unittests
+- template option of just using regular jinja instead of pyjade for others to use
 - python 3.x support
 
 ## Copyright
