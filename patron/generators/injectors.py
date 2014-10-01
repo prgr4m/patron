@@ -4,7 +4,7 @@ import cStringIO
 import os
 import os.path as path
 import re
-from . import StencilConfig, get_templates_dir
+from . import PatronConfig, get_templates_dir
 
 
 class InjectorBase(object):
@@ -18,7 +18,7 @@ class InjectorBase(object):
         :param str target:
             the path of the target file to inject code to (safely)
         """
-        self.config = StencilConfig()
+        self.config = PatronConfig()
         self.stream = cStringIO.StringIO()
 
     def __del__(self):

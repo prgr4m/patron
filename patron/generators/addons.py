@@ -4,7 +4,7 @@ import os
 import os.path as path
 import shutil
 import subprocess
-from . import (StencilConfig, RequirementsFileWriter, get_templates_dir,
+from . import (PatronConfig, RequirementsFileWriter, get_templates_dir,
                generate_templates)
 from .blueprint import BlueprintGenerator
 from .injectors import (FactoryInjector, ManageInjector, AdminInjector,
@@ -14,7 +14,7 @@ from .injectors import (FactoryInjector, ManageInjector, AdminInjector,
 class AddonManager(object):
     """Manages various types of flask project addons"""
     def __init__(self):
-        self.config = StencilConfig()
+        self.config = PatronConfig()
         self.requirements = RequirementsFileWriter(self.config.project_name)
 
     @staticmethod

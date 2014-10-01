@@ -7,21 +7,21 @@ from string import Template
 import ConfigParser
 
 
-class StencilConfig(object):
-    "Config creator for stencil projects"
+class PatronConfig(object):
+    "Config creator for Patron projects"
     def __init__(self):
         self.config = ConfigParser.SafeConfigParser()
-        self.filename = 'stencil.cfg'
+        self.filename = 'patron.cfg'
         self.config.readfp(open(self.filename))
 
     @staticmethod
     def is_present():
-        return True if path.exists('stencil.cfg') else False
+        return True if path.exists('patron.cfg') else False
 
     @staticmethod
     def create(project_name):
         """
-        creates the base config file for stencil generated projects
+        creates the base config file for Patron generated projects
 
         :param str project_name: the name of the flask project
         """
@@ -40,23 +40,23 @@ class StencilConfig(object):
                    path.join(project_name, 'public', 'models.py'))
         config.set('public', 'views',
                    path.join(project_name, 'public', 'views.py'))
-        with open('stencil.cfg', 'w') as configfile:
+        with open('Patron.cfg', 'w') as configfile:
             config.write(configfile)
 
     @staticmethod
     def generate_config(self):
-        "creates a stencil config file by inspecting a project's structure"
+        "creates a Patron config file by inspecting a project's structure"
         pass
 
     @property
     def project_name(self):
         """
-        The stencil project name.
+        The Patron project name.
 
         This is used as a base to find where various blueprints live within a
-        stencil project.
+        Patron project.
 
-        :return: flask project name of the stencil project
+        :return: flask project name of the Patron project
         :rtype: str
         """
         return self.config.get('general', 'project_name')
@@ -88,7 +88,7 @@ class StencilConfig(object):
     @addons.setter
     def addons(self, new_addon):
         """
-        sets addons used in the stencil generated project
+        sets addons used in the Patron generated project
 
         :param new_addon:
             new_addon can either be a string or a list to be appended to the
@@ -210,7 +210,7 @@ def is_name_valid(name_in):
 
 def get_templates_dir():
     current_location = path.dirname(path.dirname(path.abspath(__file__)))
-    return path.join(current_location, 'templates')
+    return path.join(current_location, 'data')
 
 
 def generate_templates(template_root, template_files):

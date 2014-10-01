@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.6
 # -*- coding: utf-8 -*-
 # =============================================================================
-# This script is tailored for deployment under a2hosting servers
+# script for environments that use mod_passenger for wsgi
 # =============================================================================
 import os, sys
 
@@ -16,7 +16,6 @@ sys.path.append(os.getcwd())
 # os.environ['$project_name_env'] = 'production'
 
 # Set the application up
-#from $project_name import create_app as application
 from $project_name import create_app
 application = create_app('production')
 

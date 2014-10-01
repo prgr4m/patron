@@ -5,7 +5,7 @@ from contextlib import contextmanager
 # import os
 import os.path as path
 import sys
-from . import (StencilConfig, CodeInspector, is_name_valid, get_templates_dir,
+from . import (PatronConfig, CodeInspector, is_name_valid, get_templates_dir,
                generate_templates)
 
 
@@ -24,7 +24,7 @@ class ModelGenerator(object):
         :raises TypeError:
             when a model already exists in the blueprint model file
         """
-        self.config = StencilConfig()
+        self.config = PatronConfig()
         if not self.config.has_blueprint(namespace):
             raise StandardError("ModelGenerator:Blueprint doesn't exist")
         for key, val in self.config.get_blueprint_info(namespace):

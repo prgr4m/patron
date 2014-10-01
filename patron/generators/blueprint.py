@@ -3,7 +3,7 @@ import os
 import os.path as path
 import shutil
 import fnmatch
-from . import (StencilConfig, is_name_valid, get_templates_dir,
+from . import (PatronConfig, is_name_valid, get_templates_dir,
                generate_templates)
 from .injectors import FactoryInjector
 
@@ -15,7 +15,7 @@ class BlueprintGenerator(object):
             self.name = name
         else:
             raise StandardError("Name given for the blueprint is invalid")
-        self.config = StencilConfig()
+        self.config = PatronConfig()
         if self.config.has_blueprint(name):
             raise StandardError("Blueprint already exists")
         path_check = path.join(self.config.project_name, self.name)

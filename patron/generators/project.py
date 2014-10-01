@@ -2,7 +2,7 @@
 import os
 import os.path as path
 import shutil
-from . import (StencilConfig, is_name_valid, get_templates_dir,
+from . import (PatronConfig, is_name_valid, get_templates_dir,
                generate_templates)
 
 
@@ -55,7 +55,7 @@ class FlaskProject(object):
                         'fabfile.py')
         shutil.copyfile(path.join(template_root, 'htaccess.txt'),
                         'htaccess')
-        StencilConfig.create(self.name)
+        PatronConfig.create(self.name)
         shutil.copyfile(path.join(template_root, 'requirements.txt'),
                         "{}-requirements.txt".format(self.name.lower()))
 

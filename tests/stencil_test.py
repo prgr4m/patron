@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 import os
-import os.path as path
+from os import path
 import sys
 import unittest
 
