@@ -40,7 +40,7 @@ class PatronConfig(object):
                    path.join(project_name, 'public', 'models.py'))
         config.set('public', 'views',
                    path.join(project_name, 'public', 'views.py'))
-        with open('Patron.cfg', 'w') as configfile:
+        with open('patron.cfg', 'w') as configfile:
             config.write(configfile)
 
     @staticmethod
