@@ -3,11 +3,11 @@
 ## Overview
 Patron is a generator for [Flask](http://flask.pocoo.org) modeled after 
 [Padrino](http://padrinorb.com)'s generators particular to my workflow. I 
-originally wrote Patron as an overall project management tool (regardless of 
-codebase) but have separated functionality into different projects and have
-changed my workflow since then. A lot of scaffolds or best practices lump both
-the frontend and backend together when they are 2 problems to be solved
-separately.
+originally wrote Patron (prior name stencil) as an overall project management
+tool (regardless of codebase) but have separated functionality into different
+projects and have changed my workflow since then. A lot of scaffolds or best
+practices lump both the frontend and backend together when they are 2 problems
+to be solved separately.
 
 This cli generator is solely focused on flask and does not include anything in
 regards to front-end development. I use pyjade for templates since I use jade 
