@@ -12,7 +12,7 @@
 # SITE
     Last Update: YYYY/MM/DD
     Standards: HTML5, CSS3
-    Components: Normalize.css, Bourbon, Neat, Bitters
+    Components: Client-side components you use go here
     Software/Tools: Tools that you use
     IDE: Your editor
 
