@@ -87,10 +87,8 @@ blog addon autogenerates the admin addon.
 
 - Form generator similar to model generator
 - addons, addons, addons (just like padrino using flask-packages)
-- orm agnostic generator (rather than just flask-sqlalchemy)
 - argcompletion especially for model generation
-- unittests (introspection) generator
-- template option of just using regular jinja instead of pyjade for others to use
+- unittests
 - python 3.x support
 - tutorial/documentation later this week
 

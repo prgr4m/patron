@@ -4,7 +4,7 @@ from codecs import open
 from os import path
 
 current_dir = path.abspath(path.dirname(__file__))
-with open(path.join(current_dir, 'DESCRIPTION.rst'), encoding='utf-8') as f:
+with open(path.join(current_dir, 'description.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
