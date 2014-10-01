@@ -12,13 +12,15 @@ projects, this tool is for speed and commonality so you can spend more time
 writing actual code to solve specific problems rather than manually
 performing redudant patterns.
 
-Ex:
+Examples of redundant patterns:
 
 - add new blueprint
 - register blueprint
 - create unittest
 - write new model from scratch
-- create new form not tied to a model
+- create new form (not tied to a model)
 - add mail functionality
 - create contact form
 - add blog functionality to a client's website
+- add an admin
+- create a sitemap
