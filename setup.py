@@ -17,7 +17,8 @@ setup(
     license = "MIT",
     packages = find_packages(),
     package_data = {
-        '': ['data/**/*.*']
+        '': ['data/**/*.py', 'data/**/*.txt', 'data/**/*.jade',
+             'data/**/*.xml', 'data/**/*.png', 'data/**/*.ico']
     },
     classifiers = [
         'Development Status :: 3 - Alpha',

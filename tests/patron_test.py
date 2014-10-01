@@ -6,7 +6,8 @@ import sys
 import unittest
 
 current_location = path.dirname(path.abspath(__file__))
-lib_dir = path.join(path.abspath(path.join(current_location, os.pardir)), 'lib')
+lib_dir = path.join(path.abspath(path.join(current_location, os.pardir)),
+                    'patron')
 sys.path.insert(0, lib_dir)
 
 if __name__ == '__main__':
