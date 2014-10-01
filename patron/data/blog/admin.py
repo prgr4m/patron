@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime as dt
+from markupsafe import Markup
 from flask_admin.contrib.sqla import ModelView
 from wtforms.fields import BooleanField
 from ..extensions import db
@@ -27,6 +28,7 @@ class BlogPostView(ModelView):
             else:
                 new_blog_post.published = None
             new_blog_post.slug = new_blog_post.slugify()
+            new_blog_post.content = Markup.escape(form.content.data)
             new_blog_post.updated = now
             db.session.add(new_blog_post)
             db.session.commit()
@@ -40,6 +42,7 @@ class BlogPostView(ModelView):
             title = model.title
             form.populate_obj(model)
             now = dt.datetime.now()
+            model.content = Markup.escape(form.content.data)
             model.updated = now
             if form.published.data:
                 if not published:
