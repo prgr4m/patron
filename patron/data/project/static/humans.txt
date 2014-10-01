@@ -2,17 +2,17 @@
 # The humans responsible & technology colophon
 
 # TEAM
-    Name: John Boisselle, Digital Creationist
-    Site: http://johnboisselle.com
-    Location: Chesapeake, VA
-    Twitter: @prgr4m
-    Github: https://github.com/prgr4m
-    Bitbucket: https://bitbucket.org/prgr4m
+    Name: Your name
+    Site: Your site
+    Location: Your location
+    Twitter: @your_twitter_handle
+    Github: https://github.com/your_github
+    Bitbucket: https://bitbucket.org/your_bitbucket
 
 # SITE
     Last Update: YYYY/MM/DD
     Standards: HTML5, CSS3
-    Components: Normalize.css, Bourbon, Neat
-    Software/Tools: Slim, Sass, Coffeescript, Middleman, Bower, LiveReload
-    IDE: vim
+    Components: Normalize.css, Bourbon, Neat, Bitters
+    Software/Tools: Tools that you use
+    IDE: Your editor
 
