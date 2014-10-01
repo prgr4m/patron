@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-import os.path as path
+from os import path
 import shutil
 from . import (PatronConfig, is_name_valid, get_templates_dir,
                generate_templates)
@@ -45,7 +45,7 @@ class FlaskProject(object):
                 dict(project_name=self.name),
                 "{}.wsgi".format(self.name.lower())
             ],
-            'bowerrc': [
+            'bowerrc.txt': [
                 dict(js_vendor=path.join(self.name, 'static', 'js', 'vendor')),
                 '.bowerrc'
             ]

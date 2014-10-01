@@ -3,7 +3,7 @@ from __future__ import print_function
 import cStringIO
 from contextlib import contextmanager
 # import os
-import os.path as path
+from os import path
 import sys
 from . import (PatronConfig, CodeInspector, is_name_valid, get_templates_dir,
                generate_templates)

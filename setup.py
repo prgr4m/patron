@@ -9,7 +9,7 @@ with open(path.join(current_dir, 'DESCRIPTION.rst'), encoding='utf-8') as f:
 
 setup(
     name="patron",
-    version="0.2.0",
+    version="0.2.1",
     description="Flask generators influenced by Padrino's generators",
     long_description=long_description,
     author="John Boisselle",
@@ -23,13 +23,15 @@ setup(
     },
     classifiers=[
         'Development Status :: 3 - Alpha',
-        'Intended Audince :: Flask Developers',
-        'Topic :: Software Development :: Utilities',
+        'Intended Audience :: Developers',
+        'Topic :: Software Development :: Code Generators',
+        'Environment :: Console',
+        'Framework :: Flask',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7'
     ],
-    keywords="flask generators scaffolding",
+    keywords="flask generators scaffolding cli",
     entry_points={
         'console_scripts': [
             'patron=patron:main'

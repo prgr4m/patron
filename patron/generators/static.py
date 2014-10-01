@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-import os.path as path
+from os import path
 import shutil
 import fnmatch
 from . import is_name_valid, get_templates_dir, generate_templates

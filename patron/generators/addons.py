@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 import os
-import os.path as path
+from os import path
 import shutil
 import subprocess
 from . import (PatronConfig, RequirementsFileWriter, get_templates_dir,

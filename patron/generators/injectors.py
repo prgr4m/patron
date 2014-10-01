@@ -2,7 +2,7 @@
 from __future__ import print_function
 import cStringIO
 import os
-import os.path as path
+from os import path
 import re
 from . import PatronConfig, get_templates_dir
 
