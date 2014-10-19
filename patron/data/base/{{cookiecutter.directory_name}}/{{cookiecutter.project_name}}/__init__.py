@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from flask import Flask
 from flask.templating import render_template
-from {{cookiecutter.project_name}}.settings import config
-from {{cookiecutter.project_name}}.extensions import db, flask_bcrypt, cache, toolbar
-from {{cookiecutter.project_name}}.public.views import frontend
+from .settings import config
+from .extensions import db, flask_bcrypt, cache, toolbar
+from .public.views import frontend
 
 
 def create_app(config_obj='default'):
@@ -18,14 +18,17 @@ def create_app(config_obj='default'):
     register_errorhandlers(app)
     return app
 
+
 def register_extensions(app):
     db.init_app(app)
     flask_bcrypt.init_app(app)
     toolbar.init_app(app)
     cache.init_app(app)
 
+
 def register_blueprints(app):
     app.register_blueprint(frontend)
+
 
 def register_errorhandlers(app):
     def render_error_page(error):

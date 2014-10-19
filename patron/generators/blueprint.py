@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
-import os
 from os import path
-import shutil
-import fnmatch
-from . import (PatronConfig, is_name_valid, get_templates_dir,
-               generate_templates)
+from cookiecutter.generate import generate_context, generate_files
+from .helpers import PatronConfig, is_name_valid, get_templates_dir
 from .injectors import FactoryInjector
 
 
 class BlueprintGenerator(object):
-    """Generates Blueprints"""
+    "Generates Blueprints"
     def __init__(self, name):
         if is_name_valid(name):
             self.name = name
@@ -21,48 +18,17 @@ class BlueprintGenerator(object):
         path_check = path.join(self.config.project_name, self.name)
         if path.exists(path_check):
             raise OSError("Blueprint already exists")
+        self.scaffold = path.join(get_templates_dir(), 'blueprint')
 
     def create(self):
-        project_root = os.getcwd()
-        template_root = path.join(get_templates_dir(), 'blueprint')
-        os.chdir(self.config.project_name)
-        os.makedirs(path.join(self.name, 'templates'))
-        open(path.join(self.name, '__init__.py'), 'w').close()
-        for f in [x for x in os.listdir(template_root)
-                  if x not in ['.', '..', 'unittest.py']]:
-            if fnmatch.fnmatch(f, '*.jade'):
-                shutil.copyfile(path.join(template_root, f),
-                                path.join(self.name.lower(), 'templates', f))
-            elif f == 'views.py':
-                template_file = {
-                    f: [
-                        dict(blueprint_name=self.name.lower()),
-                        path.join(self.name.lower(), f)
-                    ]
-                }
-                generate_templates(template_root, template_file)
-            else:
-                shutil.copyfile(path.join(template_root, f),
-                                path.join(self.name.lower(), f))
-        os.chdir(project_root)
-        blueprint_data = {
-            'forms': path.join(self.config.project_name,
-                               self.name.lower(), 'forms.py'),
-            'models': path.join(self.config.project_name,
-                                self.name, 'models.py'),
-            'views': path.join(self.config.project_name,
-                               self.name.lower(), 'views.py')
-        }
-        self.config.create_blueprint(self.name, blueprint_data)
-        t_filename = path.join('tests',
-                               "test_{}_blueprint.py".format(self.name.lower()))
-        template_file = {
-            'unittest.py': [
-                dict(project_name=self.config.project_name,
-                     blueprint_name=self.name.capitalize()),
-                t_filename
-            ]
-        }
-        generate_templates(template_root, template_file)
-        print("Unittest generated at {}".format(t_filename))
+        # need to get input_dir (local to package or user directory)
+        config_dict = dict(default_context=dict())
+        context_file = path.join(self.scaffold, 'cookiecutter.json')
+        context = generate_context(
+            context_file=context_file,
+            default_context=config_dict['default_context'])
+        context['cookiecutter']['blueprint_name'] = self.name
+        context['cookiecutter']['project_name'] = self.config.project_name
+        generate_files(repo_dir=self.scaffold, context=context)
+        self.config.create_blueprint(self.name)
         FactoryInjector().inject('blueprint', self.name.lower())

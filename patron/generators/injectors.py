@@ -4,7 +4,7 @@ import cStringIO
 import os
 from os import path
 import re
-from . import PatronConfig, get_templates_dir
+from .helpers import PatronConfig, get_templates_dir
 
 
 class InjectorBase(object):
@@ -25,7 +25,7 @@ class InjectorBase(object):
         self.stream.close()
 
     def inject(self):
-        raise NotImplementedError("InjectorBase::inject must be overridden")
+        raise NotImplementedError("InjectorBase:inject must be overridden")
 
     def read_target(self):
         with open(self.target_file) as f:
@@ -129,13 +129,10 @@ class FactoryInjector(InjectorBase):
             init_file.write(self.stream.getvalue().rstrip())
 
     def _admin(self):
-        project_name = self.config.project_name
         injection_directive = {
             'import': [
-                "from {proj_name}.admin.views import admin"
-                .format(proj_name=project_name),
-                "from {proj_name}.admin.auth import login_manager, principals"
-                .format(proj_name=project_name)
+                "from .admin.views import admin",
+                "from .admin.auth import login_manager, principals"
             ],
             'extension': [
                 "{}principals.init_app(app)".format(self.indent),
@@ -146,11 +143,10 @@ class FactoryInjector(InjectorBase):
         return injection_directive
 
     def _blueprint(self, name):
-        project_name = self.config.project_name
         injection_directive = {
             'import': [
-                "from {proj_name}.{bp_name}.views import {bp_name}"
-                .format(proj_name=project_name, bp_name=name)
+                "from .{bp_name}.views import {bp_name}"
+                .format(bp_name=name)
             ],
             'blueprint':
                 "{ndnt}app.register_blueprint({bp_nm}, url_prefix='/{bp_nm}')"

@@ -5,7 +5,7 @@ from __future__ import print_function
 import argparse
 # import argcomplete
 import sys
-from .generators import PatronConfig
+from .generators.helpers import PatronConfig
 from .generators.project import FlaskProject
 from .generators.blueprint import BlueprintGenerator
 from .generators.task import TaskGenerator
