@@ -3,8 +3,7 @@ from __future__ import print_function
 from os import path
 # from cookiecutter.config import get_user_config
 from cookiecutter.generate import generate_context, generate_files
-from . import is_name_valid, get_templates_dir
-from .config import PatronConfig
+from .helpers import PatronConfig, is_name_valid, get_templates_dir
 
 
 class FlaskProject(object):

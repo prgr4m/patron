@@ -85,17 +85,22 @@ blog addon autogenerates the admin addon.
 
 ## Todo
 
-- Form generator similar to model generator
+- form generator similar to model generator
 - addons, addons, addons (just like padrino using flask-packages)
 - argcompletion especially for model generation
 - unittests
 - python 3.x support
 - tutorial/documentation
 - cookiecutter integration for users to override templates
-- create list of packages being used for what purpose
+- create list of packages being used for what purpose in documentation
+- cli custom user directory setup
+
+## Thanks
+@audreyr for making cookiecutter
+@mitsuhiko for creating flask
 
 ## Copyright
-Copyright (c) 2014 John Boisselle. MIT License.
+Copyright (c) 2014 John Boisselle
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in 
