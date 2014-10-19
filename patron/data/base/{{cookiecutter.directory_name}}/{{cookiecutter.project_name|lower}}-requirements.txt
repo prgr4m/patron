@@ -1,0 +1,11 @@
+Flask
+Flask-Migrate
+Flask-Script
+Flask-Bcrypt
+Flask-DebugToolbar
+Flask-Cache
+Flask-WTF
+Flask-Testing
+pyjade
+fabric
+psycopg2

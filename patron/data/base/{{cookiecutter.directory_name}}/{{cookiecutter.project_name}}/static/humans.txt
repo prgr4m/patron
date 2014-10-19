@@ -1,0 +1,18 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+    Name: Your name
+    Site: Your site
+    Location: Your location
+    Twitter: @your_twitter_handle
+    Github: https://github.com/your_github
+    Bitbucket: https://bitbucket.org/your_bitbucket
+
+# SITE
+    Last Update: YYYY/MM/DD
+    Standards: HTML5, CSS3
+    Components: Client-side components you use go here
+    Software/Tools: Tools that you use
+    IDE: Your editor
+
