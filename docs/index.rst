@@ -10,7 +10,9 @@ Contents:
 
 .. toctree::
    :maxdepth: 2
-
+   
+   intro
+   tutorial
 
 
 Indices and tables

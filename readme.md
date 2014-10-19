@@ -91,6 +91,7 @@ blog addon autogenerates the admin addon.
 - unittests
 - python 3.x support
 - tutorial/documentation later this week
+- cookiecutter integration for users to override templates
 
 ## Copyright
 Copyright (c) 2014 John Boisselle. MIT Licensed.
