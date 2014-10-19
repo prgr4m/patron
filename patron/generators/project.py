@@ -26,5 +26,6 @@ class FlaskProject(object):
             context_file=context_file,
             default_context=config_dict['default_context'])
         context['cookiecutter']['directory_name'] = self.root_path
+        context['cookiecutter']['project_name'] = self.name
         generate_files(repo_dir=self.scaffold, context=context)
         PatronConfig.create(self.name, self.root_path)
