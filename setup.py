@@ -31,6 +31,7 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7'
     ],
+    install_requires=['cookiecutter>=0.7.1'],
     keywords="flask generators scaffolding cli",
     entry_points={
         'console_scripts': [
