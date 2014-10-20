@@ -81,7 +81,7 @@ double check your models before running a migration.
 All blueprints and models also generate their own unittest files and blueprints
 auto register with the app factory.
 
-blog addon autogenerates the admin addon.
+The blog addon autogenerates the admin addon.
 
 ## Todo
 
@@ -104,9 +104,6 @@ blog addon autogenerates the admin addon.
 - fixed minor bugs in code being generated
 - temporarily took out bower call for ckeditor until done with documentation
 
-#### 0.2.2
-- converted scaffolds to cookiecutter so users can override
-
 #### 0.2.1
 - published python package
 
@@ -119,8 +116,8 @@ blog addon autogenerates the admin addon.
 - initial project creation with scaffolding ripped out of stencil
 
 ## Thanks
-@audreyr for making cookiecutter
-@mitsuhiko for creating flask
+- @audreyr for making cookiecutter
+- @mitsuhiko for creating flask
 
 ## Copyright
 Copyright (c) 2014 John Boisselle
