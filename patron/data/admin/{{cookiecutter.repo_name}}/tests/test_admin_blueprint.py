@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
 from flask.globals import current_app
-from ${project_name} import create_app
-from ${project_name}.extensions import db
+from FlaskBase import create_app
+from FlaskBase.extensions import db
 
 
-class ${blueprint_name}TestCase(unittest.TestCase):
+class AdminTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app('testing')
         self.app_context = self.app.app_context()
@@ -17,4 +17,4 @@ class ${blueprint_name}TestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    # write tests specifically for the ${blueprint_name} here
+# Write tests specific to admin here...

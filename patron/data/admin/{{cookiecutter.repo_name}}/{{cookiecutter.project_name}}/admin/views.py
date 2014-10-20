@@ -125,7 +125,7 @@ class MediaFileAdmin(FileAdmin):
         return login.current_user.is_authenticated()
 
 
-admin = Admin(name="$project_name",
+admin = Admin(name="PatronBase",
               index_view=MyAdminIndexView(template='admin/index.jade'))
 
 # admin.add_view(MyView(name='Hello'))
