@@ -2,7 +2,7 @@
 import os
 from os import path
 from string import Template
-from . import CodeInspector, is_name_valid, get_templates_dir
+from .helpers import CodeInspector, is_name_valid, get_templates_dir
 
 
 class TaskGenerator(object):

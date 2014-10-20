@@ -5,8 +5,8 @@ from contextlib import contextmanager
 # import os
 from os import path
 import sys
-from . import CodeInspector, generate_templates
-from .helpers import (PatronConfig, is_name_valid, get_templates_dir)
+from .helpers import (PatronConfig, CodeInspector, is_name_valid,
+                      get_templates_dir, generate_templates)
 
 
 class ModelGenerator(object):

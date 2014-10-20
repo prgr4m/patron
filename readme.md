@@ -88,13 +88,33 @@ blog addon autogenerates the admin addon.
 - form generator similar to model generator
 - addons, addons, addons (just like padrino using flask-packages)
 - argcompletion especially for model generation
-- unittests
 - python 3.x support
 - tutorial/documentation
-- cookiecutter integration for users to override templates
 - create list of packages being used for what purpose in documentation
 - cli custom user directory setup
 - revise static site generator
+- revisit admin and move registration into public via injection
+
+## Change Log
+
+#### 0.2.2
+- conversion to cookiecutter for users to be able to override scaffolds
+- changed patron project configuration implementation from ini to json format
+- ability to create a patron project json file with a project
+
+#### 0.2.2
+- converted scaffolds to cookiecutter so users can override
+
+#### 0.2.1
+- published python package
+
+#### 0.2.0 and below
+- model generators functionality
+- blog addon functionality
+- admin addon functionality
+- static site generator functionality
+- blueprint registration functionality
+- initial project creation with scaffolding ripped out of stencil
 
 ## Thanks
 @audreyr for making cookiecutter

@@ -5,6 +5,7 @@ from os import path
 import platform
 import re
 import shutil
+from string import Template
 import subprocess
 from cookiecutter.generate import generate_context
 
@@ -80,6 +81,26 @@ class PatronConfig(object):
     def save_config(self):
         with open(self.filename, 'w') as config_file:
             json.dump(self.contents, config_file, indent=2)
+
+
+class CodeInspector(object):
+    "Imports a given module and inspects for code generation collisions"
+    @staticmethod
+    def has_collision(module_path, attribute):
+        search_types = {
+            'models': "class {}",
+            'forms': "class {}",
+            'views': "def {}",
+            'fabfile': "def {}"
+        }
+        mod_name, file_ext = path.splitext(path.split(module_path)[-1])
+        if mod_name not in search_types.keys():
+            raise StandardError("CodeInspector:Unknown module type")
+        search_pattern = search_types[mod_name].format(attribute)
+        content = open(module_path, 'r').read()
+        if re.search(search_pattern, content) is not None:
+            return True
+        return False
 
 
 class RequirementsFileWriter(object):
@@ -161,3 +182,27 @@ def create_user_scaffolds_directory():
                             path.join(PATRON_USER_DIR, d))
         if platform.system() == 'Windows':
             subprocess(['attrib', '+h', PATRON_USER_DIR])
+
+
+def generate_templates(template_root, template_files):
+    """
+    template has to be a dictionary with a key as the actual template
+    and the value being an array in the following format:
+        1 - a dictionary of values to be unpacked into the template
+        2 - if applicable, the actual destination name of the template
+
+    ex:
+        templates = {
+            'template_source': [
+                dict(template_variable=value),
+                'actual_name_on_file_once_generated' # if different from key
+            ]
+        }
+    this method/function is ideal for batch jobs
+    """
+    for template_file, data in template_files.items():
+        destination_file = data[1] if len(data) > 1 else template_file
+        with open(destination_file, 'w') as f:
+            template_source = path.join(template_root, template_file)
+            template = Template(open(template_source, 'r').read())
+            f.write(template.safe_substitute(**data[0]))
