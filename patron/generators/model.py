@@ -5,8 +5,8 @@ from contextlib import contextmanager
 # import os
 from os import path
 import sys
-from . import (PatronConfig, CodeInspector, is_name_valid, get_templates_dir,
-               generate_templates)
+from .helpers import (PatronConfig, CodeInspector, is_name_valid,
+                      get_templates_dir, generate_templates)
 
 
 class ModelGenerator(object):
@@ -27,11 +27,10 @@ class ModelGenerator(object):
         self.config = PatronConfig()
         if not self.config.has_blueprint(namespace):
             raise StandardError("ModelGenerator:Blueprint doesn't exist")
-        for key, val in self.config.get_blueprint_info(namespace):
-            if key == 'models':
-                self.namespace = namespace
-                self.output_target = val
-                break
+        # check filesystem for namespace/models.py
+        self.namespace = namespace
+        self.output_target = path.join(self.config.project_name,
+                                       namespace, 'models.py')
         if not is_name_valid(name):
             raise ValueError("ModelGenerator:Model name is invalid")
         self.name = name.capitalize()

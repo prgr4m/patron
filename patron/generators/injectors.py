@@ -4,7 +4,7 @@ import cStringIO
 import os
 from os import path
 import re
-from . import PatronConfig, get_templates_dir
+from .helpers import PatronConfig, get_templates_dir
 
 
 class InjectorBase(object):
@@ -25,7 +25,7 @@ class InjectorBase(object):
         self.stream.close()
 
     def inject(self):
-        raise NotImplementedError("InjectorBase::inject must be overridden")
+        raise NotImplementedError("InjectorBase:inject must be overridden")
 
     def read_target(self):
         with open(self.target_file) as f:
@@ -129,13 +129,10 @@ class FactoryInjector(InjectorBase):
             init_file.write(self.stream.getvalue().rstrip())
 
     def _admin(self):
-        project_name = self.config.project_name
         injection_directive = {
             'import': [
-                "from {proj_name}.admin.views import admin"
-                .format(proj_name=project_name),
-                "from {proj_name}.admin.auth import login_manager, principals"
-                .format(proj_name=project_name)
+                "from .admin.views import admin",
+                "from .admin.auth import login_manager, principals"
             ],
             'extension': [
                 "{}principals.init_app(app)".format(self.indent),
@@ -146,11 +143,10 @@ class FactoryInjector(InjectorBase):
         return injection_directive
 
     def _blueprint(self, name):
-        project_name = self.config.project_name
         injection_directive = {
             'import': [
-                "from {proj_name}.{bp_name}.views import {bp_name}"
-                .format(proj_name=project_name, bp_name=name)
+                "from .{bp_name}.views import {bp_name}"
+                .format(bp_name=name)
             ],
             'blueprint':
                 "{ndnt}app.register_blueprint({bp_nm}, url_prefix='/{bp_nm}')"
@@ -197,11 +193,11 @@ class SettingsInjector(InjectorBase):
 class AdminInjector(InjectorBase):
     def __init__(self):
         super(AdminInjector, self).__init__()
-        admin_items = self.config.get_blueprint_info('admin')
-        for item in admin_items:
-            if item[0] == 'views':
-                self.target_file = item[1]
-                break
+        if not self.config.has_blueprint('admin'):
+            err_msg = "AdminInjector:No admin blueprint known to patron"
+            raise StandardError(err_msg)
+        admin_view = path.join('admin', 'views.py')
+        self.target_file = path.join(self.config.project_name, admin_view)
 
     def inject(self, directive):
         known_directives = ['blog']
@@ -240,11 +236,11 @@ class AdminInjector(InjectorBase):
 class SitemapInjector(InjectorBase):
     def __init__(self):
         super(SitemapInjector, self).__init__()
-        public_items = self.config.get_blueprint_info('public')
-        for item in public_items:
-            if item[0] == 'views':
-                self.target_file = item[1]
-                break
+        if not self.config.has_blueprint('public'):
+            err_msg = "SitemapInjector:'public' blueprint not known by patron"
+            raise StandardError(err_msg)
+        public_view = path.join('public', 'views.py')
+        self.target_file = path.join(self.config.project_name, public_view)
 
     def inject(self, directive):
         known_directives = ['blog']

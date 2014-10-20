@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-import os
+from __future__ import print_function
 from os import path
-import shutil
-from . import (PatronConfig, is_name_valid, get_templates_dir,
-               generate_templates)
+from cookiecutter.generate import generate_files
+from .helpers import (PatronConfig, is_name_valid, get_templates_dir,
+                      create_context, get_scaffold)
 
 
 class FlaskProject(object):
@@ -11,138 +11,28 @@ class FlaskProject(object):
         if is_name_valid(name):
             self.name = name
         else:
-            raise StandardError("Name supplied to FlaskProject is not valid")
+            raise StandardError("FlaskProject: Name given is not valid")
         self.root_path = directory if isinstance(directory, str) else name
         if path.exists(self.root_path):
-            raise OSError("Directory already exists")
-        self.tpl_root = path.join(get_templates_dir(), 'project')
+            raise OSError("FlaskProject: Directory already exists")
+        self.scaffold = get_scaffold('base')
 
     def create(self):
-        os.mkdir(self.root_path)
-        os.chdir(self.root_path)
+        context = create_context('base')
+        context['cookiecutter']['directory_name'] = self.root_path
+        context['cookiecutter']['project_name'] = self.name
+        generate_files(repo_dir=self.scaffold, context=context)
+        PatronConfig.create(self.name, self.root_path)
 
-        self.__setup_root_directory()
-        self.__setup_tests_directory()
-        self.__setup_tmp_directory()
-        self.__setup_package_directory()
 
-    def __setup_root_directory(self):
-        template_root = path.join(self.tpl_root, 'root')
-        template_files = {
-            'fcgi_template.txt': [
-                dict(project_name=self.name),
-                "{}.fcgi".format(self.name.lower())
-            ],
-            'manage.py': [
-                dict(project_name=self.name,
-                     proj_env="%s_ENV" % self.name.upper())
-            ],
-            'passenger_wsgi.py': [
-                dict(project_name=self.name,
-                     project_name_env=self.name.upper())
-            ],
-            'wsgi_template.txt': [
-                dict(project_name=self.name),
-                "{}.wsgi".format(self.name.lower())
-            ],
-            'bowerrc.txt': [
-                dict(js_vendor=path.join(self.name, 'static', 'js', 'vendor')),
-                '.bowerrc'
-            ]
-        }
-        generate_templates(template_root, template_files)
-        shutil.copyfile(path.join(template_root, 'fabfile.py'),
-                        'fabfile.py')
-        shutil.copyfile(path.join(template_root, 'htaccess.txt'),
-                        'htaccess')
-        PatronConfig.create(self.name)
-        shutil.copyfile(path.join(template_root, 'requirements.txt'),
-                        "{}-requirements.txt".format(self.name.lower()))
+class StaticProject(FlaskProject):
+    """
+    Very similar to a standard flask project minus the database dependencies
+    and includes Flask-FlatPages and Frozen-Flask.
+    """
+    def __init__(self, name, directory=None):
+        super(StaticProject, self).__init__(name, directory)
+        self.scaffold = get_scaffold('static')
 
-    def __setup_tests_directory(self):
-        os.mkdir('tests')
-        open(path.join('tests', '__init__.py'), 'w').close()
-        tpl_dir = path.join(self.tpl_root, 'tests')
-        tpl_file = {
-            'test_basic.py': [
-                dict(project_name=self.name, blueprint_name='Public'),
-                path.join('tests', 'test_public_blueprint.py')
-            ]
-        }
-        generate_templates(tpl_dir, tpl_file)
-
-    def __setup_tmp_directory(self):
-        os.mkdir('tmp')
-        open(path.join('tmp', 'restart.txt'), 'w').close()
-
-    def __setup_package_directory(self):
-        template_root = path.join(self.tpl_root, 'package')
-
-        def create_app_templates():
-            os.makedirs(path.join('templates', 'includes'))
-            template_root = path.join(self.tpl_root, 'templates')
-            for f in [x for x in os.listdir(template_root)
-                      if x not in ['.', '..', 'includes']]:
-                shutil.copyfile(path.join(template_root, f),
-                                path.join('templates', f))
-            template_root = path.join(template_root, 'includes')
-            for f in [x for x in os.listdir(template_root)
-                      if x not in ['.', '..', 'meta.jade']]:
-                shutil.copyfile(path.join(template_root, f),
-                                path.join('templates', 'includes', f))
-            template_file = {
-                'meta.jade': [
-                    dict(project_name=self.name),
-                    path.join('templates', 'includes', 'meta.jade')
-                ]
-            }
-            generate_templates(template_root, template_file)
-
-        def create_public_package():
-            template_root = path.join(self.tpl_root, 'public')
-
-            def create_templates():
-                os.mkdir('templates')
-                os.chdir('templates')
-                template_root = path.join(self.tpl_root, 'public', 'templates')
-                template_file = {
-                    'public_base.jade': [dict(project_name=self.name)]
-                }
-                generate_templates(template_root, template_file)
-                shutil.copyfile(path.join(template_root, 'index.jade'),
-                                'index.jade')
-                shutil.copyfile(path.join(template_root,
-                                          'sitemap_template.xml'),
-                                'sitemap_template.xml')
-
-            os.mkdir('public')
-            os.chdir('public')
-            open('__init__.py', 'w').close()
-            for f in [x for x in os.listdir(template_root)
-                      if x not in ['.', '..', 'templates']]:
-                shutil.copyfile(path.join(template_root, f), f)
-            create_templates()
-
-        def create_static_directory():
-            template_root = path.join(self.tpl_root, 'static')
-            os.mkdir('static')
-            for f in [x for x in os.listdir(template_root)
-                      if x not in ['.', '..']]:
-                shutil.copyfile(path.join(template_root, f),
-                                path.join('static', f))
-
-        os.mkdir(self.name)
-        os.chdir(self.name)
-        template_files = {
-            '__init__.py': [dict(project_name=self.name)],
-            'settings.py': [
-                dict(project_name=self.name,
-                     project_key="{}_KEY".format(self.name.upper()))
-            ]
-        }
-        generate_templates(template_root, template_files)
-        shutil.copyfile(path.join(template_root, 'extensions.py'),
-                        'extensions.py')
-        create_app_templates()
-        create_static_directory()
-        create_public_package()
+    def create(self):
+        super(StaticProject, self).create()
