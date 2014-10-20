@@ -6,12 +6,11 @@ import argparse
 # import argcomplete
 import sys
 from .generators.helpers import PatronConfig
-from .generators.project import FlaskProject
+from .generators.project import FlaskProject, StaticProject
 from .generators.blueprint import BlueprintGenerator
 from .generators.task import TaskGenerator
 from .generators.addons import AddonManager
 from .generators.model import ModelGenerator
-from .generators.static import StaticProject
 
 
 class Patron(object):

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 from os import path
-# from cookiecutter.config import get_user_config
 from cookiecutter.generate import generate_context, generate_files
 from .helpers import PatronConfig, is_name_valid, get_templates_dir
 
@@ -11,10 +10,10 @@ class FlaskProject(object):
         if is_name_valid(name):
             self.name = name
         else:
-            raise StandardError("Name supplied to FlaskProject is not valid")
+            raise StandardError("FlaskProject: Name given is not valid")
         self.root_path = directory if isinstance(directory, str) else name
         if path.exists(self.root_path):
-            raise OSError("Directory already exists")
+            raise OSError("FlaskProject: Directory already exists")
         self.scaffold = path.join(get_templates_dir(), 'base')
 
     def create(self):
@@ -28,3 +27,16 @@ class FlaskProject(object):
         context['cookiecutter']['project_name'] = self.name
         generate_files(repo_dir=self.scaffold, context=context)
         PatronConfig.create(self.name, self.root_path)
+
+
+class StaticProject(FlaskProject):
+    """
+    Very similar to a standard flask project minus the database dependencies
+    and includes Flask-FlatPages and Frozen-Flask.
+    """
+    def __init__(self, name, directory=None):
+        super(StaticProject, self).__init__(name, directory)
+        self.scaffold = path.join(get_templates_dir(), 'static')
+
+    def create(self):
+        super(StaticProject, self).create()

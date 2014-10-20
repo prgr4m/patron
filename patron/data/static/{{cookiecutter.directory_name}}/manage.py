@@ -5,11 +5,11 @@ import os
 import os.path as path
 from livereload import Server
 from flask_script import Manager
-from $project_name import create_app
-from $project_name.blog.commands import Article
-from $project_name.freezer import freezer
+from {{cookiecutter.project_name}} import create_app
+from {{cookiecutter.project_name}}.blog.commands import Article
+from {{cookiecutter.project_name}}.extensions import freezer
 
-env = os.environ.get('$proj_env', 'default')
+env = os.environ.get('{{cookiecutter.project_name|upper}}_ENV', 'default')
 app = create_app(env)
 
 manager = Manager(app)
@@ -19,7 +19,7 @@ manager.add_command('article', Article())
 @manager.option('-p', '--port', dest='port', default=5000)
 def liveserver(port):
     "Run LiveReload Server with Flask"
-    static_dir = path.join(os.getcwd(), "Portfolio", "static")
+    static_dir = path.join(os.getcwd(), "{{cookiecutter.project_name}}", "static")
     sass_globs = ['*.sass', 'base/*.sass', 'modules/*.sass']
     sass_conf = {
         'sass': path.join(static_dir, 'sass'),
@@ -37,8 +37,8 @@ def liveserver(port):
     coffee_cmd = "coffee -c -b --no-header -o {out} {src}".format(**coffee_conf)
 
     template_dirs = ['public', 'blog']
-    jade_dirs = [path.join("Portfolio", d, "templates") for d in template_dirs]
-    jade_dirs.append(path.join("Portfolio", "templates", "admin"))
+    jade_dirs = [path.join("{{cookiecutter.project_name}}", d, "templates") for d in template_dirs]
+    jade_dirs.append(path.join("{{cookiecutter.project_name}}", "templates", "admin"))
 
     def jade_alert():
         print("jade template has been modified!")
@@ -59,7 +59,7 @@ def liveserver(port):
         dir_glob = path.join(jade_dir, '*.jade')
         server.watch(dir_glob, jade_alert)
 
-    blog_glob = path.join('Portfolio', 'blog', 'articles', '*.md')
+    blog_glob = path.join('{{cookiecutter.project_name}}', 'blog', 'articles', '*.md')
     server.watch(blog_glob, blog_alert)
 
     server.serve(port=port)

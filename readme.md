@@ -94,6 +94,7 @@ blog addon autogenerates the admin addon.
 - cookiecutter integration for users to override templates
 - create list of packages being used for what purpose in documentation
 - cli custom user directory setup
+- revise static site generator
 
 ## Thanks
 @audreyr for making cookiecutter

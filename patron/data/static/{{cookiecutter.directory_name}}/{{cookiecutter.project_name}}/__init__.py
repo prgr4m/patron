@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from flask import Flask
 from flask.templating import render_template
-from $project_name.settings import config
-from $project_name.extensions import pages
-from $project_name.public.views import frontend
-from $project_name.blog.views import blog
+from .settings import config
+from .extensions import pages
+from .public.views import frontend
+from .blog.views import blog
 
 
 def create_app(config_obj='default'):

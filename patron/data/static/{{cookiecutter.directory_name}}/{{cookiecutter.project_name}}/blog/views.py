@@ -5,7 +5,7 @@ from flask.globals import request
 from flask.helpers import url_for
 from flask.templating import render_template
 from werkzeug.contrib.atom import AtomFeed
-from $project_name.extensions import pages
+from ..extensions import pages
 
 templates_dir = path.join(path.dirname(path.abspath(__file__)), 'templates')
 blog = Blueprint('blog', __name__, template_folder=templates_dir)
