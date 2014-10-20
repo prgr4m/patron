@@ -100,7 +100,9 @@ blog addon autogenerates the admin addon.
 #### 0.2.2
 - conversion to cookiecutter for users to be able to override scaffolds
 - changed patron project configuration implementation from ini to json format
-- ability to create a patron project json file with a project
+- added option in cli to create user template directory
+- fixed minor bugs in code being generated
+- temporarily took out bower call for ckeditor until done with documentation
 
 #### 0.2.2
 - converted scaffolds to cookiecutter so users can override

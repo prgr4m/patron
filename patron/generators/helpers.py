@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import json
 import os
 from os import path
@@ -43,10 +44,6 @@ class PatronConfig(object):
         }
         with open(path.join(directory_name, 'patron.json'), 'w') as config_file:
             json.dump(new_config, config_file, indent=2)
-
-    @staticmethod
-    def generate_config():
-        pass
 
     @property
     def project_name(self):
@@ -182,7 +179,10 @@ def create_user_scaffolds_directory():
                             path.join(PATRON_USER_DIR, d))
         if platform.system() == 'Windows':
             subprocess(['attrib', '+h', PATRON_USER_DIR])
-
+        msg_display = "Directory created at: {}"
+    else:
+        msg_display = "Directory already exists: {}"
+    print(msg_display.format(PATRON_USER_DIR))
 
 def generate_templates(template_root, template_files):
     """
