@@ -4,8 +4,9 @@ import os
 from os import path
 import shutil
 import subprocess
-from cookiecutter.generate import generate_context, generate_files
-from .helpers import PatronConfig, RequirementsFileWriter, get_templates_dir
+from cookiecutter.generate import generate_files
+from .helpers import (PatronConfig, RequirementsFileWriter, get_templates_dir,
+                      create_context, get_scaffold)
 from .blueprint import BlueprintGenerator
 from .injectors import (FactoryInjector, ManageInjector, AdminInjector,
                         SitemapInjector)
@@ -35,12 +36,8 @@ class AddonManager(object):
             raise OSError("admin addon already exits")
         # check also if admin directory or admin.py file exists before running
         # scaffold
-        scaffold_dir = path.join(get_templates_dir(), 'admin')
-        config_dict = dict(default_context=dict())
-        context_file = path.join(scaffold_dir, 'cookiecutter.json')
-        context = generate_context(
-            context_file=context_file,
-            default_context=config_dict['default_context'])
+        scaffold_dir = get_scaffold('admin')
+        context = create_context('admin')
         context['cookiecutter']['project_name'] = self.config.project_name
         generate_files(repo_dir=scaffold_dir, context=context)
         FactoryInjector().inject('admin')

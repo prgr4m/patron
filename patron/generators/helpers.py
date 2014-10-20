@@ -1,8 +1,24 @@
 # -*- coding: utf-8 -*-
 import json
-import re
 import os
 from os import path
+import platform
+import re
+import shutil
+import subprocess
+from cookiecutter.generate import generate_context
+
+
+USER_HOME = path.expanduser('~')
+
+if platform.system() == 'Windows':
+    USER_DIR = 'patron'
+else:
+    USER_DIR = '.patron'
+
+PATRON_USER_DIR = path.join(USER_HOME, USER_DIR)
+PKG_SCAFFOLDS = path.join(path.dirname(path.dirname(path.abspath(__file__))),
+                          'data')
 
 
 class PatronConfig(object):
@@ -101,7 +117,47 @@ def is_name_valid(name_in):
 
 
 def get_templates_dir():
-    parent_location = path.dirname(path.dirname(path.abspath(__file__)))
-    # check to see if user dir exists
-    templates_dir = path.join(parent_location, 'data')
+    # just because a user dir can exist doesn't mean the templates do
+    if path.exists(PATRON_USER_DIR):
+        templates_dir = PATRON_USER_DIR
+    else:
+        templates_dir = PKG_SCAFFOLDS
     return templates_dir
+
+
+def scaffold_dir_exists(scaffold_name):
+    scaffold_dir = path.join(get_templates_dir(), scaffold_name)
+    return True if path.exists(scaffold_dir) else False
+
+
+def get_default_scaffold_list():
+    return [x for x in os.listdir(PKG_SCAFFOLDS) if x not in ['.', '..']]
+
+
+def get_scaffold(scaffold_name):
+    if scaffold_name not in get_default_scaffold_list():
+        raise NameError("Unknown scaffold provided: '{}'".format(scaffold_name))
+    if scaffold_dir_exists(scaffold_name):
+        scaffold_dir = path.join(get_templates_dir(), scaffold_name)
+    else:
+        scaffold_dir = path.join(PKG_SCAFFOLDS, scaffold_name)
+    return scaffold_dir
+
+
+def create_context(scaffold_name):
+    config_dict = dict(default_context=dict())
+    context_file = path.join(get_scaffold(scaffold_name), 'cookiecutter.json')
+    context = generate_context(
+        context_file=context_file,
+        default_context=config_dict['default_context'])
+    return context
+
+
+def create_user_scaffolds_directory():
+    if not path.exists(PATRON_USER_DIR):
+        os.mkdir(PATRON_USER_DIR)
+        for d in [x for x in os.listdir(PKG_SCAFFOLDS) if x not in ['.', '..']]:
+            shutil.copytree(path.join(PKG_SCAFFOLDS, d),
+                            path.join(PATRON_USER_DIR, d))
+        if platform.system() == 'Windows':
+            subprocess(['attrib', '+h', PATRON_USER_DIR])

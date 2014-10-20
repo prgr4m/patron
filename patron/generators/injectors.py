@@ -193,11 +193,11 @@ class SettingsInjector(InjectorBase):
 class AdminInjector(InjectorBase):
     def __init__(self):
         super(AdminInjector, self).__init__()
-        admin_items = self.config.get_blueprint_info('admin')
-        for item in admin_items:
-            if item[0] == 'views':
-                self.target_file = item[1]
-                break
+        if not self.config.has_blueprint('admin'):
+            err_msg = "AdminInjector:No admin blueprint known to patron"
+            raise StandardError(err_msg)
+        admin_view = path.join('admin', 'views.py')
+        self.target_file = path.join(self.config.project_name, admin_view)
 
     def inject(self, directive):
         known_directives = ['blog']
@@ -236,11 +236,11 @@ class AdminInjector(InjectorBase):
 class SitemapInjector(InjectorBase):
     def __init__(self):
         super(SitemapInjector, self).__init__()
-        public_items = self.config.get_blueprint_info('public')
-        for item in public_items:
-            if item[0] == 'views':
-                self.target_file = item[1]
-                break
+        if not self.config.has_blueprint('public'):
+            err_msg = "SitemapInjector:'public' blueprint not known by patron"
+            raise StandardError(err_msg)
+        public_view = path.join('public', 'views.py')
+        self.target_file = path.join(self.config.project_name, public_view)
 
     def inject(self, directive):
         known_directives = ['blog']

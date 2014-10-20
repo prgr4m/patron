@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 from os import path
-from cookiecutter.generate import generate_context, generate_files
-from .helpers import PatronConfig, is_name_valid, get_templates_dir
+from cookiecutter.generate import generate_files
+from .helpers import (PatronConfig, is_name_valid, get_templates_dir,
+                      create_context, get_scaffold)
 
 
 class FlaskProject(object):
@@ -14,15 +15,10 @@ class FlaskProject(object):
         self.root_path = directory if isinstance(directory, str) else name
         if path.exists(self.root_path):
             raise OSError("FlaskProject: Directory already exists")
-        self.scaffold = path.join(get_templates_dir(), 'base')
+        self.scaffold = get_scaffold('base')
 
     def create(self):
-        # need to get input_dir (local to package or from user directory)
-        config_dict = dict(default_context=dict())
-        context_file = path.join(self.scaffold, 'cookiecutter.json')
-        context = generate_context(
-            context_file=context_file,
-            default_context=config_dict['default_context'])
+        context = create_context('base')
         context['cookiecutter']['directory_name'] = self.root_path
         context['cookiecutter']['project_name'] = self.name
         generate_files(repo_dir=self.scaffold, context=context)
@@ -36,7 +32,7 @@ class StaticProject(FlaskProject):
     """
     def __init__(self, name, directory=None):
         super(StaticProject, self).__init__(name, directory)
-        self.scaffold = path.join(get_templates_dir(), 'static')
+        self.scaffold = get_scaffold('static')
 
     def create(self):
         super(StaticProject, self).create()
