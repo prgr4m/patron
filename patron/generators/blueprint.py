@@ -7,7 +7,7 @@ from .injectors import FactoryInjector
 
 class BlueprintGenerator(object):
     "Generates Blueprints"
-    def __init__(self, name):
+    def __init__(self, name, custom_scaffold=None):
         if is_name_valid(name):
             self.name = name
         else:
@@ -18,7 +18,10 @@ class BlueprintGenerator(object):
         path_check = path.join(self.config.project_name, self.name)
         if path.exists(path_check):
             raise OSError("Blueprint already exists")
-        self.scaffold = get_scaffold('blueprint')
+        if custom_scaffold:
+            self.scaffold = get_scaffold(custom_scaffold)
+        else:
+            self.scaffold = get_scaffold('blueprint')
 
     def create(self):
         context = create_context('blueprint')

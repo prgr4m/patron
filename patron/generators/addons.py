@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-import os
-from os import path
-import shutil
-import subprocess
 from cookiecutter.generate import generate_files
-from .helpers import (PatronConfig, RequirementsFileWriter, get_templates_dir,
-                      create_context, get_scaffold)
+from .helpers import (PatronConfig, RequirementsFileWriter, create_context,
+                      get_scaffold)
 from .blueprint import BlueprintGenerator
 from .injectors import (FactoryInjector, ManageInjector, AdminInjector,
                         SitemapInjector)
@@ -63,41 +59,12 @@ class AddonManager(object):
 
     def _blog(self):
         # add whooshalchemy to requirements file?
-        template_root = path.join(get_templates_dir(), 'blog')
-        target_dir = path.join(self.config.project_name, 'blog')
         if not self.config.has_blueprint('admin'):
             self._admin()
             print("auto generated admin addon")
-        BlueprintGenerator('blog').create()
-        remove_files = ['models.py', 'views.py', 'forms.py',
-                        path.join('templates', 'index.jade')]
-        for f in remove_files:
-            os.remove(path.join(target_dir, f))
-        for f in [f for f in os.listdir(template_root)
-                  if f not in ['.', '..', 'templates', 'admin_templates']]:
-            shutil.copyfile(path.join(template_root, f),
-                            path.join(target_dir, f))
-        template_root = path.join(template_root, 'templates')
-        target_dir = path.join(target_dir, 'templates')
-        for f in [f for f in os.listdir(template_root)
-                  if f not in ['.', '..']]:
-            shutil.copyfile(path.join(template_root, f),
-                            path.join(target_dir, f))
-        template_root = path.join(get_templates_dir(), 'blog',
-                                  'admin_templates')
-        target_dir = path.join(self.config.project_name, 'templates', 'admin')
-        for f in [f for f in os.listdir(template_root) if f not in ['.', '..']]:
-            shutil.copyfile(path.join(template_root, f),
-                            path.join(target_dir, f))
+        BlueprintGenerator('blog', 'blog').create()
         AdminInjector().inject('blog')
         SitemapInjector().inject('blog')
-        ckeditor_options = {
-            'basic': 'ckeditor#basic/4.3.3',
-            'standard': 'ckeditor#standard/4.3.3',
-            'full': 'ckeditor#standard/4.3.3'
-        }
-        bower_install = ["bower", "install", ckeditor_options['standard']]
-        subprocess.call(bower_install)
 
     def _humanizer(self):
         # this is in the same category of an api but not even registered with
