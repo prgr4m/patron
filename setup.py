@@ -9,7 +9,7 @@ with open(path.join(current_dir, 'description.rst'), encoding='utf-8') as f:
 
 setup(
     name="patron",
-    version="0.2.1",
+    version="0.2.2",
     description="Flask generators influenced by Padrino's generators",
     long_description=long_description,
     author="John Boisselle",
