@@ -91,9 +91,8 @@ The blog addon autogenerates the admin addon.
 - python 3.x support
 - tutorial/documentation
 - create list of packages being used for what purpose in documentation
-- cli custom user directory setup
 - revise static site generator
-- revisit admin and move registration into public via injection
+- revisit admin addon and move registration into public via injection
 
 ## Change Log
 
