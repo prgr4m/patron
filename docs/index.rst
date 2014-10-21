@@ -21,7 +21,7 @@ spend more time writing actual code to solve specific problems.
 
 Installation
 ------------
-Install patron with `pip` command:
+Install patron with `pip` command::
 
     pip install patron
 
@@ -59,14 +59,14 @@ Features
 
 Command Line Reference
 ======================
-To view the help at any time run the command with `-h` or `--help`:
+To view the help at any time run the command with `-h` or `--help`::
 
     patron -h
 
 Also, each respective command group has their own help, so just run a command 
 and tack on a `-h` or `--help`:
 
-Example:
+Example::
 
     patron addon -h
 
@@ -129,7 +129,7 @@ first time user so here are a couple of examples. To get help, run::
 
 The command targets the models.py file within the public blueprint.
 
-The code that gets generated is this::
+The code that gets generated inside of models.py is this::
 
     class Person(db.Model):
         __tablename__ = 'person'
@@ -188,7 +188,7 @@ separated by a colon. If the 2nd type passed in is a recognized sqlalchemy type
 2nd type passed in using the keyword 'relation' then it tells the model 
 generator that its a relationship declaration.
 
-**Example #3 - Declaring relationships**::
+**Example #3 - Declaring simple relationships**::
 
     patron model public Post tags:relation:Tag:post:lazy-joined
 
@@ -205,6 +205,39 @@ The command get translated to::
         def __repr__(self):
             return "<Post: Customize me!>"
 
+The lazy types are:
+
+* select
+* joined
+* subquery
+* dynamic
+
+The pattern to recognize is:
+
+    name:relation:Class:backref:lazy-type
+
+**Example #4 - Declaring relationships**::
+
+    patron model public Article tags:relation:Tag:secondary-tags_posts:backref-posts-dynamic
+
+This commands is translated to::
+
+    class Article(db.Model):
+        __tablename__ = 'article'
+        id = db.Column(db.Integer, primary_key=True)
+        tags = db.relationship('Tag', secondary=tags_posts, backref=db.backref('posts', lazy='dynamic'))
+
+        def __str__(self):
+            pass
+
+        def __repr__(self):
+            return "<Article: Customize me!>"
+
+The pattern to recognize for this type of relationship is:
+
+    name:relation:Class:secondary-table_ref:backref-refname-lazytype
+
+Of course you are going to have to setup the secondary/join table yourself.
 
 All models generated have a unittest file generated for them upon creation 
 under the tests directory within the project root.
