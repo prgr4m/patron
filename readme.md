@@ -89,7 +89,6 @@ The blog addon autogenerates the admin addon.
 - addons, addons, addons (just like padrino using flask-packages)
 - argcompletion especially for model generation
 - python 3.x support
-- tutorial/documentation
 - create list of packages being used for what purpose in documentation
 - revise static site generator
 - revisit admin addon and move registration into public via injection
