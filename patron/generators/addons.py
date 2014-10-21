@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+import os
+import platform
 from cookiecutter.generate import generate_files
 from .helpers import (PatronConfig, RequirementsFileWriter, create_context,
-                      get_scaffold)
+                      get_scaffold, create_frontend_node_modules,
+                      FRONTEND_NODE_MODULES)
 from .blueprint import BlueprintGenerator
 from .injectors import (FactoryInjector, ManageInjector, AdminInjector,
                         SitemapInjector)
@@ -20,7 +23,7 @@ class AddonManager(object):
         "lists all known addons"
         # return ['admin', 'api', 'ban', 'blog', 'commerce', 'humanizer',
         #         'mail']
-        return ['admin', 'blog']
+        return ['admin', 'blog', 'frontend']
 
     def create(self, addon_name):
         if addon_name not in AddonManager.list_addons():
@@ -29,7 +32,7 @@ class AddonManager(object):
 
     def _admin(self):
         if self.config.has_blueprint('admin'):
-            raise OSError("admin addon already exits")
+            raise StandardError("admin addon already exits")
         # check also if admin directory or admin.py file exists before running
         # scaffold
         scaffold_dir = get_scaffold('admin')
@@ -65,6 +68,20 @@ class AddonManager(object):
         BlueprintGenerator('blog', 'blog').create()
         AdminInjector().inject('blog')
         SitemapInjector().inject('blog')
+
+    def _frontend(self):
+        if 'frontend' in self.config.addons:
+            raise StandardError("AddonManager:frontend addon already exists!")
+        create_frontend_node_modules()
+        scaffold_dir = get_scaffold('frontend')
+        context = create_context('frontend')
+        context['cookiecutter']['project_name'] = self.config.project_name
+        generate_files(repo_dir=scaffold_dir, context=context)
+        if platform.system() == 'Windows':
+            subprocess(['mklink', '/d', 'node_modules', FRONTEND_NODE_MODULES])
+        else:
+            os.symlink(FRONTEND_NODE_MODULES, 'node_modules')
+        self.config.addons = 'frontend'
 
     def _humanizer(self):
         # this is in the same category of an api but not even registered with
