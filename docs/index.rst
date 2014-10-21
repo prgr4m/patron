@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Patron's documentation!
-==================================
+Patron documentation
+====================
 
 **Patron** is a cli generator for `Flask`_ modeled after `Padrino's`_ 
 generators but following flask conventions.
@@ -34,7 +34,7 @@ it makes external calls to its respective tooling if there isn't a python
 equivalent.
 
 * nodejs/npm (gulp, bower, etc)
-* ruby for sass preprocessor since libsass chokes on newer features
+* ruby for sass since libsass chokes on newer features
 
 Features
 --------
