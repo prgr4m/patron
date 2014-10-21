@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Patron documentation build configuration file, created by
-# sphinx-quickstart on Tue Oct 21 06:06:04 2014.
+# sphinx-quickstart on Tue Oct 21 07:07:31 2014.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -19,6 +19,7 @@ import os
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
+sys.path.append(os.path.abspath('_themes'))
 
 # -- General configuration ------------------------------------------------
 
@@ -101,15 +102,18 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'default'
+html_theme = 'flask_small'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-#html_theme_options = {}
+html_theme_options = {
+    'index_logo': '',
+    'index_logo_height': '120px'
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
-#html_theme_path = []
+html_theme_path = ['_themes']
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -168,7 +172,7 @@ html_static_path = ['_static']
 #html_show_sphinx = True
 
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
-#html_show_copyright = True
+html_show_copyright = True
 
 # If true, an OpenSearch description file will be output, and all pages will
 # contain a <link> tag referring to it.  The value of this option must be the
