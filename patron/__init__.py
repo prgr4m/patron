@@ -5,7 +5,8 @@ from __future__ import print_function
 import argparse
 # import argcomplete
 import sys
-from .generators.helpers import PatronConfig, create_user_scaffolds_directory
+from .generators.helpers import (PatronConfig, create_user_scaffolds_directory,
+                                 create_frontend_node_modules)
 from .generators.project import FlaskProject, StaticProject
 from .generators.blueprint import BlueprintGenerator
 from .generators.task import TaskGenerator
@@ -39,7 +40,10 @@ class Patron(object):
             project_type[args.subparser_name](**options).create()
         elif args.subparser_name == 'config':
             # add other options in the future
-            create_user_scaffolds_directory()
+            if args.action == 'templates':
+                create_user_scaffolds_directory()
+            else:
+                create_frontend_node_modules()
         elif args.subparser_name in project_dependent:
             if not PatronConfig.is_present():
                 print("Need to be in a Patron generated project root!")
@@ -130,8 +134,9 @@ def main():
     task_parser.add_argument('description', help=task_description_help)
 
     # eventually add more config options
-    config_actions = ('templates',)
-    action_help = "Generate user templates directory for overrides"
+    config_actions = ('templates', 'frontend')
+    action_help = "Generate user templates directory "
+    action_help += "or initialize front-end work flow"
     config_parser.add_argument('action', choices=config_actions,
                                default='templates', help=action_help)
 

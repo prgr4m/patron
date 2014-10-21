@@ -19,6 +19,8 @@ else:
     USER_DIR = '.patron'
 
 PATRON_USER_DIR = path.join(USER_HOME, USER_DIR)
+PATRON_USER_TPL_DIR = path.join(PATRON_USER_DIR, 'templates')
+FRONTEND_NODE_MODULES = path.join(PATRON_USER_DIR, 'frontend')
 PKG_SCAFFOLDS = path.join(path.dirname(path.dirname(path.abspath(__file__))),
                           'data')
 
@@ -136,8 +138,8 @@ def is_name_valid(name_in):
 
 def get_templates_dir():
     # just because a user dir can exist doesn't mean the templates do
-    if path.exists(PATRON_USER_DIR):
-        templates_dir = PATRON_USER_DIR
+    if path.exists(path.join(PATRON_USER_DIR, 'templates')):
+        templates_dir = path.join(PATRON_USER_DIR, 'templates')
     else:
         templates_dir = PKG_SCAFFOLDS
     return templates_dir
@@ -173,16 +175,49 @@ def create_context(scaffold_name):
 
 def create_user_scaffolds_directory():
     if not path.exists(PATRON_USER_DIR):
-        os.mkdir(PATRON_USER_DIR)
+        os.makedirs(PATRON_USER_TPL_DIR)
         for d in [x for x in os.listdir(PKG_SCAFFOLDS) if x not in ['.', '..']]:
             shutil.copytree(path.join(PKG_SCAFFOLDS, d),
-                            path.join(PATRON_USER_DIR, d))
+                            path.join(PATRON_USER_TPL_DIR, d))
         if platform.system() == 'Windows':
             subprocess(['attrib', '+h', PATRON_USER_DIR])
         msg_display = "Directory created at: {}"
     else:
         msg_display = "Directory already exists: {}"
     print(msg_display.format(PATRON_USER_DIR))
+
+
+def check_frontend_command(*commands):
+    try:
+        devnull = open(os.devnull)
+        for cmd in commands:
+            subprocess.Popen([cmd], stdout=devnull, stderr=devnull)\
+                .communicate()
+    except OSError as e:
+        if e.errno == os.errno.ENOENT:
+            print("Command: '%s' doesn't exist on path!" % cmd)
+            print("Installing: %s" % cmd)
+            npm_cmd = ['npm', 'install', '-g', cmd]
+            subprocess.call(npm_cmd)
+        else:
+            print("Error when running %s: %s" % (e, cmd))
+    finally:
+        devnull.close()
+
+
+def create_frontend_node_modules():
+    check_frontend_command('bower', 'coffeegulp')
+    if not path.exists(PATRON_USER_DIR):
+        create_user_scaffolds_directory()
+    if not path.exists(FRONTEND_NODE_MODULES):
+        print("Installing node modules required for front-end work flow")
+        packages = ('browser-sync', 'coffee-script', 'coffeegulp', 'gulp',
+                    'gulp-coffee', 'gulp-imagemin', 'gulp-jade', 'gulp-notify',
+                    'gulp-requirejs', 'gulp-ruby-sass', 'gulp-uglify')
+        for pkg in packages:
+            subprocess.call(['npm', 'install', pkg])
+        shutil.move('node_modules', FRONTEND_NODE_MODULES)
+
 
 def generate_templates(template_root, template_files):
     """

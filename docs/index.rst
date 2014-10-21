@@ -291,7 +291,7 @@ Change Log
 * fixed minor bugs in code being generated
 * temporarily took out bower call for ckeditor until done with documentation
 
-0.2.1
+0.2.1 (01 OCT 2014)
 
 * published python package
 
