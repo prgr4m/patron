@@ -323,6 +323,7 @@ generating a project). The front-end work flow uses the following packages:
 * browser-sync (livereload and proxy)
 * imagemin (for image optimization)
 * notify (system notifications when something goes wrong)
+* uglify (of course)
 
 Once generated, start up your flask development server by running:
 
