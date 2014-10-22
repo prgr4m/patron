@@ -2,6 +2,7 @@
 from __future__ import print_function
 import os
 import platform
+import subprocess
 from cookiecutter.generate import generate_files
 from .helpers import (PatronConfig, RequirementsFileWriter, create_context,
                       get_scaffold, create_frontend_node_modules,
@@ -45,6 +46,8 @@ class AddonManager(object):
         self.config.create_blueprint('admin')
         packages = ['flask-admin', 'flask-login', 'flask-principal']
         self.requirements.add_requirements(packages)
+        ckeditor_cmd = ['bower', 'install', 'ckeditor#standard/4.3.3']
+        subprocess.call(ckeditor_cmd)
 
     def _api(self):
         # check to see if api already exists

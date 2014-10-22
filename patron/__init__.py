@@ -38,7 +38,7 @@ class Patron(object):
                 'static': StaticProject
             }
             project_type[args.subparser_name](**options).create()
-        elif args.subparser_name == 'config':
+        elif args.subparser_name == 'init':
             # add other options in the future
             if args.action == 'templates':
                 create_user_scaffolds_directory()
@@ -77,7 +77,7 @@ def main():
     addon_help = "Addons to a flask project"
     task_help = "Create tasks to be used with fabric"
     static_help = "Create a static site generator w/o a database"
-    config_help = "Actions to be performed with patron itself"
+    init_help = "Actions to be performed with patron itself"
 
     parser = argparse.ArgumentParser(description=cli_desc)
     subparser = parser.add_subparsers(dest='subparser_name')
@@ -89,7 +89,7 @@ def main():
     addon_parser = subparser.add_parser('addon', help=addon_help)
     task_parser = subparser.add_parser('task', help=task_help)
     static_parser = subparser.add_parser('static', help=static_help)
-    config_parser = subparser.add_parser('config', help=config_help)
+    init_parser = subparser.add_parser('init', help=init_help)
 
     directory_group = [project_parser, static_parser]
     for p in directory_group:
@@ -134,11 +134,11 @@ def main():
     task_parser.add_argument('description', help=task_description_help)
 
     # eventually add more config options
-    config_actions = ('templates', 'frontend')
-    action_help = "Generate user templates directory "
-    action_help += "or initialize front-end work flow"
-    config_parser.add_argument('action', choices=config_actions,
-                               default='templates', help=action_help)
+    init_actions = ('templates', 'frontend')
+    init_help = "Generate user templates directory "
+    init_help += "or initialize front-end work flow"
+    init_parser.add_argument('action', choices=init_actions,
+                               default='templates', help=init_help)
 
     # argcomplete.autocomplete(parser)
     Patron.run(parser.parse_args(), parser.prog)

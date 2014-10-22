@@ -70,6 +70,42 @@ Example::
 
     patron addon -h
 
+Initialization
+--------------
+With patron you can currently initialize 2 settings for convenience:
+
+* user template scaffolding
+* global node modules used by the front-end work flow addon
+
+The patron user directory on a linux/unix system is located at:
+
+    ~/.patron
+
+On a windows system, it is located at:
+
+    $USERPROFILE/patron
+
+To create the user scaffolding directory::
+
+    patron init templates
+
+As of version 0.2.2, patron uses cookiecutter for scaffolding so you can 
+change or use your own cookiecutter flask templates to be used with this tool.
+This is just for convenience. If you don't like using jade and prefer to type
+more, this would be the way to customize the scaffolding. This directory is
+hidden by default so you don't delete it on accident.
+
+To create global node modules used by the front-end workflow, run::
+
+    patron init frontend
+
+This is used as a convenience in that when dealing with installing anything by 
+node, package dependencies can take FOREVER. This command installs global 
+commands run by the frontend work flow. When using the front-end addon, patron 
+creates a symlink/mklink to the node modules folder in the patron user
+directory so you don't have to play the waiting game when you should be 
+writing code.
+
 Projects
 --------
 Generate a project::
@@ -270,6 +306,49 @@ This command auto generates the admin addon if not already created, injects
 code into the sitemap to track blog posts and registers itself with the admin
 addon.
 
+Front-End
+^^^^^^^^^
+Generated with the following command::
+
+    patron addon frontend
+
+This provides a front-end work flow outside of the flask project package. I
+typically separate my projects into client and server (hence the -d switch when
+generating a project). The front-end work flow uses the following packages:
+
+* gulp
+* coffeegulp (to launch the gulp build process)
+* sass (ruby sass since libsass chokes on new features and libs like bourbon, neat and bitters)
+* jade (keeping consistent)
+* browser-sync (livereload and proxy)
+* imagemin (for image optimization)
+* notify (system notifications when something goes wrong)
+
+Once generated, start up your flask development server by running:
+
+    python manage.py runserver
+
+and then in a separate process, within the root directory, run:
+
+    coffeegulp
+
+This will auto open your system default web browser and proxy back to the flask
+server. It also watches the jade files within the flask project and reloads on 
+all browsers. The really nice thing about browser-sync is that if you do 
+something in one client, it does it in all clients.
+
+If you don't like the setup, you can always go into the patron user directory 
+and change the scaffolding to your liking. The directory is labeled 'frontend' 
+under the 'templates' directory.
+
+**Note**:
+
+If you are having problems installing any of the node modules that patron does 
+on your behalf, the culprit on some linux systems is that you don't have the 
+appropriate graphics dev files installed to compile against. Use your system 
+package manager and install the dev files for jpg, gif, and png files.
+
+
 Todo
 ====
 
@@ -283,13 +362,14 @@ Todo
 
 Change Log
 ==========
-0.2.2
+0.2.2 (21 OCT 2014)
 
 * conversion to cookiecutter for users to be able to override scaffolds
 * changed patron project configuration implementation from ini to json format
 * added option in cli to create user template directory
 * fixed minor bugs in code being generated
-* temporarily took out bower call for ckeditor until done with documentation
+* added front-end work flow to addons
+* added public facing documentation
 
 0.2.1 (01 OCT 2014)
 
