@@ -20,6 +20,10 @@ Can be found on [pythonhosted](http://pythonhosted.org/patron/).
 This tooling was originally created for my own personal use and now has been 
 open sourced.
 
+## Repository details
+Main repo on [bitbucket](https://bitbucket.org/prgr4m/patron) and a mirror 
+on [github](https://github.com/prgr4m/patron).
+
 ## Todo
 
 - form generator similar to model generator
