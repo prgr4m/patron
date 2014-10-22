@@ -17,10 +17,7 @@ setup(
     url="https://bitbucket.org/prgr4m/patron",
     license="MIT",
     packages=find_packages(),
-    package_data={
-        '': ['data/**/*.py', 'data/**/*.txt', 'data/**/*.jade',
-             'data/**/*.xml', 'data/**/*.png', 'data/**/*.ico']
-    },
+    include_package_data=True,
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
