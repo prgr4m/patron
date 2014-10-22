@@ -361,6 +361,7 @@ Todo
 * create list of packages being used by each addon and why
 * revise static site generator
 * revise admin addon and move registration into public via injection
+* patron logo
 
 Change Log
 ==========
