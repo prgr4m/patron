@@ -1,97 +1,41 @@
 # Patron
 
 ## Overview
-Patron is a generator for [Flask](http://flask.pocoo.org) modeled after 
-[Padrino](http://padrinorb.com)'s generators particular to my workflow. I 
-originally wrote Patron (prior name stencil) as an overall project management
-tool (regardless of codebase) but have separated functionality into different
-projects and have changed my workflow since then. A lot of scaffolds or best
-practices lump both the frontend and backend together when they are 2 problems
-to be solved separately.
 
-This cli generator is solely focused on flask and does not include anything in
-regards to front-end development. I use pyjade for templates since I use jade 
-for templating with gulp and use a conversion script between the two. So what's
-  so great about this then? Similar to padrino's generators,
-Patron code is generated and injected for you with functionality pieced
-together using only what you need incrementally. This tool's focus is for speed 
-of development and not just as a base.
+Patron is a cli generator for [Flask](http://flask.pocoo.org) modeled after 
+[Padrino’s](http://www.padrinorb.com/guides/generators) generators but 
+following flask conventions.
 
-## Requirements
-bower needs to be installed globally on your system. This is for ckeditor to be
-used with blog addon in the admin interface... and just python 2.x.
+The philosophy behind this cli generator is to provide functionality 
+incrementally to a project by generating code from prefab scripts into an 
+existing (generated) code base. While other scaffolds provide you with a solid 
+base for your flask projects, this tool is more focused on speed of 
+development and common patterns generally found in web development so you can 
+spend more time writing actual code to solve specific problems.
 
-## Usage
-Patron help is pretty self explanatory... the only thing that might be confusing
-is with the model generator when describing fields and relationships.
+## Documentation
 
-ex:
-```
-patron model public Person name:string-40:unique age:integer:default-21
-```
-'public' being the blueprint targeted models.py file
+Can be found on [pythonhosted](http://pythonhosted.org/patron/).
 
-would be translated into:
-```
-...
-name = db.Column(db.String(40), unique=True)
-age = db.Column(db.Integer, default=21)
-...
-```
-
-Another example:
-```
-cat_id:integer:foreign-nyaa.id
-```
-would be
-```
-cat_id = db.Column(db.Integer, db.ForeignKey('nyaa.id'))
-```
-Column attributes are: index, nullable, unique, default
-
-so why not use parenthesis instead of a hyphen?
-
-- less to type
-- my terminal craps itself so I switched to a hyphen
-
-when defining a relationship within a model its a little tricky. here's the 
-following formats:
-
-```
-name:relation:Class:backref:lazytype-type
-  ex: tags:relation:Tag:post:lazy-joined
-      tags = db.relationship('Tag', backref='post', lazy='joined')
-  ex: tags:relation:Tag:post:lazy-dynamic
-      tags = db.relationship('Tag', backref='post', lazy='dynamic')
-```
-```
-name:relation:Class:secondary-table_ref:backref-refname-lazytype
-  ex: tags:relation:Tag:secondary-tags_posts:backref-posts-dynamic
-      tags = db.relationship('Tag', secondary=tags_posts, backref=db.backref('posts', lazy='dynamic'))
-```
-Of course you're going to have to setup the secondary/join table yourself.
-
-Lazy types are: select, joined, subquery, dynamic
-
-For one-to-one relationships just tack on `uselist`
-
-Model generation only generates what you tell it. Always make sure to actually
-double check your models before running a migration.
-
-All blueprints and models also generate their own unittest files and blueprints
-auto register with the app factory.
-
-The blog addon autogenerates the admin addon.
+This tooling was originally created for my own personal use and now has been 
+open sourced.
 
 ## Todo
 
 - form generator similar to model generator
-- addons, addons, addons (just like padrino using flask-packages)
-- argcompletion especially for model generation
+- addons (at a minimum matching padrino's set but adding on other patterns)
+- argcompletion for cli (linux)
 - python 3.x support
-- create list of packages being used for what purpose in documentation
+- create list of packages being used by each addon and why
 - revise static site generator
 - revisit admin addon and move registration into public via injection
+- patron logo
+- revise model generator
+    - shorter commands without losing meaning
+    - update cli documentation for models
+    - create modular orm support so people can just plug in their own
+- update docs to have feature matrix and road map
+- multi page public docs for easier navigation on users
 
 ## Change Log
 
@@ -100,7 +44,8 @@ The blog addon autogenerates the admin addon.
 - changed patron project configuration implementation from ini to json format
 - added option in cli to create user template directory
 - fixed minor bugs in code being generated
-- temporarily took out bower call for ckeditor until done with documentation
+- added front-end work flow to addons
+- added public facing documentation
 
 #### 0.2.1
 - published python package
@@ -113,9 +58,11 @@ The blog addon autogenerates the admin addon.
 - blueprint registration functionality
 - initial project creation with scaffolding ripped out of stencil
 
-## Thanks
+## Thanks goes to...
 - @audreyr for making cookiecutter
 - @mitsuhiko for creating flask
+- the flask community for being awesome
+- the padrino [team](http://www.padrinorb.com/team).
 
 ## Copyright
 Copyright (c) 2014 John Boisselle
