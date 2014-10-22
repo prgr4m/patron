@@ -346,7 +346,9 @@ under the 'templates' directory.
 If you are having problems installing any of the node modules that patron does 
 on your behalf, the culprit on some linux systems is that you don't have the 
 appropriate graphics dev files installed to compile against. Use your system 
-package manager and install the dev files for jpg, gif, and png files.
+package manager and install the dev files for jpg, gif, and png files. If you 
+don't have coffeegulp and bower installed globally, patron will try to install 
+those two for you.
 
 
 Todo
