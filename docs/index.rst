@@ -29,7 +29,7 @@ External Dependencies
 ---------------------
 Patron does have some external dependencies outside of the python ecosystem in 
 regards to front-end tooling. If you use flask-assets, you should be aware that
-it makes external calls to its respective tooling if there isn't a python 
+it makes external calls to the respective tooling if there isn't a python 
 equivalent.
 
 * nodejs/npm (gulp, bower, etc)
