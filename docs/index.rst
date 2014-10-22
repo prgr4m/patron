@@ -256,7 +256,7 @@ The pattern to recognize is:
 
     patron model public Article tags:relation:Tag:secondary-tags_posts:backref-posts-dynamic
 
-This commands is translated to::
+This command gets translated to::
 
     class Article(db.Model):
         __tablename__ = 'article'
