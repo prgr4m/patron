@@ -40,6 +40,7 @@ on [github](https://github.com/prgr4m/patron).
     - create modular orm support so people can just plug in their own
 - update docs to have feature matrix and road map
 - multi page public docs for easier navigation on users
+- when adding frontend work flow, should overwrite .bowerrc and point to frontend dir
 
 ## Change Log
 
