@@ -2,7 +2,7 @@
 
 ## Overview
 
-Patron is a cli generator for [Flask](http://flask.pocoo.org) modeled after 
+Patron is a cli generator for [Flask](http://flask.pocoo.org) inspired by 
 [Padrino’s](http://www.padrinorb.com/guides/generators) generators but 
 following flask conventions.
 
@@ -27,13 +27,12 @@ on [github](https://github.com/prgr4m/patron).
 ## Todo
 
 - form generator similar to model generator
-- addons (at a minimum matching padrino's set but adding on other patterns)
 - argcompletion for cli (linux)
 - python 3.x support
 - create list of packages being used by each addon and why
 - revise static site generator
 - patron logo
-- base
+- blueprint
     - include injection snippets file so users can override (ex: if someone wants to use Flask-Classy instead of bare minimum)
 - patron config
     - include sections for components/packages or reorganize recognized addons
