@@ -13,6 +13,8 @@ from .generators.task import TaskGenerator
 from .generators.addons import AddonManager
 from .generators.model import ModelGenerator
 
+__version__ = '0.2.2'
+
 
 class Patron(object):
     "The interface between the cli and the library"
@@ -138,7 +140,7 @@ def main():
     init_help = "Generate user templates directory "
     init_help += "or initialize front-end work flow"
     init_parser.add_argument('action', choices=init_actions,
-                               default='templates', help=init_help)
+                             default='templates', help=init_help)
 
     # argcomplete.autocomplete(parser)
     Patron.run(parser.parse_args(), parser.prog)
