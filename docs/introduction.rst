@@ -1,8 +1,5 @@
-Quickstart
-==========
-
 Introduction
-------------
+============
 
 The philosophy behind this cli generator is to provide functionality 
 *incrementally* to a project by generating code from prefab scripts into an 

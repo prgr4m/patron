@@ -19,16 +19,9 @@ base for your flask projects, this tool is more focused on *speed* of
 development and common patterns generally found in web development so you can 
 spend more time writing actual code to solve specific problems.
 
-Useful Links
-------------
+If you would like to report any issues, please open an issue `here`_.
 
-* Patron on `PyPI`_
-* Patron on `bitbucket`_
-* Patron `issue tracker`_
-
-.. _PyPI: http://pypi.python.org/pypi/patron
-.. _bitbucket: https://bitbucket.org/prgr4m/patron
-.. _issue tracker: https://bitbucket.org/prgr4m/patron/issues
+.. _here: https://bitbucket.org/prgr4m/patron/issues
 
 User Guide
 ----------
@@ -36,7 +29,7 @@ User Guide
 .. toctree::
    :maxdepth: 2
 
-   quickstart
+   introduction
    basic_usage
    projects
    blueprints
