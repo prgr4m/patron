@@ -65,6 +65,7 @@ on [github](https://github.com/prgr4m/patron).
     - revise to give user more structure rather than base models and bare templates
 - addons
     - api
+        - possibly its own cli subgroup for adding and autoregistration?
     - commerce
     - mailer
 
