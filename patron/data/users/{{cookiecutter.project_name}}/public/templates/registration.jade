@@ -1,0 +1,27 @@
+extends base
+
+block page_content
+  .container
+    h1 User Registration Form
+    form.form-horizontal(method="POST", role="form")
+      #{form.csrf_token}
+      .form-group
+        #{form.username.label(class="col-sm-2 control-label")}
+        .col-sm-10
+          #{form.username(required="required", class="form-control")}
+      .form-group
+        #{form.email.label(class="col-sm-2 control-label")}
+        .col-sm-10
+          #{form.email(required="required", class="form-control")} 
+      .form-group
+        #{form.password.label(class="col-sm-2 control-label")}
+        .col-sm-10
+          #{form.password(required="required", class="form-control")} 
+      .form-group
+        #{form.confirm.label(class="col-sm-2 control-label")}
+        .col-sm-10
+          #{form.confirm(required="required", class="form-control")} 
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          button.btn.btn-primary(type="submit")
+            | Register New User

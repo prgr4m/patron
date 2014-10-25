@@ -67,6 +67,9 @@ on [github](https://github.com/prgr4m/patron).
     - add commands documentation that are injected by each addon
 - blog addon
     - revise to give user more structure rather than base models and bare templates
+- injectors
+    - refactor and break out into each scaffolds section
+    - make injections user configurable
 - addons
     - api
         - possibly its own cli subgroup for adding and autoregistration (after addon is present)

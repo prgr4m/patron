@@ -24,7 +24,7 @@ class AddonManager(object):
         "lists all known addons"
         # return ['admin', 'api', 'ban', 'blog', 'commerce', 'humanizer',
         #         'mail']
-        return ['admin', 'blog', 'frontend']
+        return ['admin', 'blog', 'frontend', 'users']
 
     def create(self, addon_name):
         if addon_name not in AddonManager.list_addons():
@@ -35,7 +35,8 @@ class AddonManager(object):
         if self.config.has_blueprint('admin'):
             raise StandardError("admin addon already exits")
         # check also if admin directory or admin.py file exists before running
-        # scaffold
+        # check to see if user addon exists, if so, copy over user/admin.py and
+        # register with admin
         scaffold_dir = get_scaffold('admin')
         context = create_context('admin')
         context['cookiecutter']['project_name'] = self.config.project_name
@@ -116,3 +117,9 @@ class AddonManager(object):
         # useful for setting up rules if forms get abused until you can
         # properly setup rules for your webserver
         print("generating banner addon -- still needs to be implemented")
+
+    def _users(self):
+        # check if resource already exists
+        # run scaffold
+        # inject routes into public/views.py for login, logout, registration
+        print("generating users addon -- still needs to be implemented")

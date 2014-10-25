@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Patron documentation
-====================
+Patron
+======
 
 **Patron** is a cli generator for `Flask`_ inspired by `Padrino's`_ 
 generators but following flask conventions.
