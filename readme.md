@@ -60,7 +60,6 @@ on [github](https://github.com/prgr4m/patron).
     - user package inject login
     - admin should inject auth/principal
 - documentation
-    - multi-page for easier navigation
     - feature matrix in regards to padrino but flask conventions
     - roadmap of implementation features
     - list of package dependencies by addon
