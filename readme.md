@@ -56,6 +56,9 @@ on [github](https://github.com/prgr4m/patron).
     - move user functionality into its own package
     - should auto gen user package
     - user package commands should use wtforms for cli validation
+    - break auth and login out of admin and put into extensions file for configuration
+    - user package inject login
+    - admin should inject auth/principal
 - documentation
     - multi-page for easier navigation
     - feature matrix in regards to padrino but flask conventions
@@ -69,7 +72,10 @@ on [github](https://github.com/prgr4m/patron).
 - addons
     - api
         - possibly its own cli subgroup for adding and autoregistration?
-    - commerce
+        - should have login route
+        - httpauth
+        - tokens
+    - commerce?
     - mailer
 
 ## Change Log
