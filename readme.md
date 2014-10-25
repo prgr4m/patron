@@ -32,15 +32,41 @@ on [github](https://github.com/prgr4m/patron).
 - python 3.x support
 - create list of packages being used by each addon and why
 - revise static site generator
-- revisit admin addon and move registration into public via injection
 - patron logo
+- base
+    - include injection snippets file so users can override (ex: if someone wants to use Flask-Classy instead of bare minimum)
+- patron config
+    - include sections for components/packages or reorganize recognized addons
+    - include orm used
 - revise model generator
     - shorter commands without losing meaning
     - update cli documentation for models
-    - create modular orm support so people can just plug in their own
-- update docs to have feature matrix and road map
-- multi page public docs for easier navigation on users
-- when adding frontend work flow, should overwrite .bowerrc and point to frontend dir
+    - integrate flask-mongoalchemy next
+- front-end work flow
+    - overwrite .bowerrc and point to frontend dir
+    - revise to have SPA work flow separated... having an app directory
+- revise admin addon
+    - fix admin scaffolding to create media in static directory
+    - make view only care about view and move everything into its own admin.py
+    - make login, logout and registration public routes via injection
+    - change commands on creating superuser to be able to run more than once
+    - remove duplicate delete user command
+    - revise commands file completely
+    - fix delete user command and not delete a role
+- documentation
+    - multi-page for easier navigation
+    - feature matrix in regards to padrino but flask conventions
+    - roadmap of implementation features
+    - list of package dependencies by addon
+    - urls pointing to other project documentation for user convenience
+    - each feature gets its own page also explaining why I've done things the way they are
+    - add commands documentation that are injected by each addon
+- blog addon
+    - revise to give user more structure rather than base models and bare templates
+- addons
+    - api
+    - commerce
+    - mailer
 
 ## Change Log
 
