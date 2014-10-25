@@ -53,6 +53,9 @@ on [github](https://github.com/prgr4m/patron).
     - remove duplicate delete user command
     - revise commands file completely
     - fix delete user command and not delete a role
+    - move user functionality into its own package
+    - should auto gen user package
+    - user package commands should use wtforms for cli validation
 - documentation
     - multi-page for easier navigation
     - feature matrix in regards to padrino but flask conventions
