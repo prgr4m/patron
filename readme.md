@@ -40,7 +40,7 @@ on [github](https://github.com/prgr4m/patron).
 - revise model generator
     - shorter commands without losing meaning
     - update cli documentation for models
-    - integrate flask-mongoalchemy next
+    - integrate flask-mongoalchemy? 
 - front-end work flow
     - overwrite .bowerrc and point to frontend dir
     - revise to have SPA work flow separated... having an app directory
@@ -58,6 +58,7 @@ on [github](https://github.com/prgr4m/patron).
     - break auth and login out of admin and put into extensions file for configuration
     - user package inject login
     - admin should inject auth/principal
+    - move bower call into post_gen_project.py
 - documentation
     - feature matrix in regards to padrino but flask conventions
     - roadmap of implementation features
@@ -67,6 +68,7 @@ on [github](https://github.com/prgr4m/patron).
     - add commands documentation that are injected by each addon
 - blog addon
     - revise to give user more structure rather than base models and bare templates
+    - add whooshalchemy
 - injectors
     - refactor and break out into each scaffolds section
     - make injections user configurable
@@ -79,7 +81,7 @@ on [github](https://github.com/prgr4m/patron).
     - commerce?
     - mailer
 
-## Change Log
+## Patron Changelog
 
 #### 0.2.2
 - conversion to cookiecutter for users to be able to override scaffolds

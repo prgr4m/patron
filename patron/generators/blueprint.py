@@ -24,6 +24,8 @@ class BlueprintGenerator(object):
             self.scaffold = get_scaffold('blueprint')
 
     def create(self):
+        # check to see if admin addon was added, if so, include admin.py in
+        # blueprint scaffold directory
         context = create_context('blueprint')
         context['cookiecutter']['blueprint_name'] = self.name
         context['cookiecutter']['project_name'] = self.config.project_name

@@ -45,7 +45,7 @@ class AddonManager(object):
         ManageInjector().inject('admin')
         self.config.addons = 'admin'
         self.config.create_blueprint('admin')
-        packages = ['flask-admin', 'flask-login', 'flask-principal']
+        packages = ['flask-admin']
         self.requirements.add_requirements(packages)
         ckeditor_cmd = ['bower', 'install', 'ckeditor#standard/4.3.3']
         subprocess.call(ckeditor_cmd)
@@ -120,6 +120,9 @@ class AddonManager(object):
 
     def _users(self):
         # check if resource already exists
-        # run scaffold
         # inject routes into public/views.py for login, logout, registration
-        print("generating users addon -- still needs to be implemented")
+        scaffold_dir = get_scaffold('users')
+        context = create_context('admin')
+        context['cookiecutter']['project_name'] = self.config.project_name
+        generate_files(repo_dir=scaffold_dir, context=context)
+        packages = ['flask-login', 'flask-principal']
