@@ -1,0 +1,62 @@
+Patron:
+My task list of things to do while developing this application since no one has 
+opened up an issue :(
+	General:
+		- argcompletion for cli (linux)
+		- python 3.x support
+		- patron logo
+	Documentation:
+		- feature matrix in regards to padrino but flask conventions
+		- roadmap of implementation features
+		- list of package dependencies by addon
+		- urls pointing to other project documentation for user convenience
+		- each feature gets its own page also explaining why I've done things the way they are
+		- add commands documentation that are injected by each addon
+		- create list of packages being used by each addon and why
+	Form Generator:
+		- similar to model generator
+	Static Site Generator:
+		- revise
+	Blueprints:
+		- include injection snippets file so users can override 
+	Patron Config:
+		- include sections for components/packages or reorganize recognized addons
+		- include orm used
+	Model Generator:
+		- shorter commands without losing meaning? explicit is better than implicit...
+		- update cli documentation for models
+		- integrate flask-mongoalchemy? 
+	Front-End Addon:
+		- overwrite .bowerrc and point to frontend dir
+		- revise to have SPA work flow separated
+	Admin Addon:
+		- fix admin scaffolding to create media in static directory
+		- make view only care about view and move everything into its own admin.py
+		- make login, logout and registration public routes via injection
+		- break out user models and management into its own component/package
+		- auto generate user package
+		- move bower call into post_gen_project.py?
+	Users Addon:
+		- change commands on creating superuser to be able to run more than once
+		- remove duplicate delete user command
+		- revise commands file completely to PEP8
+		- fix delete user command and not delete a role
+		- commands should use wtforms for cli validation
+		- break auth and login out of admin and put into extensions file for configuration
+		- user package inject login and principal
+	Blog Addon:
+		- revise to give user more structure rather than base models and bare templates
+		- add whooshalchemy
+	Injectors:
+		- refactor and break out into each scaffolds section
+		- make injections user configurable
+  Addons:
+		API:
+			- possibly its own cli subgroup for adding and autoregistration (after addon is present)
+			- should have login route
+			- httpauth
+			- tokens
+		Commerce:
+			- satchless?
+    Mailer:
+			- should this use celery? I just don't want to add more development dependencies

@@ -19,10 +19,6 @@ base for your flask projects, this tool is more focused on *speed* of
 development and common patterns generally found in web development so you can 
 spend more time writing actual code to solve specific problems.
 
-If you would like to report any issues, please open an issue `here`_.
-
-.. _here: https://bitbucket.org/prgr4m/patron/issues
-
 User Guide
 ----------
 

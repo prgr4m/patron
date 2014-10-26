@@ -24,63 +24,6 @@ open sourced.
 Main repo on [bitbucket](https://bitbucket.org/prgr4m/patron) and a mirror 
 on [github](https://github.com/prgr4m/patron).
 
-## Todo
-
-- form generator similar to model generator
-- argcompletion for cli (linux)
-- python 3.x support
-- create list of packages being used by each addon and why
-- revise static site generator
-- patron logo
-- blueprint
-    - include injection snippets file so users can override (ex: if someone wants to use Flask-Classy instead of bare minimum)
-- patron config
-    - include sections for components/packages or reorganize recognized addons
-    - include orm used
-- revise model generator
-    - shorter commands without losing meaning
-    - update cli documentation for models
-    - integrate flask-mongoalchemy? 
-- front-end work flow
-    - overwrite .bowerrc and point to frontend dir
-    - revise to have SPA work flow separated... having an app directory
-- revise admin addon
-    - fix admin scaffolding to create media in static directory
-    - make view only care about view and move everything into its own admin.py
-    - make login, logout and registration public routes via injection
-    - change commands on creating superuser to be able to run more than once
-    - remove duplicate delete user command
-    - revise commands file completely
-    - fix delete user command and not delete a role
-    - move user functionality into its own package
-    - should auto gen user package
-    - user package commands should use wtforms for cli validation
-    - break auth and login out of admin and put into extensions file for configuration
-    - user package inject login
-    - admin should inject auth/principal
-    - move bower call into post_gen_project.py
-- documentation
-    - feature matrix in regards to padrino but flask conventions
-    - roadmap of implementation features
-    - list of package dependencies by addon
-    - urls pointing to other project documentation for user convenience
-    - each feature gets its own page also explaining why I've done things the way they are
-    - add commands documentation that are injected by each addon
-- blog addon
-    - revise to give user more structure rather than base models and bare templates
-    - add whooshalchemy
-- injectors
-    - refactor and break out into each scaffolds section
-    - make injections user configurable
-- addons
-    - api
-        - possibly its own cli subgroup for adding and autoregistration (after addon is present)
-        - should have login route
-        - httpauth
-        - tokens
-    - commerce?
-    - mailer
-
 ## Patron Changelog
 
 #### 0.2.2

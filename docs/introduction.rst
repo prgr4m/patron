@@ -1,28 +1,19 @@
 Introduction
 ============
 
-The philosophy behind this cli generator is to provide functionality 
-*incrementally* to a project by generating code from prefab scripts into an 
-existing (generated) code base. While other scaffolds provide you with a solid
-base for your flask projects, this tool is more focused on *speed* of 
-development and common patterns generally found in web development so you can 
-spend more time writing actual code to solve specific problems.
+Why?
+----
+I wanted tooling for flask that would make my life easier (and faster) like 
+the generators for the padrino framework. There are tools out there 
+that scaffold projects (and I've accommodated users of cookiecutter as of 
+0.2.2) but this tool's focus is on rapid development rather than being a 
+padrino clone. There isn't a 1:1 match between padrino and flask when it comes 
+to composing an application nor should there be.
 
-Installation
-------------
-Install patron with `pip` command::
-
-    pip install patron
-
-External Dependencies
----------------------
-Patron does have some external dependencies outside of the python ecosystem in 
-regards to front-end tooling. If you use flask-assets, you should be aware that
-it makes external calls to the respective tooling if there isn't a python 
-equivalent.
-
-* nodejs/npm (gulp, bower, etc)
-* ruby for sass since libsass chokes on newer features
+The other focus of this tool is *incremental* feature usage in projects. Flask 
+isn't Django and you shouldn't have the kitchen sink rolled into the scaffold. 
+You should only use what you need. Each feature will list what dependencies it 
+may have, why, and where to tweak to suit your needs.
 
 Features
 --------
@@ -43,7 +34,28 @@ Features
   * creates unittest stubs for testing the blueprint
 
 * incremental functionality to an existing patron project via addons which append dependencies to the requirements file
-* user template customization (as of 0.2.2 via cookiecutter)
+* user template customization
 * cli model generator
 
+Installation
+------------
+Install patron with `pip` command::
 
+    pip install patron
+
+External Dependencies
+---------------------
+Patron does have some external dependencies outside of the python ecosystem in 
+regards to front-end tooling. If you use flask-assets, you should be aware that
+it makes external calls to the respective tooling if there isn't a python 
+equivalent.
+
+Patron external dependencies are:
+
+* nodejs
+* ruby
+
+Patron itself doesn't use Flask-Assets in the scaffolds that it uses. It uses 
+a front-end work flow based off of gulp separated from the project package. 
+For more details on the external dependencies you can read up on the 
+:ref:`front-end` work flow.

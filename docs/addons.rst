@@ -26,6 +26,8 @@ This command auto generates the admin addon if not already created, injects
 code into the sitemap to track blog posts and registers itself with the admin
 addon.
 
+.. _front-end:
+
 Front-End
 ---------
 Generated with the following command::
