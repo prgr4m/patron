@@ -55,8 +55,8 @@ writing code. This command also generates the user templates in the patron user
 directory but I have separated the commands because the user may not use the 
 front-end work flow.
 
-Tasks
------
+Creating Tasks
+--------------
 Tasks are things done outside of your flask application. There are several 
 tools that exist in the python community (paver comes to mind) but I have 
 chosen to use fabric (until invoke gets polished) in order to get that `rake` 
@@ -70,3 +70,6 @@ This will create a stub in the `fabfile.py` file in the project root directory.
 You can view the `fabric documentation`_ for more help.
 
 .. _fabric documentation: http://docs.fabfile.org
+
+The next thing to do is learn how to create several types of 
+:ref:`projects <Projects>`.

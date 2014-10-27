@@ -1,8 +1,10 @@
+.. _Projects:
+
 Projects
 ========
 
-Generating a project
---------------------
+Creating a Project
+------------------
 Generate a project::
 
     patron project NameOfProject
@@ -11,8 +13,8 @@ Generate a project under a different directory name::
 
     patron project -d server NameOfProject
 
-Generating a static website generator
--------------------------------------
+Static website generator
+------------------------
 Generate a static website generator using flask::
 
     patron static NameOfProject
