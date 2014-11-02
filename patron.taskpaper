@@ -25,6 +25,8 @@ opened up an issue :(
 		- similar to model generator
 	Static Site Generator:
 		- revise
+	Base:
+		- move all things considered front-end out
 	Blueprints:
 		- include injection snippets file so users can override
 		- accommodate Flask-Classy users
