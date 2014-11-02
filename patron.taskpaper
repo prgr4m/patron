@@ -2,9 +2,17 @@ Patron:
 My task list of things to do while developing this application since no one has 
 opened up an issue :(
 	General:
-		- argcompletion for cli (linux)
 		- python 3.x support
 		- patron logo
+		- injections.json
+			- where [factory | settings | view]
+			- type [extension | blueprint]
+			- snippet
+			- import
+	Cli Parser:
+		- argcompletion for linux
+		- adaptable parser pending on scaffold type
+		- modify lookups not based on blueprints/addons but by resources
 	Documentation:
 		- feature matrix in regards to padrino but flask conventions
 		- roadmap of implementation features
@@ -18,7 +26,8 @@ opened up an issue :(
 	Static Site Generator:
 		- revise
 	Blueprints:
-		- include injection snippets file so users can override 
+		- include injection snippets file so users can override
+		- accommodate Flask-Classy users
 	Patron Config:
 		- include sections for components/packages or reorganize recognized addons
 		- include orm used
@@ -26,9 +35,12 @@ opened up an issue :(
 		- shorter commands without losing meaning? explicit is better than implicit...
 		- update cli documentation for models
 		- integrate flask-mongoalchemy? 
+		- if admin addon present, generate admin.py models... and auto register
 	Front-End Addon:
 		- overwrite .bowerrc and point to frontend dir
 		- revise to have SPA work flow separated
+		- remove requirejs and move into spa/app directory
+		- remove jade templates and move into spa/app
 	Admin Addon:
 		- fix admin scaffolding to create media in static directory
 		- make view only care about view and move everything into its own admin.py
