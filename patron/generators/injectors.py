@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-import cStringIO
 import os
 from os import path
 import re
 from .helpers import PatronConfig, get_templates_dir
+
+try:
+    from io import StringIO
+except ImportError:
+    from cStringIO import StringIO
 
 
 class InjectorBase(object):
@@ -19,7 +23,7 @@ class InjectorBase(object):
             the path of the target file to inject code to (safely)
         """
         self.config = PatronConfig()
-        self.stream = cStringIO.StringIO()
+        self.stream = StringIO()
 
     def __del__(self):
         self.stream.close()

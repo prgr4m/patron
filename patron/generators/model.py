@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-import cStringIO
 from contextlib import contextmanager
 # import os
 from os import path
 import sys
 from .helpers import (PatronConfig, CodeInspector, is_name_valid,
                       get_templates_dir, generate_templates)
+
+try:
+    from io import StringIO
+except ImportError:
+    from cStringIO import StringIO
 
 
 class ModelGenerator(object):
@@ -36,7 +40,7 @@ class ModelGenerator(object):
         self.name = name.capitalize()
         if CodeInspector.has_collision(self.output_target, self.name):
             raise TypeError("ModelGenerator:Model already exists")
-        self.stream = cStringIO.StringIO()
+        self.stream = StringIO()
         sys.stdout = self.stream
 
     def __del__(self):
