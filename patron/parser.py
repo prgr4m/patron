@@ -33,3 +33,15 @@
 # - project generation
 #   Type: 'tiny', 'blueprint', 'mvc'
 #   ORM: alchemy, peewee, mongo
+import os
+from os import path
+
+PROJECT_CONF = path.join(os.getcwd(), 'patron.json')
+
+
+def get_parser():
+    if path.exists(PROJECT_CONF):
+        parser = None
+    else:
+        parser = None
+    return parser
