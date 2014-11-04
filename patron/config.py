@@ -61,6 +61,10 @@ class PatronConfig(object):
         return self.contents['factory_file']
 
     @property
+    def orm(self):
+        return self.contents['orm']
+
+    @property
     def addons(self):
         return self.contents['addons']
 
