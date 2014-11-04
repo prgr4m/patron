@@ -2,7 +2,6 @@ Patron:
 My task list of things to do while developing this application since no one has 
 opened up an issue :(
 	General:
-		- python 3.x support
 		- patron logo
 		- injections.json
 			- where [factory | settings | view]
@@ -13,6 +12,10 @@ opened up an issue :(
 		- argcompletion for linux
 		- adaptable parser pending on scaffold type
 		- modify lookups not based on blueprints/addons but by resources
+	Project Scaffolding:
+		- simple
+		- blueprint
+		- mvc (uses flask-classy and modeled after padrino project layout)
 	Documentation:
 		- feature matrix in regards to padrino but flask conventions
 		- roadmap of implementation features
@@ -29,15 +32,17 @@ opened up an issue :(
 		- move all things considered front-end out
 	Blueprints:
 		- include injection snippets file so users can override
-		- accommodate Flask-Classy users
+		- accommodate Flask-Classy users @cancelled(2014-11-04) * mvc scaffold for flask-classy users
+		- should be able to create methods/function routes on cli as well
 	Patron Config:
-		- include sections for components/packages or reorganize recognized addons
 		- include orm used
+		- redo to be simplistic but with minimum info to get job done
 	Model Generator:
 		- shorter commands without losing meaning? explicit is better than implicit...
 		- update cli documentation for models
-		- integrate flask-mongoalchemy? 
 		- if admin addon present, generate admin.py models... and auto register
+		- peewee parser
+			- migration generator
 	Front-End Addon:
 		- overwrite .bowerrc and point to frontend dir
 		- revise to have SPA work flow separated
@@ -74,3 +79,5 @@ opened up an issue :(
 			- satchless?
     Mailer:
 			- should this use celery? I just don't want to add more development dependencies
+Archive:
+	- python 3.x support @done(2014-11-04) @project(opened up an issue  / General)
