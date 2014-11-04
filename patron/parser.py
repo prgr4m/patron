@@ -60,21 +60,34 @@ class PatronParser(object):
         return self.parser
 
     def _main(self):
-        # needs to have the following options:
-        # - config
-        #   - check external dependencies
-        #   - create user directory
-        #   - generate patron.json for existing project
-        # - generate a project
-        #   - name
-        #   - type [tiny, default, mvc]
-        #   - adapter [sqlite, postgres, mysql, mongo]
-        config_help = "patron configuration"
-        config_parser = self.subparser.add_parser('config', help=config_help)
-        config_group = config_parser.add_mutually_exclusive_group(required=True)
-        config_group.add_argument('--check', action='store_true')
-        config_group.add_argument('--user', action='store_true')
-        config_group.add_argument('--config', action='store_true')
+        self._add_init()
+        self._add_project()
+
+    def _add_init(self):
+        init_help = "actions to be performed with patron itself"
+        init_parser = self.subparser.add_parser('init', help=init_help)
+        init_choices = ('templates', 'frontend', 'check')
+        choices_help = """
+        templates: create user templates directory
+        frontend: create global npm modules directory for convenience
+        check: checks system for external dependencies
+        """
+        init_parser.add_argument('action', choices=init_choices,
+                                 help=choices_help)
+
+    def _add_project(self):
+        # orm
+        # scaffold type
+        project_help = "create a flask project"
+        name_help = "name of the flask project"
+        project_parser = self.subparser.add_parser('project', help=project_help)
+        project_parser.add_argument('name', help=name_help)
+        adapter_help = "database being used. default: sqlite"
+        adapter_choices = ('sqlite', 'postgres', 'mysql')
+        project_parser.add_argument('-a', '--adapter', choices=adapter_choices,
+                                    default='sqlite', help=adapter_help)
+        orm_help = "type of orm used with project"
+        orm_choices = ('alchemy', 'peewee', 'mongoalchemy')
 
     def _project(self):
         # what type of project is it? [tiny, default, mvc]
