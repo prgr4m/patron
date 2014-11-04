@@ -5,6 +5,8 @@ from cookiecutter.generate import generate_files
 from ..config import PatronConfig
 from .helpers import is_name_valid, create_context, get_scaffold
 
+PROJECT_TYPES = ('simple', 'blueprint', 'mvc')
+
 
 class FlaskProject(object):
     def __init__(self, name, directory=None):

@@ -13,6 +13,9 @@ try:
 except ImportError:
     from cStringIO import StringIO
 
+ORM_TYPES = ('sqlalchemy', 'peewee')
+ADAPTER_TYPES = ('sqlite', 'postgres', 'mysql')
+
 
 class ModelGenerator(object):
     """Basic model generation"""
