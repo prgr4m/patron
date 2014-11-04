@@ -3,7 +3,8 @@ from __future__ import print_function
 import os
 from os import path
 import re
-from .helpers import PatronConfig, get_templates_dir
+from ..config import PatronConfig
+from .helpers import get_templates_dir
 
 try:
     from io import StringIO

@@ -4,7 +4,8 @@ import os
 import platform
 import subprocess
 from cookiecutter.generate import generate_files
-from .helpers import (PatronConfig, RequirementsFileWriter, create_context,
+from ..config import PatronConfig
+from .helpers import (RequirementsFileWriter, create_context,
                       get_scaffold, create_frontend_node_modules,
                       FRONTEND_NODE_MODULES)
 from .blueprint import BlueprintGenerator

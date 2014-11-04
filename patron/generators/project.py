@@ -2,8 +2,8 @@
 from __future__ import print_function
 from os import path
 from cookiecutter.generate import generate_files
-from .helpers import (PatronConfig, is_name_valid, get_templates_dir,
-                      create_context, get_scaffold)
+from ..config import PatronConfig
+from .helpers import is_name_valid, create_context, get_scaffold
 
 
 class FlaskProject(object):

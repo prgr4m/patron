@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from os import path
 from cookiecutter.generate import generate_files
-from .helpers import PatronConfig, is_name_valid, get_scaffold, create_context
+from ..config import PatronConfig
+from .helpers import is_name_valid, get_scaffold, create_context
 from .injectors import FactoryInjector
 
 

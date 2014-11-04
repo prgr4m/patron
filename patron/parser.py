@@ -33,15 +33,66 @@
 # - project generation
 #   Type: 'tiny', 'blueprint', 'mvc'
 #   ORM: alchemy, peewee, mongo
-import os
-from os import path
+import argparse
+from .config import PatronConfig
 
-PROJECT_CONF = path.join(os.getcwd(), 'patron.json')
+PARSER_DESC = "Patron - a generator for flask projects inspired by padrino"
 
 
-def get_parser():
-    if path.exists(PROJECT_CONF):
-        parser = None
-    else:
-        parser = None
-    return parser
+class PatronParser(object):
+    def __init__(self, parser_type='main'):
+        if parser_type not in ['main', 'project']:
+            raise StandardError("PatronParser:Unknown parser type")
+        self.parser = argparse.ArgumentParser(description=PARSER_DESC)
+        self.parser_type = parser_type
+        self.subparser = self.parser.add_subparsers(dest='subparser_name')
+
+    @staticmethod
+    def get_parser():
+        if PatronConfig.is_present():
+            parser = PatronParser(parser_type='project').create()
+        else:
+            parser = PatronParser().create()
+        return parser
+
+    def create(self):
+        getattr(self, "_{}".format(self.parser_type))()
+        return self.parser
+
+    def _main(self):
+        # needs to have the following options:
+        # - config
+        #   - check external dependencies
+        #   - create user directory
+        #   - generate patron.json for existing project
+        # - generate a project
+        #   - name
+        #   - type [tiny, default, mvc]
+        #   - adapter [sqlite, postgres, mysql, mongo]
+        config_help = "patron configuration"
+        config_parser = self.subparser.add_parser('config', help=config_help)
+        config_group = config_parser.add_mutually_exclusive_group(required=True)
+        config_group.add_argument('--check', action='store_true')
+        config_group.add_argument('--user', action='store_true')
+        config_group.add_argument('--config', action='store_true')
+
+    def _project(self):
+        # what type of project is it? [tiny, default, mvc]
+        # what type of orm is being used?
+        self._add_task()
+
+    def _add_task(self):
+        task_help = "create task to be used with fabric"
+        task_name_help = "name of the task"
+        task_desc_help = "description of the task"
+        task_parser = self.subparser.add_parser('task', help=task_help)
+        task_parser.add_argument('name', help=task_name_help)
+        task_parser.add_argument('description', help=task_desc_help)
+
+
+class ORMParser(object):
+    pass
+
+
+class FormParser(object):
+    pass
