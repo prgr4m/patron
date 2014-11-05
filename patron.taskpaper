@@ -8,6 +8,7 @@ opened up an issue :(
 			- type [extension | blueprint]
 			- snippet
 			- import
+		- move generators into main package (rewrite but keep old files until refactor)
 	Cli Parser:
 		- argcompletion for linux
 		- adaptable parser pending on scaffold type

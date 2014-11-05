@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 from os import path
-from .generators.model import ORM_TYPES
+from .model import ORM_TYPES
 from .generators.project import PROJECT_TYPES
 
 

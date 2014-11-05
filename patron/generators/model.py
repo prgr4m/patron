@@ -4,9 +4,9 @@ from contextlib import contextmanager
 # import os
 from os import path
 import sys
-from ..config import PatronConfig
-from .helpers import (CodeInspector, is_name_valid, get_templates_dir,
-                      generate_templates)
+from .config import PatronConfig
+from .generators.helpers import (CodeInspector, is_name_valid,
+                                 get_templates_dir, generate_templates)
 
 try:
     from io import StringIO
