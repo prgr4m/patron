@@ -2,32 +2,31 @@
 # -*- coding: utf-8 -*-
 # PYTHON_ARGCOMPLETE_OK
 from __future__ import print_function
-import argparse
 # import argcomplete
-import sys
-from .config import PatronConfig
-from .generators.helpers import (create_user_scaffolds_directory,
-                                 create_frontend_node_modules)
-from .generators.project import FlaskProject, StaticProject
-from .generators.blueprint import BlueprintGenerator
-from .generators.task import TaskGenerator
-from .generators.addons import AddonManager
-from .generators.model import ModelGenerator
+# import sys
+# from .config import PatronConfig
+# from .generators.helpers import (create_user_scaffolds_directory,
+#                                  create_frontend_node_modules)
+# from .generators.project import FlaskProject, StaticProject
+# from .generators.blueprint import BlueprintGenerator
+# from .generators.task import TaskGenerator
+# from .generators.addons import AddonManager
+# from .model import ModelGenerator
 from .parser import PatronParser
 
-__version__ = '0.2.2'
+__version__ = '0.2.3'
 
 
 class Patron(object):
     "The interface between the cli and the library"
-    @staticmethod
-    def get_addons():
-        return AddonManager.list_addons()
-
-    @staticmethod
-    def get_field_types():
-        return ModelGenerator.get_known_fields()
-
+    # @staticmethod
+    # def get_addons():
+    #     return AddonManager.list_addons()
+    #
+    # @staticmethod
+    # def get_field_types():
+    #     return ModelGenerator.get_known_fields()
+    #
     @staticmethod
     def run(args, prog_name):
         print(args)
@@ -69,11 +68,12 @@ class Patron(object):
         #     sys.exit(0)
         #
 
+
 def main():
     # cli_desc = "Patron - a generator for flask projects inspired by padrino"
     #
     # project_help = "Create a modular flask project base"
-    # dir_help = "rename the target directory while maintaining project internals"
+    # dir_help = "rename the target directory maintaining project internals"
     #
     # models_help = "Models with Flask-SQLAlchemy"
     # # forms_help = "Forms with WTForms"

@@ -2,7 +2,7 @@
 import json
 from os import path
 from .model import ORM_TYPES
-from .generators.project import PROJECT_TYPES
+from .project import PROJECT_TYPES
 
 
 class PatronConfig(object):

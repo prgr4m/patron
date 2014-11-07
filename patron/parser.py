@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import argparse
 from .config import PatronConfig
-from .generators.model import ORM_TYPES, ADAPTER_TYPES
-from .generators.project import PROJECT_TYPES
+from .model import ORM_TYPES, ADAPTER_TYPES
+from .project import PROJECT_TYPES
 
 PARSER_DESC = "Patron - a generator for flask projects inspired by padrino"
 
