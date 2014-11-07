@@ -34,12 +34,10 @@ class PatronParser(object):
     def _add_init(self):
         init_help = "actions to be performed with patron itself"
         init_parser = self.subparser.add_parser('init', help=init_help)
-        init_choices = ('templates', 'frontend', 'check')
+        init_choices = ('check', 'user')
         choices_help = """
-        templates: create user templates directory
-        frontend: create global npm modules directory for convenience
-        check: checks system for external dependencies
-        """
+        'check' external dependencies or create the 'user' directory which
+        contains the templates for the user to override to their liking."""
         init_parser.add_argument('action', choices=init_choices,
                                  help=choices_help)
 
