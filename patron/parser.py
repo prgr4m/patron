@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import argparse
 from .config import PatronConfig
-from .model import ORM_TYPES, ADAPTER_TYPES
-from .project import PROJECT_TYPES
+from .model import ORM_TYPES
+from .project import PROJECT_TYPES, ADAPTER_TYPES
+
 
 PARSER_DESC = "Patron - a generator for flask projects inspired by padrino"
 
@@ -66,7 +67,7 @@ class PatronParser(object):
                                     default='sqlalchemy', help=orm_help)
 
     def _project_parser(self):
-        # what type of project is it? [tiny, default, mvc]
+        # what type of project is it? [tiny, default, mvt]
         # what type of orm is being used?
         self._add_task()
 
