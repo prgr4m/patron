@@ -2,50 +2,44 @@
 import json
 from os import path
 
+config_name = 'patron.json'
+config = json.load(open(config_name)) if path.exists(config_name) else None
 
-class PatronConfig(object):
-    "Config creator/generator for Patron projects"
-    def __init__(self):
-        self.filename = 'patron.json'
-        self.contents = json.load(open(self.filename))
 
-    @staticmethod
-    def is_present():
-        return True if path.exists('patron.json') else False
+def is_present():
+    return True if config else False
 
-    @staticmethod
-    def create(project_name, directory_name):
-        new_config = {
-            'project_name': project_name,
-            'factory_file': path.join(project_name, '__init__.py'),
-            'settings_file': path.join(project_name, 'settings.py'),
-            'addons': []
-        }
-        with open(path.join(directory_name, 'patron.json'), 'w') as config_file:
-            json.dump(new_config, config_file, indent=2)
 
-    @property
-    def project_name(self):
-        return self.contents['project_name']
+def create(project_name, directory_name):
+    new_config = {
+        'project_name': project_name,
+        'factory_file': path.join(project_name, '__init__.py'),
+        'settings_file': path.join(project_name, 'settings.py'),
+        'addons': []
+    }
+    with open(path.join(directory_name, config_name), 'w') as config_file:
+        json.dump(new_config, config_file, indent=2)
 
-    @property
-    def settings(self):
-        return self.contents['settings_file']
 
-    @property
-    def factory_path(self):
-        return self.contents['factory_file']
+def project_name(self):
+    return config['project_name']
 
-    @property
-    def addons(self):
-        return self.contents['addons']
 
-    @addons.setter
-    def addons(self, new_addon):
-        if new_addon not in self.contents['addons']:
-            self.contents['addons'].append(new_addon)
-            self.save_config()
+def settings(self):
+    return config['settings_file']
 
-    def save_config(self):
-        with open(self.filename, 'w') as config_file:
-            json.dump(self.contents, config_file, indent=2)
+
+def factory_path(self):
+    return config['factory_file']
+
+
+def addons(new_addon=None):
+    if not new_addon:
+        return config['addons']
+    config['addons'].append(new_addon)
+    save_config()
+
+
+def save_config(self):
+    with open(config_name, 'w') as config_file:
+        json.dump(config, config_file, indent=2)

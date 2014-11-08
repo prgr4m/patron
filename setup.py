@@ -32,7 +32,7 @@ setup(
     keywords="flask generators scaffolding cli",
     entry_points={
         'console_scripts': [
-            'patron=patron:main'
+            'patron=patron.main:main'
         ]
     }
 )

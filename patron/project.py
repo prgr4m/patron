@@ -2,7 +2,7 @@
 from __future__ import print_function
 from os import path
 from cookiecutter.generate import generate_files
-from .config import PatronConfig
+from . import config
 from .helpers import is_name_valid, create_context, get_scaffold
 
 
@@ -17,4 +17,4 @@ def create_project(name, directory=None):
     context['cookiecutter']['project_name'] = name
     context['cookiecutter']['root_project_name'] = name.lower()
     generate_files(repo_dir=get_scaffold('base'), context=context)
-    PatronConfig.create(name, project_path)
+    config.create(name, project_path)

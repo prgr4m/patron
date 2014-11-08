@@ -2,9 +2,7 @@
 from __future__ import print_function
 from os import path
 import sys
-from .config import PatronConfig
-
-config = PatronConfig()
+from . import config
 
 
 def resource_exists(resource_name):

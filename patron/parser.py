@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import argparse
-from .config import PatronConfig
+from . import config
 
 parser, subparser = None, None
 PARSER_DESC = "Patron - a generator for flask projects inspired by padrino"
@@ -10,7 +10,7 @@ def get_parser():
     global parser, subparser
     parser = argparse.ArgumentParser(description=PARSER_DESC)
     subparser = parser.add_subparsers(dest='subparser_name')
-    if PatronConfig.is_present():
+    if config.is_present():
         project_parser()
     else:
         main_parser()
