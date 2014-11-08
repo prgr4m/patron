@@ -5,14 +5,10 @@ from __future__ import print_function
 # import argcomplete
 from .parser import PatronParser
 from .helpers import check_dependencies, setup_user_directory
+from .project import FlaskProject
 
 __version__ = '0.2.3'
 
-# if args.subparser_name in ['project', 'static']:
-#     options = dict(name=args.name)
-#     if hasattr(args, 'directory'):
-#         options['directory'] = args.directory
-#     }
 #     project_type[args.subparser_name](**options).create()
 #     if args.subparser_name == 'model':
 #         # takes a name and *fields of name:type
@@ -30,15 +26,13 @@ def init_parser(args):
 
 
 def project_parser(args):
-    # mysql-connector-python for mysql adapter
-    print(args)
+    options = dict(name=args.name)
+    if hasattr(args, 'directory'):
+        options['directory'] = args.directory
+    FlaskProject(**options).create()
 
 
 def addon_parser(args):
-    print(args)
-
-
-def controller_parser(args):
     print(args)
 
 

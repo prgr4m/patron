@@ -7,6 +7,10 @@ Patron Changelog
 25 OCT 2014
 
 * multi-page documentation format for easier organization and navigation
+* rewrite of parser to show only relevant options
+* added check of minimal external dependencies
+* removed '|' in cookiecutter filenames because of Windows
+* reorganization of source files
 
 0.2.2
 -----

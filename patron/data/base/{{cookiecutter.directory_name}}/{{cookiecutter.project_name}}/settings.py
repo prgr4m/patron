@@ -4,8 +4,9 @@ import os.path as path
 
 
 class Config(object):
-    SECRET_KEY = os.environ.get('{{cookiecutter.project_name}}_ENV', "super-secret-key-here")
-    APP_DIR = path.abspath(path.dirname(__file__)) # This directory
+    SECRET_KEY = os.environ.get('{{cookiecutter.project_name}}_ENV',
+                                "super-secret-key-here")
+    APP_DIR = path.abspath(path.dirname(__file__))  # This directory
     PROJECT_ROOT = path.abspath(path.join(APP_DIR, os.pardir))
     BCRYPT_LEVEL = 13
     DEBUG_TB_ENABLED = False
@@ -21,7 +22,7 @@ class ProdConfig(Config):
 
 class DevConfig(Config):
     DEBUG = True
-    DB_NAME = "{{cookiecutter.project_name}}.db"
+    DB_NAME = "{{cookiecutter.project_name|lower}}.db"
     DB_PATH = path.join(Config.PROJECT_ROOT, DB_NAME)
     SQLALCHEMY_DATABASE_URI = "sqlite:///{0}".format(DB_PATH)
     DEBUG_TB_ENABLED = True
@@ -31,7 +32,7 @@ class DevConfig(Config):
 
 class TestConfig(Config):
     TESTING = True
-    DB_NAME = "{{cookiecutter.project_name}}-testing.db"
+    DB_NAME = "{{cookiecutter.project_name|lower}}-testing.db"
     DB_PATH = path.join(Config.PROJECT_ROOT, DB_NAME)
     SQLALCHEMY_DATABASE_URI = "sqlite:///{0}".format(DB_PATH)
 

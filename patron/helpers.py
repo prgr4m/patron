@@ -6,6 +6,10 @@ from os import path
 import shutil
 import subprocess
 import sys
+import re
+from cookiecutter.generate import generate_context
+
+PKG_SCAFFOLDS = path.join(path.dirname(path.abspath(__file__)), 'data')
 
 
 def command_available(cmd):
@@ -67,14 +71,68 @@ def setup_frontend():
         shutil.move('node_modules', target_dir)
 
 
+def setup_user_scaffolds():
+    user_dir = get_user_directory()
+    template_dir = path.join(user_dir, 'templates')
+    os.makedirs(template_dir)
+    for d in [x for x in os.listdir(PKG_SCAFFOLDS) if x not in ('.', '..')]:
+        shutil.copytree(path.join(PKG_SCAFFOLDS, d),
+                        path.join(template_dir, d))
+
+
 def setup_user_directory():
     user_dir = get_user_directory()
     if not path.exists(user_dir):
         os.makedirs(path.join(user_dir, 'templates'))
         if platform.system() == 'Windows':
             subprocess.call(['attrib', '+h', user_dir])
-        # copy over data directory
+        setup_user_scaffolds()
         setup_frontend()
         print("Create patron user directory at: {}".format(user_dir))
     else:
         print("Patron user directory already exists: {}".format(user_dir))
+
+
+def is_name_valid(name_in):
+    if len(name_in) < 3:
+        return False
+    if re.search(r'[^\w]', name_in):
+        return False
+    return True
+
+
+def get_templates_dir():
+    user_dir = get_user_directory()
+    if path.exists(path.join(user_dir, 'templates')):
+        templates_dir = path.join(user_dir, 'templates')
+    else:
+        templates_dir = PKG_SCAFFOLDS
+    return templates_dir
+
+
+def scaffold_dir_exists(scaffold_name):
+    scaffold_dir = path.join(get_templates_dir(), scaffold_name)
+    return True if path.exists(scaffold_dir) else False
+
+
+def get_default_scaffold_list():
+    return [x for x in os.listdir(PKG_SCAFFOLDS) if x not in ['.', '..']]
+
+
+def get_scaffold(scaffold_name):
+    if scaffold_name not in get_default_scaffold_list():
+        raise NameError("Unknown scaffold provided: '{}'".format(scaffold_name))
+    if scaffold_dir_exists(scaffold_name):
+        scaffold_dir = path.join(get_templates_dir(), scaffold_name)
+    else:
+        scaffold_dir = path.join(PKG_SCAFFOLDS, scaffold_name)
+    return scaffold_dir
+
+
+def create_context(scaffold_name):
+    config_dict = dict(default_context=dict())
+    context_file = path.join(get_scaffold(scaffold_name), 'cookiecutter.json')
+    context = generate_context(
+        context_file=context_file,
+        default_context=config_dict['default_context'])
+    return context

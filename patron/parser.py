@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 import argparse
 from .config import PatronConfig
-from .model import ORM_TYPES
-from .project import PROJECT_TYPES, ADAPTER_TYPES
-
 
 PARSER_DESC = "Patron - a generator for flask projects inspired by padrino"
 
@@ -29,10 +26,6 @@ class PatronParser(object):
         return self.parser
 
     def _main_parser(self):
-        self._add_init()
-        self._add_project()
-
-    def _add_init(self):
         init_help = "actions to be performed with patron itself"
         init_parser = self.subparser.add_parser('init', help=init_help)
         init_choices = ('check', 'user')
@@ -41,8 +34,6 @@ class PatronParser(object):
         contains the templates for the user to override to their liking."""
         init_parser.add_argument('action', choices=init_choices,
                                  help=choices_help)
-
-    def _add_project(self):
         project_help = "create a flask project"
         name_help = "name of the flask project"
         project_parser = self.subparser.add_parser('project', help=project_help)
@@ -51,25 +42,36 @@ class PatronParser(object):
         dir_help = "rename target directory keeping project internals"
         project_parser.add_argument('-d', '--directory', help=dir_help)
 
-        type_help = "type of project scaffold. default: blueprint"
-        type_choices = PROJECT_TYPES
-        project_parser.add_argument('-t', '--type', choices=type_choices,
-                                    default='blueprint', help=type_help)
-
-        adapter_help = "database being used. default: sqlite"
-        adapter_choices = ADAPTER_TYPES
-        project_parser.add_argument('-a', '--adapter', choices=adapter_choices,
-                                    default='sqlite', help=adapter_help)
-
-        orm_help = "type of orm used with project. default: sqlalchemy"
-        orm_choices = ORM_TYPES
-        project_parser.add_argument('-o', '--orm', choices=orm_choices,
-                                    default='sqlalchemy', help=orm_help)
-
     def _project_parser(self):
-        # what type of project is it? [tiny, default, mvt]
-        # what type of orm is being used?
+        self._add_blueprint()
+        self._add_model()
+        self._add_addons()
         self._add_task()
+
+    def _add_blueprint(self):
+        blueprint_help = "create a blueprint"
+        blueprint_name_help = "name of blueprint"
+        blueprint_route_help = "route_name:methods:variable-type"
+        blueprint_parser = self.subparser.add_parser('blueprint',
+                                                     help=blueprint_help)
+        blueprint_parser.add_argument('name', help=blueprint_name_help)
+        blueprint_parser.add_argument('route', nargs='*',
+                                      help=blueprint_route_help)
+
+    def _add_model(self):
+        model_help = "generate a model for SQLAlchemy"
+        model_blueprint_help = "name of blueprint"
+        model_name_help = "name of model"
+        model_field_help = "name:sqlalchemy_type-value:column_attr-value"
+        model_parser = self.subparser.add_parser('model', help=model_help)
+        model_parser.add_argument('blueprint', help=model_blueprint_help)
+        model_parser.add_argument('name', help=model_name_help)
+        model_parser.add_argument('field', help=model_field_help)
+
+    def _add_addons(self):
+        # check addons
+        # don't add the ones that already exist
+        pass
 
     def _add_task(self):
         task_help = "create task to be used with fabric"
@@ -78,37 +80,3 @@ class PatronParser(object):
         task_parser = self.subparser.add_parser('task', help=task_help)
         task_parser.add_argument('name', help=task_name_help)
         task_parser.add_argument('description', help=task_desc_help)
-
-
-class AddonParser(object):
-    # read config
-    # exclude already existing addons used
-    pass
-
-
-class ORMParser(object):
-    def __init__(self, parser, orm_type='sqlalchemy'):
-        error_message = "ORMParser:{}"
-        if not isinstance(parser, argparse.ArgumentParser):
-            parser_error = "parser not an instance of ArgumentParser"
-            raise StandardError(error_message.format(parser_error))
-        if orm_type not in ORM_TYPES:
-            orm_error = "Unknown ORM type used"
-            raise StandardError(error_message.format(orm_error))
-        self.parser = parser
-        self.orm_type = orm_type
-
-    def create_subparser(self):
-        getattr(self, "_{}".format(self.orm_type))()
-
-    def _sqlalchemy(self):
-        pass
-
-    def _peewee(self):
-        pass
-
-
-class FormParser(object):
-    @staticmethod
-    def create_subparser(parser):
-        pass
