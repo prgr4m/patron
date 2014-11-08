@@ -12,6 +12,7 @@ Patron Changelog
 * removed '|' in cookiecutter filenames because of Windows
 * reorganization of source files
 * rewrote addon generation
+* removal of static site generator as a project scaffold
 
 0.2.2
 -----
