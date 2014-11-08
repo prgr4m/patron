@@ -136,3 +136,7 @@ def create_context(scaffold_name):
         context_file=context_file,
         default_context=config_dict['default_context'])
     return context
+
+
+def create_unittest(name, test_type='blueprint'):
+    pass
