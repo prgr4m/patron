@@ -25,26 +25,20 @@ class PatronConfig(object):
         if orm_type not in ORM_TYPES:
             orm_error = "Unknown orm type"
             raise StandardError(error_format.format(orm_error))
-        configs = {
-            'simple': {
-                'factory_file': path.join(project_name, 'app.py'),
-                'settings_file': path.join(project_name, 'settings.py'),
-            },
-            'blueprint': {
-                'factory_file': path.join(project_name, '__init__.py'),
-                'settings_file': path.join(project_name, 'settings.py'),
-            },
-            'mvc': {
-
-            }
+        simple_config = {
+            'factory_file': path.join(project_name, 'app.py'),
+            'settings_file': path.join(project_name, 'settings.py')
         }
         new_config = {
             'project_name': project_name,
             'scaffold_type': project_type,
+            'factory_file': path.join(project_name, '__init__.py'),
+            'settings_file': path.join(project_name, 'settings.py'),
             'orm': orm_type,
             'addons': []
         }
-        new_config.update(configs[project_type])
+        if project_type == 'simple':
+            new_config.update(simple_config)
         with open(path.join(directory_name, 'patron.json'), 'w') as config_file:
             json.dump(new_config, config_file, indent=2)
 
