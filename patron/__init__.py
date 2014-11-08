@@ -5,7 +5,7 @@ from __future__ import print_function
 # import argcomplete
 from .parser import PatronParser
 from .helpers import check_dependencies, setup_user_directory
-from .project import FlaskProject
+from .project import create_project
 
 __version__ = '0.2.3'
 cli_args = None
@@ -30,11 +30,7 @@ def project_parser():
     options = dict(name=cli_args.name)
     if hasattr(cli_args, 'directory'):
         options['directory'] = cli_args.directory
-    FlaskProject(**options).create()
-
-
-def addon_parser():
-    print(cli_args)
+    create_project(**options)
 
 
 def blueprint_parser():
@@ -51,15 +47,16 @@ def model_parser():
     print(cli_args)
 
 
+def addon_parser():
+    print(cli_args)
+
+
 def task_parser():
     print(cli_args)
 
 
 def main():
-    # models_parser = subparser.add_parser('model', help=models_help)
     # addon_parser = subparser.add_parser('addon', help=addon_help)
-    # task_parser = subparser.add_parser('task', help=task_help)
-    # static_parser = subparser.add_parser('static', help=static_help)
     # name_group = [project_parser, models_parser, blueprint_parser,
     #               task_parser, static_parser]  # add back forms_parser later
     # for p in name_group:
@@ -87,6 +84,7 @@ def main():
         'project': project_parser,
         'blueprint': blueprint_parser,
         'model': model_parser,
+        'addon': addon_parser,
         'task': task_parser
     }
     cli_args = parser.parse_args()
