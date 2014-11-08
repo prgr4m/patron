@@ -13,6 +13,7 @@ Patron Changelog
 * reorganization of source files
 * rewrote addon generation
 * removal of static site generator as a project scaffold
+* added packages to flask projects
 
 0.2.2
 -----

@@ -6,6 +6,7 @@ from __future__ import print_function
 from .parser import get_parser
 from .helpers import check_dependencies, setup_user_directory
 from .project import create_project
+import resource
 
 __version__ = '0.2.3'
 cli_args = None

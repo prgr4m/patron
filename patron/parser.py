@@ -3,12 +3,12 @@ import argparse
 from .config import PatronConfig
 
 parser, subparser = None, None
-parser_desc = "Patron - a generator for flask projects inspired by padrino"
+PARSER_DESC = "Patron - a generator for flask projects inspired by padrino"
 
 
 def get_parser():
-    global parser, subparser, parser_desc
-    parser = argparse.ArgumentParser(description=parser_desc)
+    global parser, subparser
+    parser = argparse.ArgumentParser(description=PARSER_DESC)
     subparser = parser.add_subparsers(dest='subparser_name')
     if PatronConfig.is_present():
         project_parser()
@@ -35,6 +35,7 @@ def main_parser():
 
 def project_parser():
     add_blueprint()
+    add_package()
     add_model()
     add_addons()
     add_task()
@@ -47,6 +48,14 @@ def add_blueprint():
     blueprint_parser = subparser.add_parser('blueprint', help=blueprint_help)
     blueprint_parser.add_argument('name', help=blueprint_name_help)
     blueprint_parser.add_argument('route', nargs='*', help=blueprint_route_help)
+
+
+def add_package():
+    package_help = "create a package. similar to blueprint without a view."
+    package_name_help = "name of package/resource"
+    package_parser = subparser.add_parser('pkg', help=package_help)
+    package_parser.add_argument('name', help=package_name_help)
+    # optional flags [-m(odel), -c(ommand), -a(dmin), -f(orm)]
 
 
 def add_model():
