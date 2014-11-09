@@ -25,11 +25,11 @@ def get_project_name():
     return config['project_name']
 
 
-def get_settings():
+def get_settings_file():
     return config['settings_file']
 
 
-def get_factory_path():
+def get_factory_file():
     return config['factory_file']
 
 
