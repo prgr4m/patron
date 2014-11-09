@@ -40,6 +40,28 @@ def parse_blueprint_routes(blueprint_name, routes):
     # @name.route('/route_name/<type:variable>', methods=[])
     # def name(variable):
     #     return render_template
+    def get_methods_format(method=None):
+        route_methods = ('GET', 'POST', 'PUT', 'DELETE')
+        if '-' in method:
+            method = method.split('-')
+    def build_route_handler(route):
+        # need to return (definition, body)
+        # func_stmt = "def {route_name}({variables}):{linesep}"
+        #     return render_template('{route_name}.jade')
+        # does not care about methods
+        body_stmt = "{indent}return render_template('{route_name}.jade')"
+        if ':' in route:
+            rt = route.split(':')
+            # need route_name
+            # need variable names only
+            # ignore methods
+            pass
+        else:  # just the name was supplied
+            def_stmt = "def {route_name}():".format(route_name=route)
+            def_data = dict(route_name=route)
+            body_data = dict(route_name=route, indent=" " * 4)
+        return (def_stmt.format(**def_data), body_stmt.format(**body_data))
+
     stream = get_stream()
     for route in routes:
         route = route.lower()
@@ -55,45 +77,21 @@ def parse_blueprint_routes(blueprint_name, routes):
 
 
 def build_route_statement(blueprint_name, route):
-    def get_variable_format(variable=None):
-        if '-' in variable:
-            var, var_type = variable.split('-')
-            if var_type in ('int', 'float', 'path'):
-                var_format = "<{}:{}>".format(var_type, var)
-        else:
-            var_format = "<{}>".format(variable)
-        return var_format
-
-    def get_methods_format(method=None):
-        route_methods = ('GET', 'POST', 'PUT', 'DELETE')
-        if '-' in method:
-            method = method.split('-')
 
     if ':' in route:
         route_stmt = "@{bp_nm}.route('/{route_name}{variables}'{methods})"
+        route = route.split(':')
+        route_name = route.pop(1)
+        check_for_method_type = True
+        for rt in route:
+            # what is what (method or variable) method should be first but can
+            # be omitted. if omitted, will be treated as variable onwards
+            pass
     else:  # just the name was supplied
-        route_data = dict(bp_nm=blueprint_name, route)
+        route_data = dict(bp_nm=blueprint_name, route_name=route)
         route_stmt = "@{bp_nm}.route('/{route_name}')"
     return route_stmt.format(**route_data)
 
-
-def build_route_handler(route):
-    # need to return (definition, body)
-    # func_stmt = "def {route_name}({variables}):{linesep}"
-    #     return render_template('{route_name}.jade')
-    # does not care about methods
-    body_stmt = "{indent}return render_template('{route_name}.jade')"
-    if ':' in route:
-        rt = route.split(':')
-        # need route_name
-        # need variable names only
-        # ignore methods
-        pass
-    else:  # just the name was supplied
-        def_stmt = "def {route_name}():".format(route_name=route)
-        def_data = dict(route_name=route)
-        body_data = dict(route_name=route, indent=" " * 4)
-    return (def_stmt.format(**def_data), body_stmt.format(**body_data))
 
 
 def create_package(name, options):

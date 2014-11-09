@@ -14,6 +14,8 @@ Patron Changelog
 * rewrote addon generation
 * removal of static site generator as a project scaffold
 * added packages to flask projects
+* added the ability to add extra routes to blueprints from cli
+* simplified model generation instead of trying to do everything for the developer
 
 0.2.2
 -----
