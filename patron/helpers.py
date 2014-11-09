@@ -138,5 +138,13 @@ def create_context(scaffold_name):
     return context
 
 
+def get_stream():
+    try:
+        from io import StringIO
+    except ImportError:
+        from cStringIO import StringIO
+    return StringIO()
+
+
 def create_unittest(name, test_type='blueprint'):
     pass

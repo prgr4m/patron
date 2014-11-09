@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+import io
 import os
 import re
 from . import config
+from .helpers import get_stream
 
 indent = " " * 4
 
@@ -13,17 +15,9 @@ def read_target(target_file):
             yield line.rstrip()
 
 
-def get_stream():
-    try:
-        from io import StringIO
-    except ImportError:
-        from cStringIO import StringIO
-    return StringIO()
-
-
 def factory(context):
     stream = get_stream()
-    content = open(config.get_factory_file(), 'r').read()
+    content = io.open(config.get_factory_file(), 'rt').read()
     inject_line = "{linesep}{stmt}"
     for section in re.split(r'\n\n', content):
         if re.search(r'import', section) is not None:
@@ -42,7 +36,7 @@ def factory(context):
             print(os.linesep + section, file=stream)
         else:
             print(os.linesep + section, file=stream)
-    with open(config.get_factory_file(), 'w') as new_factory:
+    with io.open(config.get_factory_file(), 'wt') as new_factory:
         new_factory.write(stream.getvalue().rstrip())
     stream.close()
 
@@ -53,8 +47,8 @@ def factory_blueprint(name):
             "from .{bp_name}.views import {bp_name}".format(bp_name=name)
         ],
         'blueprint':
-            "{ndnt}app.register_blueprint({bp_name}, url_prefix='/{bp_nm}')"
-            .format(ndnt=indent, bp_nm=name)
+            "{ndnt}app.register_blueprint({bp_name}, url_prefix='/{bp_name}')"
+            .format(ndnt=indent, bp_name=name)
     }
     factory(context)
 
@@ -85,7 +79,7 @@ def factory_users():
 
 def manage(content):
     stream = get_stream()
-    with open('manage.py', 'w') as new_manage:
+    with io.open('manage.py', 'wt') as new_manage:
         new_manage.write(content)
     stream.close()
 
@@ -102,6 +96,6 @@ def admin(directive):
 
 def settings(content):
     stream = get_stream()
-    with open(config.get_settings_file(), 'w') as settings_file:
+    with io.open(config.get_settings_file(), 'wt') as settings_file:
         settings_file.write(content)
     stream.close()

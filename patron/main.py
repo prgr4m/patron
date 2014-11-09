@@ -26,10 +26,8 @@ def project_parser():
 
 
 def blueprint_parser():
-    # scaffold blueprint
-    # parse fields and append
     print(cli_args)
-    # resource.create_blueprint()
+    resource.create_blueprint(cli_args.name, routes=cli_args.route)
 
 
 def form_parser():
