@@ -10,7 +10,7 @@ def resource_exists(resource_name):
     return True if path.exists(path_to_check) else False
 
 
-def create_resource(name, resource_type='blueprint', fields=None):
+def create_blueprint(name, fields=None):
     if resource_exists(config.project_name, name):
         print("Blueprint '{}' already exists!".format(name))
         sys.exit()
@@ -18,4 +18,8 @@ def create_resource(name, resource_type='blueprint', fields=None):
 
 
 def parse_blueprint_fields(fields):
+    pass
+
+
+def create_package(name, options):
     pass

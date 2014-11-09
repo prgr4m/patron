@@ -8,11 +8,7 @@ from .helpers import check_dependencies, setup_user_directory
 from .project import create_project
 from . import resource
 
-__version__ = '0.2.3'
 cli_args = None
-#         # takes a name and *fields of name:type
-#         ModelGenerator(args.namespace, args.name).create(args.field)
-#         # takes a name and *fields of name:type
 
 
 def init_parser():
@@ -56,9 +52,6 @@ def task_parser():
 
 
 def main():
-    # for p in field_group:
-    #     p.add_argument('field', nargs='*', help=field_help[p])
-    # argcomplete.autocomplete(parser)
     global cli_args
     parser = get_parser()
     subparser_processor = {
@@ -70,6 +63,7 @@ def main():
         'addon': addon_parser,
         'task': task_parser
     }
+    # argcomplete.autocomplete(parser)
     cli_args = parser.parse_args()
     if cli_args.subparser_name:
         subparser_processor[cli_args.subparser_name]()
