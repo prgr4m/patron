@@ -29,6 +29,7 @@ def blueprint_parser():
     # scaffold blueprint
     # parse fields and append
     print(cli_args)
+    # resource.create_blueprint()
 
 
 def form_parser():
@@ -41,6 +42,7 @@ def model_parser():
 
 def package_parser():
     print(cli_args)
+    resource.create_package()
 
 
 def addon_parser():

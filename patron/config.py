@@ -21,15 +21,15 @@ def create(project_name, directory_name):
         json.dump(new_config, config_file, indent=2)
 
 
-def project_name(self):
+def get_project_name():
     return config['project_name']
 
 
-def settings(self):
+def get_settings():
     return config['settings_file']
 
 
-def factory_path(self):
+def get_factory_path():
     return config['factory_file']
 
 
@@ -40,6 +40,6 @@ def addons(new_addon=None):
     save_config()
 
 
-def save_config(self):
+def save_config():
     with open(config_name, 'w') as config_file:
         json.dump(config, config_file, indent=2)
