@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # PYTHON_ARGCOMPLETE_OK
 from __future__ import print_function
+import webbrowser
 # import argcomplete
 from .parser import get_parser
 from .helpers import check_dependencies, setup_user_directory
@@ -14,8 +15,10 @@ cli_args = None
 def init_parser():
     if cli_args.action == 'check':
         check_dependencies()
-    else:
+    elif cli_args.action == 'user':
         setup_user_directory()
+    else:
+        webbrowser.open_new_tab("http://pythonhosted.org/patron")
 
 
 def project_parser():

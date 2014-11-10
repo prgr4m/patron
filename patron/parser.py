@@ -20,10 +20,11 @@ def get_parser():
 def main_parser():
     init_help = "actions to be performed with patron itself"
     init_parser = subparser.add_parser('init', help=init_help)
-    init_choices = ('check', 'user')
+    init_choices = ('check', 'user', 'docs')
     choices_help = """
-    'check' external dependencies or create the 'user' directory which
-    contains the templates for the user to override to their liking."""
+    'check' external dependencies, create the 'user' directory which
+    contains the templates for the user to override to their liking or
+    open up the 'docs' in a web browser."""
     init_parser.add_argument('action', choices=init_choices, help=choices_help)
     project_help = "create a flask project"
     name_help = "name of the flask project"
@@ -44,10 +45,11 @@ def project_parser():
 def add_blueprint():
     blueprint_help = "create a blueprint"
     blueprint_name_help = "name of blueprint"
-    blueprint_route_help = "route_name:methods:variable-type"
+    blueprint_route_help = "method:route_name"
     blueprint_parser = subparser.add_parser('blueprint', help=blueprint_help)
     blueprint_parser.add_argument('name', help=blueprint_name_help)
     blueprint_parser.add_argument('route', nargs='*', help=blueprint_route_help)
+    # add option to exclude templates
 
 
 def add_package():
@@ -63,10 +65,13 @@ def add_model():
     model_blueprint_help = "name of blueprint"
     model_name_help = "name of model"
     model_field_help = "name:sqlalchemy_type-value:column_attr-value"
+    model_relation_help = "name:backref"
     model_parser = subparser.add_parser('model', help=model_help)
     model_parser.add_argument('blueprint', help=model_blueprint_help)
     model_parser.add_argument('name', help=model_name_help)
     model_parser.add_argument('field', help=model_field_help)
+    model_parser.add_argument('-r', '--relation', action='append',
+                              help=model_relation_help)
 
 
 def add_addons():

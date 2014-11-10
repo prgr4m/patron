@@ -146,14 +146,5 @@ def get_stream():
     return StringIO()
 
 
-def generator_format_checker(format_type, user_input):
-    # formats = {
-    #     'blueprint': r'\w',  # name:method:variable-type
-    #     'model': r'\w',      # name:colattr-val
-    #     'form': r'\w'
-    # }
-    pass
-
-
 def create_unittest(name, test_type='blueprint'):
     pass

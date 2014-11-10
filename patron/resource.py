@@ -13,7 +13,7 @@ def resource_exists(resource_name):
     return True if path.exists(path_to_check) else False
 
 
-def create_blueprint(name, routes=None):
+def create_blueprint(name, routes=None, templates=True):
     # if not is_name_valid(name):
     #     raise StandardError("'{}' is an invalid name".format(name))
     # if resource_exists(name):
@@ -26,72 +26,56 @@ def create_blueprint(name, routes=None):
     if routes:
         # create templates along with extra routes?
         # view_filename = path.join(config.get_project_name(), name, 'views.py')
-        content = parse_blueprint_routes(name, routes)
-        print(content)
+        route_content = get_stream()
+        for route in routes:
+            route = route.lower()
+            if ':' not in route:
+                continue
+            route_parts = route.split(':')
+            route_methods = route_parts.pop(0)
+            route_name = route_parts.pop(0)
+            route_vars = route_parts if len(route_parts) > 0 else None
+            route_def = build_route_definition(name, route_name, route_methods,
+                                               route_vars)
+            route_handler = build_route_handler(route_name, route_vars,
+                                                templates)
+            # print to route_content
+            # if templates:
+            #     create_route_template(route_name)
+            # route_stmt = "{}{}".format(linesep, )
+        print(route_content.getvalue())
         # with open(view_filename, 'at') as view_file:
-        #     view_file.write(content)
+        #     view_file.write(route_content.getvalue())
+        route_content.close()
     # if admin addon was added, include admin.py
     # factory_blueprint(name.lower())
 
 
-def parse_blueprint_routes(blueprint_name, routes):
-    # route_name:methods:variable-type
-    # ex: should be able to work with just the name
-    # @name.route('/route_name/<type:variable>', methods=[])
-    # def name(variable):
-    #     return render_template
-    def get_methods_format(method=None):
-        route_methods = ('GET', 'POST', 'PUT', 'DELETE')
-        if '-' in method:
-            method = method.split('-')
-    def build_route_handler(route):
-        # need to return (definition, body)
-        # func_stmt = "def {route_name}({variables}):{linesep}"
-        #     return render_template('{route_name}.jade')
-        # does not care about methods
-        body_stmt = "{indent}return render_template('{route_name}.jade')"
-        if ':' in route:
-            rt = route.split(':')
-            # need route_name
-            # need variable names only
-            # ignore methods
-            pass
-        else:  # just the name was supplied
-            def_stmt = "def {route_name}():".format(route_name=route)
-            def_data = dict(route_name=route)
-            body_data = dict(route_name=route, indent=" " * 4)
-        return (def_stmt.format(**def_data), body_stmt.format(**body_data))
-
-    stream = get_stream()
-    for route in routes:
-        route = route.lower()
-        print(linesep, file=stream)
-        route_statement = build_route_statement(blueprint_name, route)
-        handler_def, handler_body = build_route_handler(route)
-        for stmt in (route_statement, handler_def, handler_body):
-            print(stmt, file=stream)
-        print(linesep, file=stream)
-    content = stream.getvalue()
-    stream.close()
-    return content
+def build_route_definition(blueprint_name, route_name, methods, variables):
+    # @bp_name.route('/route_name', methods=['GET','POST'])
+    route_stmt = "@{bp_name}.route('/{route_name}{variables}'{methods})"
+    route_data = dict(bp_name=blueprint_name)
+    # validate each part
 
 
-def build_route_statement(blueprint_name, route):
+def build_route_handler(route_parts, variables, templates):
+    indent = " " * 4
+    # def route_name():
+    #     pass|return render_template('{route_name}.jade')
+    if templates:
+        body_def_stmt = "{indent}return render_template('{route_nm}.jade')"
+        body_def = body_def_stmt.format(indent=indent, route_nm=route_name)
+    else:
+        body_def_stmt = "{indent}pass"
+        body_def = body_def_stmt.format(indent=indent)
+    return [route_def, body_def]
 
-    if ':' in route:
-        route_stmt = "@{bp_nm}.route('/{route_name}{variables}'{methods})"
-        route = route.split(':')
-        route_name = route.pop(1)
-        check_for_method_type = True
-        for rt in route:
-            # what is what (method or variable) method should be first but can
-            # be omitted. if omitted, will be treated as variable onwards
-            pass
-    else:  # just the name was supplied
-        route_data = dict(bp_nm=blueprint_name, route_name=route)
-        route_stmt = "@{bp_nm}.route('/{route_name}')"
-    return route_stmt.format(**route_data)
 
+def create_route_template(route_name):
+    # get scaffold directory
+    # fetch route_template
+    # copy over to templates directory as 'route_name'.jade
+    pass
 
 
 def create_package(name, options):

@@ -16,6 +16,7 @@ Patron Changelog
 * added packages to flask projects
 * added the ability to add extra routes to blueprints from cli
 * simplified model generation instead of trying to do everything for the developer
+* added cli option to open official docs in browser
 
 0.2.2
 -----
