@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 from os import path, linesep
-import sys
 import shutil
 from cookiecutter.generate import generate_files
 from . import config
@@ -15,18 +14,17 @@ def resource_exists(resource_name):
 
 
 def create_blueprint(name, routes=None, templates=True):
-    # if not is_name_valid(name):
-    #     raise StandardError("'{}' is an invalid name".format(name))
-    # if resource_exists(name):
-    #     raise OSError("Blueprint '{}' already exists".format(name))
-    # scaffold = get_scaffold('blueprint')
-    # context = create_context('blueprint')
-    # context['cookiecutter']['blueprint_name'] = name
-    # context['cookiecutter']['project_name'] = config.get_project_name()
-    # generate_files(repo_dir=scaffold, context=context)
+    if not is_name_valid(name):
+        raise StandardError("'{}' is an invalid name".format(name))
+    if resource_exists(name):
+        raise OSError("Blueprint '{}' already exists".format(name))
+    scaffold = get_scaffold('blueprint')
+    context = create_context('blueprint')
+    context['cookiecutter']['blueprint_name'] = name
+    context['cookiecutter']['project_name'] = config.get_project_name()
+    generate_files(repo_dir=scaffold, context=context)
     if routes:
-        # create templates along with extra routes?
-        # view_filename = path.join(config.get_project_name(), name, 'views.py')
+        view_filename = path.join(config.get_project_name(), name, 'views.py')
         route_content = get_stream()
         for route in routes:
             route = route.lower()
@@ -40,16 +38,15 @@ def create_blueprint(name, routes=None, templates=True):
                                                route_vars)
             route_handler = build_route_handler(route_name, route_vars,
                                                 templates)
-            # print to route_content
-            # if templates:
-            #     create_route_template(name, route_name)
-            # route_stmt = "{}{}".format(linesep, )
-        print(route_content.getvalue())
-        # with open(view_filename, 'at') as view_file:
-        #     view_file.write(route_content.getvalue())
+            new_route = "{}".format(linesep).join([route_def, route_handler])
+            print(new_route, file=route_content)
+            if templates:
+                create_route_template(name, route_name)
+        with open(view_filename, 'at') as view_file:
+            view_file.write(route_content.getvalue())
         route_content.close()
     # if admin addon was added, include admin.py
-    # factory_blueprint(name.lower())
+    factory_blueprint(name.lower())
 
 
 def build_route_definition(blueprint_name, route_name, methods, variables):
@@ -70,13 +67,24 @@ def build_route_definition(blueprint_name, route_name, methods, variables):
     else:  # just a 'GET' method
         route_data['methods'] = ''
     if variables:
+        formatted_variables = []
         for variable in variables:
-            if '-' in variable:
-                pass  # check for type
+            if '-' in variable and variable.count('-') == 1:
+                var_name, var_type = variable.split('-')
+                if var_type in variable_types:
+                    formatted_variables.append("<%s:%s>" % (var_type, var_name))
+                else:
+                    formatted_variables.append("<%s>" % var_name)
             else:
-                pass
+                if '-' in variable:
+                    variable = variable.replace('-', '_')
+                formatted_variables.append("<%s>" % variable)
+        formatted_variable_data = "/".join(formatted_variables)
+        route_data['variables'] = variable_prefix \
+            .format(variables=formatted_variable_data)
     else:
         route_data['variables'] = ''
+    return route_stmt.format(**route_data)
 
 
 def build_route_handler(route_name, variables, templates):
@@ -84,11 +92,12 @@ def build_route_handler(route_name, variables, templates):
     func_def_stmt = "def {route_name}({variables}):"
     func_data = dict(route_name=route_name)
     if variables:
+        formatted_variables = []
         for variable in variables:
             if '-' in variable:
-                pass
-            else:
-                pass
+                variable = variable.split('-')[0]
+            formatted_variables.append(variable)
+        func_data['variables'] = ", ".join(formatted_variables)
     else:
         func_data['variables'] = ''
     func_def = func_def_stmt.format(**func_data)
@@ -98,7 +107,7 @@ def build_route_handler(route_name, variables, templates):
     else:
         body_def_stmt = "{indent}pass"
         body_def = body_def_stmt.format(indent=indent)
-    return [func_def, body_def]
+    return "{}".format(linesep).join([func_def, body_def])
 
 
 def create_route_template(blueprint_name, route_name):

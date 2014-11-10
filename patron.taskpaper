@@ -14,9 +14,7 @@ opened up an issue :(
 		- adaptable parser pending on scaffold type
 		- modify lookups not based on blueprints/addons but by resources
 	Project Scaffolding:
-		- simple
-		- blueprint
-		- mvc (uses flask-classy and modeled after padrino project layout)
+		- clean up and remove certain frontend elements offered by frontend addon
 	Documentation:
 		- feature matrix in regards to padrino but flask conventions
 		- roadmap of implementation features
@@ -28,15 +26,15 @@ opened up an issue :(
 	Form Generator:
 		- similar to model generator
 	Static Site Generator:
-		- revise
+		- remove from project
+		- add as an addon
 	Base:
 		- move all things considered front-end out
 	Blueprints:
 		- include injection snippets file so users can override
-		- accommodate Flask-Classy users @cancelled(2014-11-04) * mvc scaffold for flask-classy users
 		- should be able to create methods/function routes on cli as well
 	Patron Config:
-		- include orm used
+		- include orm used (when the time comes to integrate peewee)
 		- redo to be simplistic but with minimum info to get job done
 	Model Generator:
 		- shorter commands without losing meaning? explicit is better than implicit...
