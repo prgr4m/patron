@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+import io
 from os import path, linesep
 import shutil
 from cookiecutter.generate import generate_files
@@ -26,6 +27,8 @@ def create_blueprint(name, routes=None, templates=True):
     if routes:
         view_filename = path.join(config.get_project_name(), name, 'views.py')
         route_content = get_stream()
+        route_separator = "{linesep}{linesep}".format(linesep=linesep)
+        print(u"", file=route_content)
         for route in routes:
             route = route.lower()
             if ':' not in route:
@@ -38,11 +41,12 @@ def create_blueprint(name, routes=None, templates=True):
                                                route_vars)
             route_handler = build_route_handler(route_name, route_vars,
                                                 templates)
-            new_route = "{}".format(linesep).join([route_def, route_handler])
+            new_route = u"{}".format(linesep).join([route_def, route_handler])
+            print(u"{}".format(linesep), file=route_content)
             print(new_route, file=route_content)
             if templates:
                 create_route_template(name, route_name)
-        with open(view_filename, 'at') as view_file:
+        with io.open(view_filename, 'at') as view_file:
             view_file.write(route_content.getvalue())
         route_content.close()
     # if admin addon was added, include admin.py

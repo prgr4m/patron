@@ -45,7 +45,7 @@ def project_parser():
 def add_blueprint():
     blueprint_help = "create a blueprint"
     blueprint_name_help = "name of blueprint"
-    blueprint_route_help = "method:route_name"
+    blueprint_route_help = "method:route_name:variable_name-type"
     blueprint_parser = subparser.add_parser('blueprint', help=blueprint_help)
     blueprint_parser.add_argument('name', help=blueprint_name_help)
     blueprint_parser.add_argument('route', nargs='*', help=blueprint_route_help)
