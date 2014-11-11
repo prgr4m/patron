@@ -46,10 +46,12 @@ def add_blueprint():
     blueprint_help = "create a blueprint"
     blueprint_name_help = "name of blueprint"
     blueprint_route_help = "method:route_name:variable_name-type"
+    blueprint_tpl_help = "no templates generated for extra routes created"
     blueprint_parser = subparser.add_parser('blueprint', help=blueprint_help)
     blueprint_parser.add_argument('name', help=blueprint_name_help)
     blueprint_parser.add_argument('route', nargs='*', help=blueprint_route_help)
-    # add option to exclude templates
+    blueprint_parser.add_argument('-n', action='store_false',
+                                  help=blueprint_tpl_help)
 
 
 def add_package():

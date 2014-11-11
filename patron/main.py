@@ -29,8 +29,8 @@ def project_parser():
 
 
 def blueprint_parser():
-    print(cli_args)
-    resource.create_blueprint(cli_args.name, routes=cli_args.route)
+    resource.create_blueprint(cli_args.name, routes=cli_args.route,
+                              templates=cli_args.n)
 
 
 def form_parser():
