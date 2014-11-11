@@ -23,7 +23,7 @@ def create_model(blueprint_name, model_name, fields, relations):
     stream = get_stream()
     sys.stdout = stream
     with model(model_name):
-        for field in parse_fields(fields):
+        for field in parse_model_fields(fields):
             print(field)
         if relations:
             for relation in parse_relations(relations):
@@ -78,18 +78,36 @@ def model(name):
     print()
 
 
-def parse_fields(fields):
-    col_stmt_def = "{indent}{name} = db.Column({field_type})"
+def parse_model_fields(fields):
+    col_stmt_def = u"{indent}{name} = db.Column({field_type}{column_attrs})"
+    field_map = get_known_fields(mode="all")
     for field in fields:
         if ':' not in field:
             continue
         attribs = field.split(':')
-        # mandatory is name:field_type
+        field_name = attribs.pop(0)
+        alchemy_raw = attribs.pop(0)  # check to see if it has a default value
+        alchemy_type = alchemy_raw.split('-')[0] if '-' in alchemy_raw \
+            else alchemy_raw
+        if alchemy_type not in field_map:
+            continue
+        col_data = dict(name=field_name)
+        # process for field_type
+        if attribs:
+            pass  # process column_attributes
+
+        yield col_stmt_def.format(**col_data)
 
 
 def parse_relations(relations):
-    rel_stmt_def = "{indent}{name} = db.relationship({relation_definition})"
-    for rel in relations:
-        if ':' not in relations:
-            continue
-        attribs = relations.split(':')
+    # name:Class:backref_name:lazy-type
+    # name:Class:secondary-table_ref:backref-reference_name-lazy_type
+    # lazy_types = ('select', 'joined', 'subquery', 'dynamic')
+    # rel_stmt_def = "{indent}{name} = db.relationship({relation_definition})"
+    # secondary_def = "secondary={}"
+    # backref_def = "backref=db.backref('{}', lazy='{}')"
+    # for rel in relations:
+    #     if ':' not in relations:
+    #         continue
+    #     attribs = relations.split(':')
+    pass
