@@ -82,20 +82,57 @@ def parse_model_fields(fields):
     col_stmt_def = u"{indent}{name} = db.Column({field_type}{column_attrs})"
     field_map = get_known_fields(mode="all")
     for field in fields:
-        if ':' not in field:
-            continue
+        if ':' not in field:  # just the name and column definition
+            field_name = field.replace('-', '_') if '-' in field else field
+            col_data = dict(indent=indent, name=field_name, field_type='',
+                            column_attrs='')
+            yield col_stmt_def.format(**col_data)
         attribs = field.split(':')
-        field_name = attribs.pop(0)
+        field_name = attribs.pop(0).replace('-', '_')
         alchemy_raw = attribs.pop(0)  # check to see if it has a default value
         alchemy_type = alchemy_raw.split('-')[0] if '-' in alchemy_raw \
             else alchemy_raw
         if alchemy_type not in field_map:
-            continue
+            # just the name and column definition because of unknown type
+            col_data = dict(indent=indent, name=field_name, field_type='',
+                            column_attrs='')
+            yield col_stmt_def.format(**col_data)
         col_data = dict(name=field_name)
-        # process for field_type
-        if attribs:
-            pass  # process column_attributes
-
+        field_type_def = u"{field_type}({field_defaults})"
+        field_type_data = dict(field_type=field_map[alchemy_type])
+        if '-' in alchemy_raw:
+            field_default_data = alchemy_raw.split('-')[1:]
+            alchemy_type_defaults = []
+            for field_data in field_default_data:
+                if isinstance(field_data, str) and not field_data.isdigit():
+                    alchemy_type_defaults.append("'%s'" % field_data)
+                else:
+                    alchemy_type_defaults.append(field_data)
+            field_type_data['field_defaults'] = ", ".join(alchemy_type_defaults)
+        else:
+            field_type_data['field_defaults'] = ''
+        col_data['field_type'] = field_type_def.format(field_type_data)
+        if not attribs:
+            col_data['column_attrs'] = ''
+        else:
+            column_keywords = {
+                'index': u"index={value}",
+                'nullable': u"nullable={value}",
+                'unique': u"unique={value}",
+                'default': u"default={value}"
+            }
+            parsed_col_attr = []
+            for attrib in attribs:
+                attr, attr_val = attrib.split('-') if '-' in attrib \
+                    else (attrib, True)
+                if attr not in column_keywords:
+                    continue
+                if isinstance(attr_val, str) and not attr_val.isdigit():
+                    attr_val = "'%s'" % attr_val
+                parsed_col_attr.append(column_keywords[attr]
+                                       .format(value=attr_val))
+            col_data['column_attrs'] = ", " + ", ".join(parsed_col_attr) \
+                if parsed_col_attr else ''
         yield col_stmt_def.format(**col_data)
 
 
