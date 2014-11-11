@@ -5,7 +5,7 @@ from __future__ import print_function
 import webbrowser
 # import argcomplete
 from .parser import get_parser
-from .helpers import check_dependencies, setup_user_directory
+from .helpers import check_dependencies, setup_user_directory, create_task
 from .project import create_project
 from . import resource
 
@@ -51,7 +51,7 @@ def addon_parser():
 
 
 def task_parser():
-    print(cli_args)
+    create_task(cli_args.name, cli_args.description)
 
 
 def main():

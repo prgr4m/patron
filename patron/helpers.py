@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 import platform
+import io
 import os
 from os import path
 import shutil
 import subprocess
 import sys
 import re
+from string import Template
 from cookiecutter.generate import generate_context
 
 PKG_SCAFFOLDS = path.join(path.dirname(path.abspath(__file__)), 'data')
@@ -148,3 +150,17 @@ def get_stream():
 
 def create_unittest(name, test_type='blueprint'):
     pass
+
+
+def create_task(name, description):
+    if not is_name_valid(name):
+        raise StandardError("Name supplied is invalid")
+    name = name.lower()
+    scaffold = get_scaffold('task')
+    task_template_file = path.join(scaffold, 'task_template.txt')
+    template = Template(io.open(task_template_file, 'rt').read())
+    template_data = dict(task_name=name, task_description=description)
+    task_contents = u"{}{}".format(os.linesep,
+                                   template.safe_substitute(**template_data))
+    with io.open('fabfile.py', 'at')as fabfile:
+        fabfile.write(task_contents)
