@@ -11,8 +11,6 @@ opened up an issue :(
 		- move generators into main package (rewrite but keep old files until refactor)
 	Cli Parser:
 		- argcompletion for linux
-		- adaptable parser pending on scaffold type
-		- modify lookups not based on blueprints/addons but by resources
 	Project Scaffolding:
 		- clean up and remove certain frontend elements offered by frontend addon
 	Documentation:
@@ -26,22 +24,16 @@ opened up an issue :(
 	Form Generator:
 		- similar to model generator
 	Static Site Generator:
-		- remove from project
 		- add as an addon
 	Base:
 		- move all things considered front-end out
 	Blueprints:
-		- include injection snippets file so users can override
 		- should be able to create methods/function routes on cli as well
 	Patron Config:
-		- include orm used (when the time comes to integrate peewee)
-		- redo to be simplistic but with minimum info to get job done
 	Model Generator:
 		- shorter commands without losing meaning? explicit is better than implicit...
 		- update cli documentation for models
 		- if admin addon present, generate admin.py models... and auto register
-		- peewee parser
-			- migration generator
 	Front-End Addon:
 		- overwrite .bowerrc and point to frontend dir
 		- revise to have SPA work flow separated
@@ -79,4 +71,8 @@ opened up an issue :(
     Mailer:
 			- should this use celery? I just don't want to add more development dependencies
 Archive:
+	- adaptable parser pending on scaffold type @done(2014-11-10) @project(opened up an issue  / Cli Parser)
+	- modify lookups not based on blueprints/addons but by resources @done(2014-11-10) @project(opened up an issue  / Cli Parser)
+	- remove from project @done(2014-11-10) @project(opened up an issue  / Static Site Generator)
+	- redo to be simplistic but with minimum info to get job done @done(2014-11-10) @project(opened up an issue  / Patron Config)
 	- python 3.x support @done(2014-11-04) @project(opened up an issue  / General)
