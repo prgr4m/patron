@@ -27,7 +27,7 @@ def create_model(blueprint_name, model_name, fields, relations):
             print(field)
         if relations:
             for relation in parse_relations(relations):
-                print relation
+                print(relation)
     with io.open(target_filename, 'at') as outfile:
         outfile.write(stream.getvalue())
     stream.close()
@@ -57,7 +57,6 @@ def get_known_fields(mode='keys'):
     if mode == 'keys':
         return field_map.keys()
     return field_map
-    }
 
 
 @contextmanager
@@ -84,9 +83,13 @@ def parse_fields(fields):
     for field in fields:
         if ':' not in field:
             continue
-
+        attribs = field.split(':')
+        # mandatory is name:field_type
 
 
 def parse_relations(relations):
     rel_stmt_def = "{indent}{name} = db.relationship({relation_definition})"
     for rel in relations:
+        if ':' not in relations:
+            continue
+        attribs = relations.split(':')
