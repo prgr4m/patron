@@ -4,19 +4,19 @@ Patron Changelog
 0.2.3
 -----
 
-25 OCT 2014
+10 NOV 2014
 
+* rewrite of project so it doesn't smell like java
 * multi-page documentation format for easier organization and navigation
 * rewrite of parser to show only relevant options when dealing with a project or not
 * added check of minimal external dependencies
-* removed '|' in cookiecutter filenames because of Windows
+* removed '|' in cookiecutter filenames in case of users running Windows
 * reorganization of source files
-* rewrote addon generation
 * removal of static site generator as a project scaffold
 * added packages to flask projects
 * added the ability to add extra routes to blueprints from cli
-* simplified model generation instead of trying to do everything for the developer
 * added cli option to open official docs in browser
+* ability to add extra routes to blueprint scaffolding along with option to exclude templates generated
 
 0.2.2
 -----
