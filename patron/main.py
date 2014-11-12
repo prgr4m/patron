@@ -7,55 +7,55 @@ import webbrowser
 from .parser import get_parser
 from .helpers import check_dependencies, setup_user_directory, create_task
 from .project import create_project
+from .model import create_model
 from . import resource
 
-cli_args = None
+args = None
 
 
 def init_parser():
-    if cli_args.action == 'check':
+    if args.action == 'check':
         check_dependencies()
-    elif cli_args.action == 'user':
+    elif args.action == 'user':
         setup_user_directory()
     else:
         webbrowser.open_new_tab("http://pythonhosted.org/patron")
 
 
 def project_parser():
-    options = dict(name=cli_args.name)
-    if hasattr(cli_args, 'directory'):
-        options['directory'] = cli_args.directory
+    options = dict(name=args.name)
+    if hasattr(args, 'directory'):
+        options['directory'] = args.directory
     create_project(**options)
 
 
 def blueprint_parser():
-    resource.create_blueprint(cli_args.name, routes=cli_args.route,
-                              templates=cli_args.n)
+    resource.create_blueprint(args.name, routes=args.route, templates=args.n)
 
 
 def form_parser():
-    print(cli_args)
+    print(args)
 
 
 def model_parser():
-    print(cli_args)
+    create_model(args.blueprint, args.name, args.field, args.r)
 
 
 def package_parser():
-    print(cli_args)
+    print(args)
     resource.create_package()
 
 
 def addon_parser():
-    print(cli_args)
+    print(args)
 
 
 def task_parser():
-    create_task(cli_args.name, cli_args.description)
+    create_task(args.name, args.description)
 
 
 def main():
-    global cli_args
+    global args
     parser = get_parser()
     subparser_processor = {
         'init': init_parser,
@@ -67,9 +67,9 @@ def main():
         'task': task_parser
     }
     # argcomplete.autocomplete(parser)
-    cli_args = parser.parse_args()
-    if cli_args.subparser_name:
-        subparser_processor[cli_args.subparser_name]()
+    args = parser.parse_args()
+    if args.subparser_name:
+        subparser_processor[args.subparser_name]()
     else:
         parser.print_usage()
 

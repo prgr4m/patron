@@ -34,6 +34,7 @@ opened up an issue :(
 		- shorter commands without losing meaning? explicit is better than implicit...
 		- update cli documentation for models
 		- if admin addon present, generate admin.py models... and auto register
+		- double check the relations declaration... backref_name-value
 	Front-End Addon:
 		- overwrite .bowerrc and point to frontend dir
 		- revise to have SPA work flow separated

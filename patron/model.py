@@ -62,18 +62,18 @@ def model(name):
     model_def = u"class {}(db.Model):".format(name)
     table_def = u"{}__tablename__ = '{}'".format(indent, name.lower())
     id_def = u"{}id = db.Column(db.Integer, primary_key=True)".format(indent)
-    print()
+    print(u"")
     print(model_def)
     print(table_def)
     print(id_def)
     yield
-    print()
+    print(u"")
     print(u"{}def __str__(self):".format(indent))
     print(u"{}pass".format(indent * 2))
-    print()
+    print(u"")
     print(u"{}def __repr__(self):".format(indent))
     print(u"{}return \"<{}: Customize me!>\"".format(indent * 2, name))
-    print()
+    print(u"")
 
 
 def parse_model_fields(fields):
@@ -95,8 +95,8 @@ def parse_model_fields(fields):
             col_data = dict(indent=indent, name=field_name, field_type='',
                             column_attrs='')
             yield col_stmt_def.format(**col_data)
-        col_data = dict(name=field_name)
-        field_type_def = u"{field_type}({field_defaults})"
+        col_data = dict(indent=indent, name=field_name)
+        field_type_def = u"{field_type}{field_defaults}"
         field_type_data = dict(field_type=field_map[alchemy_type])
         if '-' in alchemy_raw:
             field_default_data = alchemy_raw.split('-')[1:]
@@ -106,10 +106,11 @@ def parse_model_fields(fields):
                     alchemy_type_defaults.append("'%s'" % field_data)
                 else:
                     alchemy_type_defaults.append(field_data)
-            field_type_data['field_defaults'] = ", ".join(alchemy_type_defaults)
+            field_data = "(" + ", ".join(alchemy_type_defaults) + ")"
+            field_type_data['field_defaults'] = field_data
         else:
             field_type_data['field_defaults'] = ''
-        col_data['field_type'] = field_type_def.format(field_type_data)
+        col_data['field_type'] = field_type_def.format(**field_type_data)
         if not attribs:
             col_data['column_attrs'] = ''
         else:
