@@ -26,7 +26,7 @@ def create_model(blueprint_name, model_name, fields, relations):
         for field in parse_model_fields(fields):
             print(field)
         if relations:
-            for relation in parse_relations(relations):
+            for relation in parse_relations(relations, model_name):
                 print(relation)
     with io.open(target_filename, 'at') as outfile:
         outfile.write(stream.getvalue())
@@ -37,9 +37,7 @@ def create_model(blueprint_name, model_name, fields, relations):
 
 def get_known_fields(mode='keys'):
     field_map = {
-        'smallint': 'db.SmallInteger',
         'integer': 'db.Integer',
-        'bigint': 'db.BigInteger',
         'string': 'db.String',
         'text': 'db.Text',
         'date': 'db.Date',
@@ -119,7 +117,8 @@ def parse_model_fields(fields):
                 'index': u"index={value}",
                 'nullable': u"nullable={value}",
                 'unique': u"unique={value}",
-                'default': u"default={value}"
+                'default': u"default={value}",
+                'foreign': u"db.ForeignKey({value})"
             }
             parsed_col_attr = []
             for attrib in attribs:
@@ -136,15 +135,73 @@ def parse_model_fields(fields):
         yield col_stmt_def.format(**col_data)
 
 
-def parse_relations(relations):
-    # name:Class:backref_name:lazy-type
+def parse_relations(relations, model_name):
+    # name:Class:lazy_type - uses model_name
+    # name:Class:backref_name:lazy_type
+    # name:Class:backref-reference_name-lazy_type:lazy_type
     # name:Class:secondary-table_ref:backref-reference_name-lazy_type
-    # lazy_types = ('select', 'joined', 'subquery', 'dynamic')
-    # rel_stmt_def = "{indent}{name} = db.relationship({relation_definition})"
-    # secondary_def = "secondary={}"
-    # backref_def = "backref=db.backref('{}', lazy='{}')"
-    # for rel in relations:
-    #     if ':' not in relations:
-    #         continue
-    #     attribs = relations.split(':')
-    pass
+    rel_def = u"{indent}{name} = db.relationship('{class_name}', {r_def})"
+    lazy_types = ('select', 'joined', 'subquery', 'dynamic')
+    secondary_def = "secondary={table_ref}"
+    backref_def = "backref=db.backref('{ref_name}', lazy='{lazy_type}')"
+    for relation in relations:
+        if ':' not in relation:
+            yield u""
+        rel_data = relation.split(':')
+        name = rel_data.pop(0)
+        class_name = rel_data.pop(0)
+        rel_def_data = dict(indent=indent, name=name, class_name=class_name)
+        if rel_data:
+            if len(rel_data) != 2:  # check for ref_name | lazy_type
+                r_def = u"backref='{ref_name}', lazy='{lazy_type}'"
+                if rel_data[0] not in lazy_types:
+                    r_data = dict(ref_name=rel_data[0].lower(),
+                                  lazy_type=lazy_types[-1])
+                else:
+                    r_data = dict(ref_name=model_name.lower(),
+                                  lazy_type=rel_data[0])
+                rel_def_data['r_def'] = r_def.format(**r_data)
+            else:  # expected input processing
+                if '-' in rel_data[0] and 'secondary' in rel_data[0]:
+                    r_def = u"{secondary}, {backref}"
+                    secondary_table = rel_data[0].split('-')[1]
+                    secondary = secondary_def.format(table_ref=secondary_table)
+                    if '-' in rel_data[1]:  # ref_name, lazy_type
+                        ref_name, lazy_type = rel_data[1].split('-')[:2]
+                        lazy_type = lazy_type if lazy_type in lazy_types \
+                            else lazy_types[-1]
+                    else:  # check if it is reference_name or lazy_type
+                        if rel_data[1] in lazy_types:
+                            ref_name = model_name.lower()
+                            lazy_type = rel_data[1]
+                        else:
+                            ref_name = rel_data[1]
+                            lazy_type = lazy_types[-1]
+                    backref_data = dict(ref_name=ref_name, lazy_type=lazy_type)
+                    backref = backref_def.format(**backref_data)
+                    rel_def_data['r_def'] = r_def.format(secondary=secondary,
+                                                         backref=backref)
+                elif '-' in rel_data[0]:  # use backref_def
+                    r_def = u"{backref_def}, lazy='{lazy_type}'"
+                    ref_name, ref_type = rel_data[0].split('-')[:2]
+                    lazy_type = ref_type if ref_type in lazy_types \
+                        else lazy_types[-1]
+                    backref_data = dict(ref_name=ref_name, lazy_type=lazy_type)
+                    backref = backref_def.format(**backref_data)
+                    lazy_type = rel_data[1] if rel_data[1] in lazy_types \
+                        else lazy_types[-1]
+                    rel_def_data['r_def'] = r_def.format(backref_def=backref,
+                                                         lazy_type=lazy_type)
+                else:  # treat as backref='ref_name'
+                    r_def = u"backref='{ref_name}', lazy='{lazy_type}'"
+                    lazy_type = rel_data[1] if rel_data[1] in lazy_types \
+                        else lazy_types[-1]
+                    r_data = dict(ref_name=rel_data[0].lower(),
+                                  lazy_type=lazy_type)
+                    rel_def_data['r_def'] = r_def.format(**r_data)
+        else:  # fill in the blanks due to improper input
+            r_def = u"backref='{}', lazy='{}'"
+            backref_name = model_name.lower()
+            lazy_type = lazy_types[-1]
+            rel_def_data['r_def'] = r_def.format(backref_name, lazy_type)
+        yield rel_def.format(**rel_def_data)
