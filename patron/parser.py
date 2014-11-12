@@ -38,6 +38,7 @@ def project_parser():
     add_blueprint()
     add_package()
     add_model()
+    add_form()
     add_addons()
     add_task()
 
@@ -74,6 +75,18 @@ def add_model():
     model_parser.add_argument('name', help=model_name_help)
     model_parser.add_argument('field', nargs='+', help=model_field_help)
     model_parser.add_argument('-r', action='append', help=model_relation_help)
+
+
+def add_form():
+    form_help = "generate a form for WTForms"
+    form_blueprint_help = "name of blueprint to create form in. default: public"
+    form_name_help = "name of form"
+    form_field_help = "name:wtf_type:label:validators"
+    form_parser = subparser.add_parser('form', help=form_help)
+    form_parser.add_argument('b', '--blueprint', default='public',
+                             help=form_blueprint_help)
+    form_parser.add_argument('name', help=form_name_help)
+    form_parser.add_argument('field', nargs='+', help=form_field_help)
 
 
 def add_addons():
