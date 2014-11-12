@@ -82,11 +82,14 @@ def add_form():
     form_blueprint_help = "name of blueprint to create form in. default: public"
     form_name_help = "name of form"
     form_field_help = "name:wtf_type:label:validators"
+    form_validators_help = "generate validation methods for fields created."
     form_parser = subparser.add_parser('form', help=form_help)
-    form_parser.add_argument('b', '--blueprint', default='public',
+    form_parser.add_argument('-b', '--blueprint', default='public',
                              help=form_blueprint_help)
     form_parser.add_argument('name', help=form_name_help)
     form_parser.add_argument('field', nargs='+', help=form_field_help)
+    form_parser.add_argument('-v', '--validators', action='store_true',
+                             help=form_validators_help)
 
 
 def add_addons():

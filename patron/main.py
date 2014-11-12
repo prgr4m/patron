@@ -8,6 +8,7 @@ from .parser import get_parser
 from .helpers import check_dependencies, setup_user_directory, create_task
 from .project import create_project
 from .model import create_model
+from .form import create_form
 from . import resource
 
 args = None
@@ -62,6 +63,7 @@ def main():
         'project': project_parser,
         'blueprint': blueprint_parser,
         'model': model_parser,
+        'form': form_parser,
         'pkg': package_parser,
         'addon': addon_parser,
         'task': task_parser
