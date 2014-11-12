@@ -154,13 +154,22 @@ def parse_relations(relations, model_name):
         rel_def_data = dict(indent=indent, name=name, class_name=class_name)
         if rel_data:
             if len(rel_data) != 2:  # check for ref_name | lazy_type
-                r_def = u"backref='{ref_name}', lazy='{lazy_type}'"
-                if rel_data[0] not in lazy_types:
-                    r_data = dict(ref_name=rel_data[0].lower(),
+                if '-' in rel_data[0]:
+                    r_def = u"{backref_def}, lazy='{lazy_type}'"
+                    b_ref, b_lazy = rel_data[0].split('-')[:2]
+                    b_lazy = b_lazy if b_lazy in lazy_types else lazy_types[-1]
+                    b_ref_def = backref_def.format(ref_name=b_ref,
+                                                   lazy_type=b_lazy)
+                    r_data = dict(backref_def=b_ref_def,
                                   lazy_type=lazy_types[-1])
                 else:
-                    r_data = dict(ref_name=model_name.lower(),
-                                  lazy_type=rel_data[0])
+                    r_def = u"backref='{ref_name}', lazy='{lazy_type}'"
+                    if rel_data[0] not in lazy_types:
+                        r_data = dict(ref_name=rel_data[0].lower(),
+                                    lazy_type=lazy_types[-1])
+                    else:
+                        r_data = dict(ref_name=model_name.lower(),
+                                    lazy_type=rel_data[0])
                 rel_def_data['r_def'] = r_def.format(**r_data)
             else:  # expected input processing
                 if '-' in rel_data[0] and 'secondary' in rel_data[0]:

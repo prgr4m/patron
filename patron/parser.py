@@ -64,12 +64,13 @@ def add_package():
 
 def add_model():
     model_help = "generate a model for SQLAlchemy"
-    model_blueprint_help = "name of blueprint"
+    model_blueprint_help = "name of blueprint to create model. default: public"
     model_name_help = "name of model"
     model_field_help = "name:sqlalchemy_type:column_attr-value"
     model_relation_help = "name:class:backref:lazy-type"
     model_parser = subparser.add_parser('model', help=model_help)
-    model_parser.add_argument('blueprint', help=model_blueprint_help)
+    model_parser.add_argument('-b', '--blueprint', default='public',
+                              help=model_blueprint_help)
     model_parser.add_argument('name', help=model_name_help)
     model_parser.add_argument('field', nargs='+', help=model_field_help)
     model_parser.add_argument('-r', action='append', help=model_relation_help)
