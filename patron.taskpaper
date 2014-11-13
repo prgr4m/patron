@@ -32,9 +32,8 @@ opened up an issue :(
 	Patron Config:
 	Model Generator:
 		- shorter commands without losing meaning? explicit is better than implicit...
-		- update cli documentation for models
 		- if admin addon present, generate admin.py models... and auto register
-		- double check the relations declaration... backref_name-value
+		- see if I can shorten it so mccabe doesn't complain
 	Front-End Addon:
 		- overwrite .bowerrc and point to frontend dir
 		- revise to have SPA work flow separated
@@ -72,6 +71,8 @@ opened up an issue :(
     Mailer:
 			- should this use celery? I just don't want to add more development dependencies
 Archive:
+	- update cli documentation for models @done(2014-11-13) @project(opened up an issue  / Model Generator)
+	- double check the relations declaration... backref_name-value @done(2014-11-13) @project(opened up an issue  / Model Generator)
 	- adaptable parser pending on scaffold type @done(2014-11-10) @project(opened up an issue  / Cli Parser)
 	- modify lookups not based on blueprints/addons but by resources @done(2014-11-10) @project(opened up an issue  / Cli Parser)
 	- remove from project @done(2014-11-10) @project(opened up an issue  / Static Site Generator)

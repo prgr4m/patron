@@ -22,10 +22,10 @@ def create_form(blueprint_name, form_name, form_fields, validators):
     stream = get_stream()
     sys.stdout = stream
     form(form_name)
-    parse_form_fields(form_fields):
+    parse_form_fields(form_fields)
     if validators:
         print(u"")
-        create_validation_methods(form_fields):
+        create_validation_method(form_fields)
     with io.open(target_filename, 'at') as outfile:
         outfile.write(stream.getvalue())
     stream.close()
@@ -40,13 +40,13 @@ def form(form_name):
     print(form_def)
 
 
-def get_known_fields():
+def parse_form_fields(form_fields):
     form_field_map = {
         'bool': 'BooleanField',
         'date': 'DateTimeField',
         'file': 'FileField',
         'float': 'FloatField',
-        'int': 'IntegerField',
+        'integer': 'IntegerField',
         'radio': 'RadioField',
         'select': 'SelectField',
         'multi': 'SelectMultipleField',
@@ -58,11 +58,30 @@ def get_known_fields():
         'form': 'FormField',
         'field': 'FieldList'
     }
-    return form_field_map
-
-
-def parse_form_fields(form_fields):
-    pass
+    field_def = u"{indent}{field_name} = {wtform_def}"
+    wtform_def = u"{field_type}(u'{field_label}'{field_extras})"
+    for field in form_fields:
+        if ':' not in field:
+            continue
+        # name:field_type:label|extra*
+        field_data = field.split(':')
+        field_name = field_data.pop(0)
+        field_type = field_data.pop(0)  # check the type
+        if field_type not in form_field_map:
+            continue
+        field_type = form_field_map[field_type]
+        if field_data:
+            # check if first_element is label; if not create it and parse
+            for f_data in field_data:
+                pass
+        else:  # create the label and close field definition
+            field_label = field_name.capitalize()
+            wtform_def_data = dict(field_type=field_type,
+                                   field_label=field_label, field_extras='')
+            wtform_data = wtform_def.format(**wtform_def_data)
+            field_def_data = dict(indent=indent, field_name=field_name,
+                                  wtform_def=wtform_data)
+        print(field_def.format(**field_def_data))
 
 
 def create_validation_method(form_fields):
