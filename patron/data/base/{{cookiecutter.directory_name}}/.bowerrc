@@ -1,3 +1,0 @@
-{
-  "directory": "{{cookiecutter.project_name}}/static/js/vendor"
-}
