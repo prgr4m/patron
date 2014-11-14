@@ -24,7 +24,6 @@ def create_form(blueprint_name, form_name, form_fields, validators):
     form(form_name)
     parse_form_fields(form_fields)
     if validators:
-        print(u"")
         create_validation_method(form_fields)
     with io.open(target_filename, 'at') as outfile:
         outfile.write(stream.getvalue())

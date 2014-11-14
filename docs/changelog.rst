@@ -17,7 +17,7 @@ Patron Changelog
 * added the ability to add extra routes to blueprints from cli
 * added cli option to open official docs in browser
 * ability to add extra routes to blueprint scaffolding along with option to exclude templates generated
-* wtform generator
+* added wtforms generator
 
 0.2.2
 -----

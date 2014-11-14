@@ -35,7 +35,7 @@ def blueprint_parser():
 
 
 def form_parser():
-    print(args)
+    create_form(args.blueprint, args.name, args.field, args.validators)
 
 
 def model_parser():
