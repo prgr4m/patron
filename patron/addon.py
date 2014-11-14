@@ -15,6 +15,9 @@ def api():
 
 
 def frontend():
+    # run scaffold
+    # make symlink
+    # add to addons
     print("Installing frontend addon")
 
 

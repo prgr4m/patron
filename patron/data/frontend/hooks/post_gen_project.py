@@ -1,16 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+import io
 import os
 from os import path
 import shutil
 import sys
 import subprocess
-import platform
 from string import Template
-
-USER = '~user' if platform.system() == 'Windows' else '~'
-NODE_MODULES_DIR = path.join(path.expanduser(USER), 'Projects', '.node_modules')
 
 ROOT_DIR = os.getcwd()
 APP_DIR = path.join(ROOT_DIR, 'frontend', 'app')
@@ -36,34 +33,6 @@ def command_available(command):
     finally:
         devnull.close()
         return ret_value
-
-
-def check_external_commands():
-    commands = ('bower', 'npm', 'coffeegulp')
-    for cmd in commands:
-        val = command_available(cmd)
-        if not val:
-            err_msg = "{} does not exist on path!"
-            print(err_msg.format(cmd))
-            sys.exit()
-
-
-def setup_node_modules():
-    if not path.exists(NODE_MODULES_DIR):
-        npm_pkgs = ['browser-sync', 'coffee-script', 'coffeegulp', 'gulp',
-                    'gulp-coffee', 'gulp-imagemin', 'gulp-jade', 'gulp-notify',
-                    'gulp-requirejs', 'gulp-ruby-sass', 'gulp-uglify']
-        for pkg in npm_pkgs:
-            subprocess.call(['npm', 'install', pkg])
-        node_root_path = path.dirname(NODE_MODULES_DIR)
-        if not path.exists(node_root_path):
-            os.mkdir(node_root_path)
-        shutil.move('node_modules', NODE_MODULES_DIR)
-    if platform.system() == 'Windows' and sys.version_info.major == 2:
-        os.system("mklink \d node_modules {}".format(NODE_MODULES_DIR))
-    else:
-        os.symlink(NODE_MODULES_DIR, 'node_modules')
-    print("Created symlink at: {}".format(NODE_MODULES_DIR))
 
 
 def install_default_css():
@@ -105,7 +74,7 @@ def install_bnb():
     grid_file = path.join(SASS_DIR, 'base/_grid-settings.scss')
     orig_contents = open(grid_file).readlines()
     fixed_import = '@import "../neat/neat-helpers";{}'.format(os.linesep)
-    with open(grid_file, 'w') as new_grid_file:
+    with io.open(grid_file, 'wt') as new_grid_file:
         for index, line in enumerate(orig_contents):
             if index == 0:
                 line = fixed_import
@@ -157,8 +126,8 @@ def configure_requirejs():
         if js_lib in known_js_libs:
             paths.append(known_js_libs[js_lib]['paths'])
             shims.append(known_js_libs[js_lib]['shim'])
-    gulp_content = Template(open(gulp_config).read())
-    with open(gulp_config, 'w') as gulp_file:
+    gulp_content = Template(io.open(gulp_config, 'rt').read())
+    with io.open(gulp_config, 'wt') as gulp_file:
         if len(paths) > 0:
             pth = "{}{}".format(os.linesep, indent * gulp_indent).join(paths)
             shim = "{}{}".format(os.linesep, indent * gulp_indent).join(shims)
@@ -166,8 +135,8 @@ def configure_requirejs():
         else:
             gulp_data = dict(paths='', shims='')
         gulp_file.write(gulp_content.safe_substitute(**gulp_data))
-    client_content = Template(open(client_config).read())
-    with open(client_config, 'w') as client_file:
+    client_content = Template(io.open(client_config, 'rt').read())
+    with io.open(client_config, 'wt') as client_file:
         if len(paths) > 0:
             pth = "{}{}".format(os.linesep, indent * client_indent).join(paths)
             shim = "{}{}".format(os.linesep, indent * client_indent).join(shims)
@@ -186,7 +155,7 @@ def install_css_libs():
     default_css = ('font-awesome', 'normalize.css')
     note_msg = "Note: {} and {} will be installed either way"
     base_file = path.join(path.dirname(SASS_DIR), 'base', '_base.sass')
-    tpl = Template(open(base_file).read())
+    tpl = Template(io.open(base_file, 'rt').read())
     while prompt_user:
         print("Install CSS libraries:")
         print("\tbnb: bourbon, neat, bitters")
@@ -219,7 +188,7 @@ def install_css_libs():
         tpl_data = dict(css_imports="{}{}".format(import_line, os.linesep))
     else:
         tpl_data = dict(css_imports="")
-    with open(base_file, 'w') as new_base:
+    with io.open(base_file, 'wt') as new_base:
         new_base.write(tpl.safe_substitute(tpl_data))
     hgkeep_file = path.join(SASS_DIR, '.hgkeep')
     os.remove(hgkeep_file)
@@ -260,7 +229,5 @@ def install_js_libs():
     configure_requirejs()
 
 
-check_external_commands()
-setup_node_modules()
 install_css_libs()
 install_js_libs()
