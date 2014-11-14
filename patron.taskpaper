@@ -22,7 +22,7 @@ opened up an issue :(
 		- add commands documentation that are injected by each addon
 		- create list of packages being used by each addon and why
 	Form Generator:
-		- similar to model generator
+		- field import injector
 	Static Site Generator:
 		- add as an addon
 	Base:

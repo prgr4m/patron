@@ -18,7 +18,7 @@ def create_blueprint(name, routes=None, templates=True):
     if not is_name_valid(name):
         raise StandardError("'{}' is an invalid name".format(name))
     if resource_exists(name):
-        raise OSError("Blueprint '{}' already exists".format(name))
+        raise OSError("Package/Blueprint '{}' already exists".format(name))
     scaffold = get_scaffold('blueprint')
     context = create_context('blueprint')
     context['cookiecutter']['blueprint_name'] = name
@@ -27,7 +27,6 @@ def create_blueprint(name, routes=None, templates=True):
     if routes:
         view_filename = path.join(config.get_project_name(), name, 'views.py')
         route_content = get_stream()
-        route_separator = "{linesep}{linesep}".format(linesep=linesep)
         print(u"", file=route_content)
         for route in routes:
             route = route.lower()
@@ -51,6 +50,7 @@ def create_blueprint(name, routes=None, templates=True):
         route_content.close()
     # if admin addon was added, include admin.py
     factory_blueprint(name.lower())
+    print(u"Created '{}' blueprint".format(name))
 
 
 def build_route_definition(blueprint_name, route_name, methods, variables):
@@ -123,8 +123,16 @@ def create_route_template(blueprint_name, route_name):
     shutil.copyfile(src_file, target_file)
 
 
-def create_package(name, options):
-    # options: -m(odel), -f(orms), -a(dmin), -c(ommands)
-    # all inclusive unless explicit
-    # admin being the exception... has to be added
-    pass
+def create_package(name):
+    if not is_name_valid(name):
+        raise StandardError("'{}' is an invalid name".format(name))
+    if resource_exists(name):
+        raise OSError("Package/Blueprint '{}' already exists".format(name))
+    scaffold = get_scaffold('package')
+    context = create_context('package')
+    context['cookiecutter']['package_name'] = name
+    context['cookiecutter']['project_name'] = config.get_project_name()
+    generate_files(repo_dir=scaffold, context=context)
+    # check to make sure admin addon was added...
+    print(u"Created '{}' package".format(name))
+
