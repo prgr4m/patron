@@ -1,0 +1,25 @@
+extends public_base
+
+block page_description
+  meta(name="description", content="")
+
+block page_meta
+  meta(name="keywords", content="")
+  #{super()}
+
+block page_title
+  #{super()}
+  | Index Page
+
+block page_head
+  //- social stuff such as open graph and twitter meta tags should 
+  //- go here if site is public facing
+  #{super()}
+
+block page_content
+  // page customization here...
+  p User page...
+
+block page_scripts
+  //- page scripts here
+

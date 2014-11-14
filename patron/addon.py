@@ -5,6 +5,7 @@ from cookiecutter.generate import generate_files
 from . import config
 from .helpers import (get_scaffold, create_context, get_user_directory,
                       setup_user_directory, setup_frontend_symlink)
+from .injectors import factory_blueprint, factory_users, manage_users
 
 
 def get_known_addons():
@@ -48,4 +49,11 @@ def frontend():
 
 
 def users():
-    print(u"Installing user addon")
+    scaffold = get_scaffold('users')
+    context = create_context('users')
+    context['cookiecutter']['project_name'] = config.get_project_name()
+    generate_files(repo_dir=scaffold, context=context)
+    factory_users()
+    manage_users()
+    config.addons(new_addon='users')
+    print(u"Created user addon")

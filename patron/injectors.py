@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+import codecs
 import io
 import os
 import re
+import sys
 from . import config
 from .helpers import get_stream
 
@@ -10,9 +12,9 @@ indent = " " * 4
 
 
 def read_target(target_file):
-    with open(target_file) as f:
+    with open(target_file, 'rt') as f:
         for line in f:
-            yield line.rstrip()
+            yield line.rstrip().encode('utf-8')
 
 
 def factory(context):
@@ -57,11 +59,8 @@ def factory_admin():
     context = {
         'import': [
             "from .admin.views import admin",
-            "from .admin.auth import login_manager, principals"
         ],
         'extension': [
-            "{}principals.init_app(app)".format(indent),
-            "{}login_manager.init_app(app)".format(indent),
             "{}admin.init_app(app)".format(indent)
         ]
     }
@@ -73,19 +72,50 @@ def factory_api():
 
 
 def factory_users():
-    # break out of admin but have to make sure everything works first
-    pass
+    context = {
+        'import': [
+            "from .users.auth import login_manager, principals",
+            "from .users.views import users"
+        ],
+        'extension': [
+            "{}principals.init_app(app)".format(indent),
+            "{}login_manager.init_app(app)".format(indent),
+        ],
+        'blueprint':
+            "{}app.register_blueprint(users, url_prefix='/users')"
+            .format(indent)
+    }
+    factory(context)
 
 
-def manage(content):
-    stream = get_stream()
+def manage(stream_in):
     with io.open('manage.py', 'wt') as new_manage:
-        new_manage.write(content)
-    stream.close()
+        new_manage.write(stream_in.getvalue())
+    stream_in.close()
 
 
 def manage_users():
-    pass
+    stream = get_stream()
+    match_queue = [r'db, migrate$', r"'db', MigrateCommand\)$"]
+    imp_stmt = "from {proj_name}.users.commands import UserAdminCommand"\
+        .format(proj_name=config.get_project_name())
+    mgr_cmd = "manager.add_command('user', UserAdminCommand)"
+    inject_queue = [imp_stmt, mgr_cmd]
+    current_search = match_queue.pop(0)
+    current_inject = inject_queue.pop(0)
+    for line in codecs.open('manage.py', 'r', encoding='utf-8'):
+        if current_search is not None:
+            if re.search(current_search, line) is not None:
+                line = u"{line_in}{linesep}{injected_code}"\
+                    .format(line_in=line, linesep=os.linesep,
+                            injected_code=current_inject)
+                if len(match_queue) > 0:
+                    current_search = match_queue.pop(0)
+                    current_inject = inject_queue.pop(0)
+                else:
+                    current_search = None
+        print(line, file=stream)
+    manage(stream)
 
 
 def admin(directive):
