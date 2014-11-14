@@ -43,7 +43,6 @@ def admin():
     config.addons(new_addon='admin')
     # helper
     # ==========================================================================
-    # auto generate admin.py file for users addon and register with admin
     # auto generate admin.py files for blueprints
     # scan models; generate admin.py views
     # register with admin.py files for blueprint with admin
