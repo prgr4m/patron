@@ -9,6 +9,7 @@ from .helpers import check_dependencies, setup_user_directory, create_task
 from .project import create_project
 from .model import create_model
 from .form import create_form
+from .addon import install_addon
 from . import resource
 
 args = None
@@ -47,7 +48,8 @@ def package_parser():
 
 
 def addon_parser():
-    print(args)
+    print(args)  # args.name
+    install_addon(args.name)
 
 
 def task_parser():

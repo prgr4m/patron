@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import argparse
 from . import config
+from .addon import get_known_addons
 
 parser, subparser = None, None
 PARSER_DESC = "Patron - a generator for flask projects inspired by padrino"
@@ -93,9 +94,16 @@ def add_form():
 
 
 def add_addons():
-    # check addons
-    # don't add the ones that already exist
-    pass
+    installed_addons = config.addons()
+    addons = [a for a in get_known_addons() if a not in installed_addons]
+    if addons:
+        addon_help = "addon functionality to your flask project"
+        addon_choices = addons
+        addon_name_help = "name of the addon to install"
+        addon_parser = subparser.add_parser('addon', help=addon_help)
+        addon_parser.add_argument('name', choices=addon_choices,
+                                  help=addon_name_help)
+    # add addon parser for those that require a generator (ex: 'api')
 
 
 def add_task():

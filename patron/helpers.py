@@ -97,7 +97,7 @@ def setup_user_scaffolds():
 def setup_user_directory():
     user_dir = get_user_directory()
     if not path.exists(user_dir):
-        os.makedirs(path.join(user_dir, 'templates'))
+        os.mkdir(user_dir)
         if platform.system() == 'Windows':
             subprocess.call(['attrib', '+h', user_dir])
         setup_user_scaffolds()

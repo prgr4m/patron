@@ -1,7 +1,5 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-import io
 import os
 from os import path
 import shutil
@@ -27,9 +25,9 @@ def command_available(command):
         ret_value = True
     except OSError as e:
         if e.errno == os.errno.ENOENT:
-            print("'{}' doesn't exist on the path!".format(command))
+            print(u"'{}' doesn't exist on the path!".format(command))
         else:
-            print("OSError when running {}: {}".format(e, command))
+            print(u"OSError when running {}: {}".format(e, command))
     finally:
         devnull.close()
         return ret_value
@@ -73,13 +71,17 @@ def install_bnb():
             subprocess.call([cmd, 'install'])
         os.chdir(ROOT_DIR)
     grid_file = path.join(SASS_DIR, 'base/_grid-settings.scss')
-    orig_contents = open(grid_file).readlines()
-    fixed_import = '@import "../neat/neat-helpers";{}'.format(os.linesep)
-    with io.open(grid_file, 'wt') as new_grid_file:
+    orig_contents = open(grid_file, 'rt').readlines()
+    fixed_import = u'@import "../neat/neat-helpers";{}'.format(os.linesep)
+    with open(grid_file, 'wt') as new_grid_file:
+        first_line = False
         for index, line in enumerate(orig_contents):
             if index == 0:
                 line = fixed_import
-            new_grid_file.write(line)
+            if sys.version_info.major == 2:
+                new_grid_file.write(line.encode('utf-8'))
+            else:
+                new_grid_file.write(line)
 
 
 def install_bootstrap():
@@ -127,8 +129,8 @@ def configure_requirejs():
         if js_lib in known_js_libs:
             paths.append(known_js_libs[js_lib]['paths'])
             shims.append(known_js_libs[js_lib]['shim'])
-    gulp_content = Template(io.open(gulp_config, 'rt').read())
-    with io.open(gulp_config, 'wt') as gulp_file:
+    gulp_content = Template(open(gulp_config, 'rt').read())
+    with open(gulp_config, 'wt') as gulp_file:
         if len(paths) > 0:
             pth = "{}{}".format(os.linesep, indent * gulp_indent).join(paths)
             shim = "{}{}".format(os.linesep, indent * gulp_indent).join(shims)
@@ -136,11 +138,13 @@ def configure_requirejs():
         else:
             gulp_data = dict(paths='', shims='')
         gulp_file.write(gulp_content.safe_substitute(**gulp_data))
-    client_content = Template(io.open(client_config, 'rt').read())
-    with io.open(client_config, 'wt') as client_file:
+    client_content = Template(open(client_config, 'rt').read())
+    with open(client_config, 'wt') as client_file:
         if len(paths) > 0:
-            pth = "{}{}".format(os.linesep, indent * client_indent).join(paths)
-            shim = "{}{}".format(os.linesep, indent * client_indent).join(shims)
+            pth = u"{}{}".format(os.linesep, indent * client_indent) \
+                .join(paths)
+            shim = u"{}{}".format(os.linesep, indent * client_indent) \
+                .join(shims)
             client_data = dict(paths=pth, shims=shim)
         else:
             client_data = dict(paths='', shims='')
@@ -152,16 +156,16 @@ def install_css_libs():
     prompt_user = True
     available_choices = ('bnb', 'bootstrap', 'none')
     user_choice = None
-    input_prompt = "CSS choice [bnb|bootstrap|none]: "
+    input_prompt = u"CSS choice [bnb|bootstrap|none]: "
     default_css = ('font-awesome', 'normalize.css')
-    note_msg = "Note: {} and {} will be installed either way"
+    note_msg = u"Note: {} and {} will be installed either way"
     base_file = path.join(path.dirname(SASS_DIR), 'base', '_base.sass')
-    tpl = Template(io.open(base_file, 'rt').read())
+    tpl = Template(open(base_file, 'rt').read())
     while prompt_user:
-        print("Install CSS libraries:")
-        print("\tbnb: bourbon, neat, bitters")
-        print("\tbootstrap: twitter bootstrap")
-        print("\tnone: no css library to install")
+        print(u"Install CSS libraries:")
+        print(u"\tbnb: bourbon, neat, bitters")
+        print(u"\tbootstrap: twitter bootstrap")
+        print(u"\tnone: no css library to install")
         print(note_msg.format(*default_css))
         if sys.version_info.major == 2:
             choice = raw_input(input_prompt)
@@ -172,24 +176,24 @@ def install_css_libs():
             user_choice = choice
             prompt_user = False
         else:
-            print("Invalid choice. Try again.")
+            print(u"Invalid choice. Try again.")
     install_default_css()
     if user_choice == 'bnb':
         install_bnb()
         bnb = [
-            '@import "../lib/bourbon/bourbon"',
-            '@import "../lib/base/grid-settings"',
-            '@import "../lib/neat/neat"',
-            '@import "../lib/base/base"'
+            u'@import "../lib/bourbon/bourbon"',
+            u'@import "../lib/base/grid-settings"',
+            u'@import "../lib/neat/neat"',
+            u'@import "../lib/base/base"'
         ]
         tpl_data = dict(css_imports="{}".format(os.linesep).join(bnb))
     elif user_choice == 'bootstrap':
         install_bootstrap()
-        import_line = '@import ../lib/bootstrap/bootstrap'
+        import_line = u'@import ../lib/bootstrap/bootstrap'
         tpl_data = dict(css_imports="{}{}".format(import_line, os.linesep))
     else:
         tpl_data = dict(css_imports="")
-    with io.open(base_file, 'wt') as new_base:
+    with open(base_file, 'wt') as new_base:
         new_base.write(tpl.safe_substitute(tpl_data))
     hgkeep_file = path.join(SASS_DIR, '.hgkeep')
     os.remove(hgkeep_file)
@@ -198,7 +202,7 @@ def install_css_libs():
 def install_js_libs():
     os.chdir(ROOT_DIR)
     prompt_user = True
-    input_prompt = "Would you like to install angularjs? [yes|no]: "
+    input_prompt = u"Would you like to install angularjs? [yes|no]: "
     while prompt_user:
         if sys.version_info.major == 2:
             choice = raw_input(input_prompt)

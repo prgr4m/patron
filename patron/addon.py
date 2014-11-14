@@ -7,8 +7,20 @@ from .helpers import (get_scaffold, create_context, get_user_directory,
                       setup_user_directory, setup_frontend_symlink)
 
 
-def get_addons():
+def get_known_addons():
     return ('admin', 'api', 'frontend', 'users')
+
+
+def install_addon(addon_name):
+    addon_map = {
+        'admin': admin,
+        'api': api,
+        'frontend': frontend,
+        'users': users
+    }
+    if addon_name not in addon_map:
+        raise KeyError("Unknown addon to install")
+    addon_map[addon_name]()
 
 
 def admin():
