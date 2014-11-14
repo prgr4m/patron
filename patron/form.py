@@ -55,8 +55,6 @@ def parse_form_fields(form_fields):
         'hidden': 'HiddenField',
         'pass': 'PasswordField',
         'text': 'TextAreaField',
-        'form': 'FormField',
-        'field': 'FieldList'
     }
     field_def = u"{indent}{field_name} = {wtform_def}"
     wtform_def = u"{field_type}(u'{field_label}'{field_extras})"
@@ -71,16 +69,41 @@ def parse_form_fields(form_fields):
             continue
         field_type = form_field_map[field_type]
         if field_data:
-            # check if first_element is label; if not create it and parse
+            label_created = False
+            field_extras = []
             for f_data in field_data:
-                pass
+                if '-' not in f_data and not label_created:
+                    field_label = f_data.capitalize()
+                    label_created = True
+                elif '-' in f_data:
+                    extras_data = f_data.split('-')
+                    if len(extras_data) > 2:  # treat as array
+                        extra_def = u"{prop}=[{val}]"
+                        prop = extras_data.pop(0)
+                        extra_def_data = dict(prop=prop,
+                                              val=", ".join(extras_data))
+                    else:
+                        extra_def = u"{prop}={val}"
+                        prop, val = extras_data[:2]
+                        extra_def_data = dict(prop=prop, val=val)
+                    field_extras.append(extra_def.format(**extra_def_data))
+                else:
+                    continue
+            if not label_created:
+                field_label = field_name.capitalize()
+            field_extras_data = u", " + ", ".join(field_extras) \
+                if field_extras else ''
+            wtform_def_data = dict(field_type=field_type,
+                                   field_label=field_label,
+                                   field_extras=field_extras_data)
+            wtform_data = wtform_def.format(**wtform_def_data)
         else:  # create the label and close field definition
             field_label = field_name.capitalize()
             wtform_def_data = dict(field_type=field_type,
                                    field_label=field_label, field_extras='')
             wtform_data = wtform_def.format(**wtform_def_data)
-            field_def_data = dict(indent=indent, field_name=field_name,
-                                  wtform_def=wtform_data)
+        field_def_data = dict(indent=indent, field_name=field_name,
+                              wtform_def=wtform_data)
         print(field_def.format(**field_def_data))
 
 
