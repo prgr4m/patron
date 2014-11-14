@@ -12,9 +12,8 @@ indent = " " * 4
 
 
 def read_target(target_file):
-    with open(target_file, 'rt') as f:
-        for line in f:
-            yield line.rstrip().encode('utf-8')
+    for line in codecs.open(target_file, 'r', encoding='utf-8'):
+        yield line.rstrip()
 
 
 def factory(context):
@@ -103,7 +102,7 @@ def manage_users():
     inject_queue = [imp_stmt, mgr_cmd]
     current_search = match_queue.pop(0)
     current_inject = inject_queue.pop(0)
-    for line in codecs.open('manage.py', 'r', encoding='utf-8'):
+    for line in read_target('manage.py'):
         if current_search is not None:
             if re.search(current_search, line) is not None:
                 line = u"{line_in}{linesep}{injected_code}"\

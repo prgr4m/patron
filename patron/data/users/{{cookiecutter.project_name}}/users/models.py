@@ -6,13 +6,14 @@ from ..extensions import db, flask_bcrypt
 
 # =============================================================================
 # Users and Roles
-# Check flask_security docs if need to add user tracking or account 
+# Check flask_security docs if need to add user tracking or account
 # confirmation via email
 # =============================================================================
 roles_users = db.Table('roles_users',
     db.Column('id', db.Integer(), primary_key=True),
     db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
     db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')))
+
 
 class Role(db.Model):
     __tablename__ = 'roles'
