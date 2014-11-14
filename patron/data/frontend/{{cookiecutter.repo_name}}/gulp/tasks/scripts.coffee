@@ -18,7 +18,8 @@ gulp.task "coffee", ->
         message: "<%= error.message %>"
       .apply @, arguments
       @emit "end"
-    .pipe gulp.dest "#{config.output_dir}/js"
+    .pipe uglify()
+    # .pipe gulp.dest "#{config.output_dir}/js"
     .pipe server.reload stream: on
   return
 

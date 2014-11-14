@@ -1,9 +1,9 @@
 {
-  "name": "{{cookiecutter.npm_pkg_name}}",
+  "name": "Your-project-name-here",
   "version": "0.0.0",
   "description": "My base SPA layout",
   "private": true,
-  "author": "John Boisselle <prgr4m@yahoo.com>",
+  "author": "Your Name <your@email.com>",
   "license": "MIT",
   "devDependencies": {
     "browser-sync": "^1.5.2",

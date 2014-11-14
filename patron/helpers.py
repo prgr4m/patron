@@ -73,6 +73,18 @@ def setup_frontend():
         shutil.move('node_modules', target_dir)
 
 
+def setup_frontend_symlink():
+    user_dir = get_user_directory()
+    target_dir = path.join(user_dir, 'frontend')
+    if sys.version_info.major == 2:
+        if platform.system() == 'Windows':
+            subprocess.call(['mklink', '/d', 'node_modules', target_dir])
+        else:
+            os.symlink(target_dir, 'node_modules')
+    else:
+        os.symlink(target_dir, 'node_modules', target_is_directory=True)
+
+
 def setup_user_scaffolds():
     user_dir = get_user_directory()
     template_dir = path.join(user_dir, 'templates')

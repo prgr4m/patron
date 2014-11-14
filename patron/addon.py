@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+from os import path
+from cookiecutter.generate import generate_files
+from . import config
+from .helpers import (get_scaffold, create_context, get_user_directory,
+                      setup_user_directory, setup_frontend_symlink)
 
 
 def get_addons():
@@ -7,19 +12,26 @@ def get_addons():
 
 
 def admin():
-    print("Installing admin addon")
+    print(u"Installing admin addon")
 
 
 def api():
-    print("Installing api addon")
+    print(u"Installing api addon")
 
 
 def frontend():
-    # run scaffold
-    # make symlink
-    # add to addons
-    print("Installing frontend addon")
+    user_dir = get_user_directory()
+    if not path.exists(user_dir):
+        setup_user_directory()
+    scaffold = get_scaffold('frontend')
+    context = create_context('frontend')
+    context['cookiecutter']['project_name'] = config.get_project_name()
+    context['cookiecutter']['directory_name'] = 'frontend'
+    generate_files(repo_dir=scaffold, context=context)
+    setup_frontend_symlink()
+    config.addons(new_addon='frontend')
+    print(u"Created frontend workflow")
 
 
 def users():
-    print("Installing user addon")
+    print(u"Installing user addon")

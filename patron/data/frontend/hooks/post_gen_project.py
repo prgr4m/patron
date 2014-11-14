@@ -48,6 +48,7 @@ def install_default_css():
               if x not in ('.', '..')]:
         shutil.copyfile(path.join(font_awesome_fonts, f),
                         path.join(FONT_DIR, f))
+    os.remove(path.join(FONT_DIR, '.hgkeep'))
     shutil.copytree(font_awesome_scss, path.join(SASS_DIR, 'font-awesome'))
 
 

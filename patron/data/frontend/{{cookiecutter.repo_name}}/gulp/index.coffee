@@ -5,7 +5,6 @@
 
 require "./tasks/assets"
 require "./tasks/default"
-require "./tasks/jade"
 require "./tasks/sass"
 require "./tasks/scripts"
 require "./tasks/server"

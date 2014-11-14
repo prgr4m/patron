@@ -8,7 +8,7 @@ opened up an issue :(
 			- type [extension | blueprint]
 			- snippet
 			- import
-		- move generators into main package (rewrite but keep old files until refactor)
+		- move generators into main package (rewrite but keep old files until end of refactor)
 	Cli Parser:
 		- argcompletion for linux
 	Project Scaffolding:
@@ -35,10 +35,9 @@ opened up an issue :(
 		- if admin addon present, generate admin.py models... and auto register
 		- see if I can shorten it so mccabe doesn't complain
 	Front-End Addon:
-		- overwrite .bowerrc and point to frontend dir
-		- revise to have SPA work flow separated
-		- remove requirejs and move into spa/app directory
 		- remove jade templates and move into spa/app
+		- make sure watch is provided for flask portion of jade files
+		- remove non images from frontend in assets directory
 	Admin Addon:
 		- fix admin scaffolding to create media in static directory
 		- make view only care about view and move everything into its own admin.py
@@ -57,6 +56,7 @@ opened up an issue :(
 	Blog Addon:
 		- revise to give user more structure rather than base models and bare templates
 		- add whooshalchemy
+		- remove until polished
 	Injectors:
 		- refactor and break out into each scaffolds section
 		- make injections user configurable
@@ -70,6 +70,8 @@ opened up an issue :(
 			- satchless?
     Mailer:
 			- should this use celery? I just don't want to add more development dependencies
+		Sitemap:
+			- this is an addon now
 Archive:
 	- update cli documentation for models @done(2014-11-13) @project(opened up an issue  / Model Generator)
 	- double check the relations declaration... backref_name-value @done(2014-11-13) @project(opened up an issue  / Model Generator)
