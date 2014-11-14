@@ -4,10 +4,10 @@ Patron Changelog
 0.2.3
 -----
 
-13 NOV 2014
+14 NOV 2014
 
 * rewrite of project so it doesn't smell like java
-* python 2 and 3 support
+* added python 3 support
 * multi-page documentation format for easier organization and navigation
 * rewrite of parser to show only relevant options when dealing with a project or not
 * added check of minimal external dependencies
@@ -20,6 +20,7 @@ Patron Changelog
 * added cli option to open official docs in browser
 * ability to add extra routes to blueprint scaffolding along with option to exclude templates generated
 * added wtforms generator
+* revised frontend addon workflow
 
 0.2.2
 -----

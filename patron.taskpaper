@@ -35,9 +35,6 @@ opened up an issue :(
 		- if admin addon present, generate admin.py models... and auto register
 		- see if I can shorten it so mccabe doesn't complain
 	Front-End Addon:
-		- remove jade templates and move into spa/app
-		- make sure watch is provided for flask portion of jade files
-		- remove non images from frontend in assets directory
 	Admin Addon:
 		- fix admin scaffolding to create media in static directory
 		- make view only care about view and move everything into its own admin.py
@@ -71,8 +68,11 @@ opened up an issue :(
     Mailer:
 			- should this use celery? I just don't want to add more development dependencies
 		Sitemap:
-			- this is an addon now
+			- this should be an addon now
 Archive:
+	- remove jade templates and move into spa/app @done(2014-11-14) @project(opened up an issue  / Front-End Addon)
+	- make sure watch is provided for flask portion of jade files @done(2014-11-14) @project(opened up an issue  / Front-End Addon)
+	- remove non images from frontend in assets directory @done(2014-11-14) @project(opened up an issue  / Front-End Addon)
 	- update cli documentation for models @done(2014-11-13) @project(opened up an issue  / Model Generator)
 	- double check the relations declaration... backref_name-value @done(2014-11-13) @project(opened up an issue  / Model Generator)
 	- adaptable parser pending on scaffold type @done(2014-11-10) @project(opened up an issue  / Cli Parser)

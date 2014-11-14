@@ -8,7 +8,7 @@ from .helpers import (get_scaffold, create_context, get_user_directory,
 
 
 def get_known_addons():
-    return ('admin', 'api', 'frontend', 'users')
+    return ['admin', 'api', 'frontend', 'users']
 
 
 def install_addon(addon_name):

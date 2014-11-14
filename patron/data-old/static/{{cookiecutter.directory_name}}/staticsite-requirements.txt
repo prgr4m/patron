@@ -1,9 +1,0 @@
-Flask
-Flask-Script
-pyjade
-Frozen-Flask
-Flask-FlatPages
-livereload
-pygments
-python-optimage
-webassets
