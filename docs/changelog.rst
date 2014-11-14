@@ -12,15 +12,16 @@ Patron Changelog
 * rewrite of parser to show only relevant options when dealing with a project or not
 * added check of minimal external dependencies
 * removed '|' in cookiecutter filenames in case of users running Windows
-* reorganization of source files
 * removal of static site generator as a project scaffold
-* removal of blog addon until the next couple of releases
+* removal of blog addon
 * added packages generation to flask projects
 * added the ability to add extra routes to blueprints from cli
 * added cli option to open official docs in browser
 * ability to add extra routes to blueprint scaffolding along with option to exclude templates generated
+* revised sqlalchemy model generator to have relations as an option along with fields
 * added wtforms generator
 * revised frontend addon workflow
+* revised admin addon to have cleaner structure and moved users out into its own addon/blueprint
 
 0.2.2
 -----
