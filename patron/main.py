@@ -44,7 +44,7 @@ def model_parser():
 
 def package_parser():
     print(args)
-    resource.create_package()
+    # resource.create_package()
 
 
 def addon_parser():
