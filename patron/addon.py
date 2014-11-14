@@ -24,10 +24,12 @@ def install_addon(addon_name):
 
 
 def admin():
+    # dependent upon users
     print(u"Installing admin addon")
 
 
 def api():
+    # dependent upon users
     print(u"Installing api addon")
 
 
