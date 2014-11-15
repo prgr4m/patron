@@ -104,6 +104,15 @@ def add_addons():
         addon_parser.add_argument('name', choices=addon_choices,
                                   help=addon_name_help)
     # add addon parser for those that require a generator (ex: 'api')
+    if 'api' in installed_addons:
+        add_api()
+
+
+def add_api():
+    api_help = "create api resource stubs"
+    api_name_help = "name of api resource"
+    api_parser = subparser.add_parser('api', help=api_help)
+    api_parser.add_argument('name', help=api_name_help)
 
 
 def add_task():

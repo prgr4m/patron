@@ -6,8 +6,7 @@ from cookiecutter.generate import generate_files
 from . import config
 from .helpers import (get_scaffold, create_context, get_user_directory,
                       setup_user_directory, setup_frontend_symlink)
-from .injectors import (factory_blueprint, factory_users, manage_users,
-                        factory_admin)
+from .injectors import (factory_users, manage_users, factory_admin, factory_api)
 
 
 def get_known_addons():
@@ -39,7 +38,7 @@ def admin():
     context['cookiecutter']['project_name'] = config.get_project_name()
     generate_files(repo_dir=admin_scaffold, context=context)
     factory_admin()
-    # add to requirements file
+    # add to requirements file (flask-admin)
     config.addons(new_addon='admin')
     # helper
     # ==========================================================================
@@ -52,8 +51,14 @@ def admin():
 
 
 def api():
-    # dependent upon users
-    print(u"Installing api addon")
+    scaffold = get_scaffold('api')
+    context = create_context('api')
+    context['cookiecutter']['project_name'] = config.get_project_name()
+    generate_files(repo_dir=scaffold, context=context)
+    factory_api()
+    config.addons(new_addon='api')
+    # add to requirements file: [httpauth?]
+    print(u"Created api addon")
 
 
 def frontend():
@@ -78,5 +83,5 @@ def users():
     factory_users()
     manage_users()
     config.addons(new_addon='users')
-    # add to requirements file
+    # add to requirements file [flask-principal, flask-login, flask-bcrypt]
     print(u"Created user addon")

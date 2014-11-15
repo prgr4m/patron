@@ -2,11 +2,12 @@
 from __future__ import print_function
 import io
 from os import path, linesep
+from string import Template
 import shutil
 from cookiecutter.generate import generate_files
 from . import config
 from .helpers import is_name_valid, get_scaffold, create_context, get_stream
-from .injectors import factory_blueprint
+from .injectors import factory_blueprint, api
 
 
 def resource_exists(resource_name):
@@ -136,3 +137,17 @@ def create_package(name):
     # check to make sure admin addon was added...
     print(u"Created '{}' package".format(name))
 
+
+def create_api_resource(name):
+    if not is_name_valid(name):
+        raise StandardError("'{}' is an invalid name".format(name))
+    scaffold = get_scaffold('api')
+    template_filename = path.join(scaffold, 'api_resource.py')
+    template = Template(io.open(template_filename, 'rt').read())
+    template_data = dict(resource_name=name, resource_lower=name.lower())
+    target_filename = path.join(config.get_project_name(), 'api',
+                                "{}.py".format(name.lower()))
+    with io.open(target_filename, 'wt') as resource_file:
+        resource_file.write(template.safe_substitute(**template_data))
+    api_injector(name)
+    print(u"Added '{}' api resource at {}".format(name, target_filename))

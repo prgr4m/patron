@@ -3,10 +3,11 @@ from __future__ import print_function
 import codecs
 import io
 import os
+from os import path
+from string import Template
 import re
-import sys
 from . import config
-from .helpers import get_stream
+from .helpers import get_stream, get_scaffold
 
 indent = " " * 4
 
@@ -20,7 +21,8 @@ def factory(context):
     stream = get_stream()
     content = io.open(config.get_factory_file(), 'rt').read()
     inject_line = "{linesep}{stmt}"
-    for section in re.split(r'\n\n', content):
+    separator = u"{linesep}{linesep}".format(linesep=os.linesep)
+    for section in re.split(separator, content):
         if re.search(r'import', section) is not None:
             for imp_stmt in context['import']:
                 section += inject_line.format(linesep=os.linesep, stmt=imp_stmt)
@@ -57,7 +59,7 @@ def factory_blueprint(name):
 def factory_admin():
     context = {
         'import': [
-            "from .admin.views import admin",
+            "from .admin.views import admin"
         ],
         'extension': [
             "{}admin.init_app(app)".format(indent)
@@ -67,7 +69,15 @@ def factory_admin():
 
 
 def factory_api():
-    pass
+    context = {
+        'import': [
+            "from .api import api"
+        ],
+        'blueprint':
+            "{}app.register_blueprint(api, url_prefix='/api')".format(indent)
+
+    }
+    factory(context)
 
 
 def factory_users():
@@ -118,9 +128,27 @@ def manage_users():
 
 
 def admin(directive):
-    # check to see if admin addon has been added
-    if 'admin' in config.addons():
-        pass
+    # for adding and registering model views
+    pass
+
+
+def api_injector(name):
+    stream = get_stream()
+    import_def = u"from .{} import {}Resource".format(name.lower(), name)
+    tpl_data = dict(name=name, name_lower=name.lower())
+    scaffold = get_scaffold('api')
+    tpl_file = path.join(scaffold, 'api_inject.txt')
+    template = Template(io.open(tpl_file, 'rt').read())
+    target_file = path.join(config.get_project_name(), 'api', '__init__.py')
+    watch_import = True
+    contents = io.open(target_file, 'rt').read()
+    separator = u"{linesep}{linesep}".format(linesep=os.linesep)
+    for section in re.split(separator, contents):
+        # search for end of import statements then print the rest of file
+        if re.search(r'import', line) is not None:
+            pass
+    # print template contents at end of stream
+    # write to target file new contents
 
 
 def settings(content):

@@ -48,8 +48,11 @@ def package_parser():
 
 
 def addon_parser():
-    print(args)  # args.name
     install_addon(args.name)
+
+
+def api_parser():
+    resource.create_api_resource(args.name)
 
 
 def task_parser():
@@ -67,6 +70,7 @@ def main():
         'form': form_parser,
         'pkg': package_parser,
         'addon': addon_parser,
+        'api': api_parser,
         'task': task_parser
     }
     # argcomplete.autocomplete(parser)
