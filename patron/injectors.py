@@ -134,7 +134,8 @@ def admin(directive):
 
 def api_injector(name):
     stream = get_stream()
-    import_def = u"from .{} import {}Resource".format(name.lower(), name)
+    import_def = u"{linesep}from .{name_lower} import {name}Resource{linesep}"\
+        .format(linesep=os.linesep, name=name, name_lower=name.lower())
     tpl_data = dict(name=name, name_lower=name.lower())
     scaffold = get_scaffold('api')
     tpl_file = path.join(scaffold, 'api_inject.txt')
@@ -144,11 +145,18 @@ def api_injector(name):
     contents = io.open(target_file, 'rt').read()
     separator = u"{linesep}{linesep}".format(linesep=os.linesep)
     for section in re.split(separator, contents):
-        # search for end of import statements then print the rest of file
-        if re.search(r'import', line) is not None:
-            pass
-    # print template contents at end of stream
-    # write to target file new contents
+        if re.search(r'import', section) is not None and watch_import:
+            section += import_def
+            watch_import = False
+        if re.search(r'api = Blueprint', section):
+            section += os.linesep
+        if section.rstrip() == '':
+            continue
+        print(section, file=stream, sep=separator)
+    print(template.safe_substitute(**tpl_data), file=stream)
+    with io.open(target_file, 'wt') as new_target_file:
+        new_target_file.write(stream.getvalue())
+    stream.close()
 
 
 def settings(content):

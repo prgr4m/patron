@@ -3,14 +3,9 @@ My task list of things to do while developing this application since no one has
 opened up an issue :(
 	General:
 		- patron logo
-		- injections.json
-			- where [factory | settings | view]
-			- type [extension | blueprint]
-			- snippet
-			- import
 		- move generators into main package (rewrite but keep old files until end of refactor)
 	Cli Parser:
-		- argcompletion for linux
+		- argcompletion for linux?
 	Project Scaffolding:
 		- clean up and remove certain frontend elements offered by frontend addon
 	Documentation:
@@ -28,28 +23,21 @@ opened up an issue :(
 	Base:
 		- move all things considered front-end out
 	Blueprints:
-		- should be able to create methods/function routes on cli as well
+		- if admin addon is present; create admin.py file
 	Patron Config:
 	Model Generator:
 		- shorter commands without losing meaning? explicit is better than implicit...
-		- if admin addon present, generate admin.py models... and auto register
+		- if admin addon present, generate admin.py models... and auto register with admin
 		- see if I can shorten it so mccabe doesn't complain
 	Front-End Addon:
 	Admin Addon:
 		- fix admin scaffolding to create media in static directory
-		- make view only care about view and move everything into its own admin.py
-		- make login, logout and registration public routes via injection
-		- break out user models and management into its own component/package
-		- auto generate user package
-		- move bower call into post_gen_project.py?
+		- when adding addon, scan pre-existing directories and auto generate model admins and auto register
 	Users Addon:
 		- change commands on creating superuser to be able to run more than once
 		- remove duplicate delete user command
-		- revise commands file completely to PEP8
 		- fix delete user command and not delete a role
 		- commands should use wtforms for cli validation
-		- break auth and login out of admin and put into extensions file for configuration
-		- user package inject login and principal
 	Blog Addon:
 		- revise to give user more structure rather than base models and bare templates
 		- add whooshalchemy
@@ -68,8 +56,13 @@ opened up an issue :(
     Mailer:
 			- should this use celery? I just don't want to add more development dependencies
 		Sitemap:
-			- this should be an addon now
+			- this should be an addon and taken out of the base scaffold
 Archive:
+	- should be able to create methods/function routes on cli as well @done(2014-11-15) @project(opened up an issue  / Blueprints)
+	- make view only care about view and move everything into its own admin.py @done(2014-11-15) @project(opened up an issue  / Admin Addon)
+	- make login, logout and registration public routes via injection @done(2014-11-15) @project(opened up an issue  / Admin Addon)
+	- break out user models and management into its own component/package @done(2014-11-15) @project(opened up an issue  / Admin Addon)
+	- user package inject login and principal @done(2014-11-15) @project(opened up an issue  / Users Addon)
 	- remove jade templates and move into spa/app @done(2014-11-14) @project(opened up an issue  / Front-End Addon)
 	- make sure watch is provided for flask portion of jade files @done(2014-11-14) @project(opened up an issue  / Front-End Addon)
 	- remove non images from frontend in assets directory @done(2014-11-14) @project(opened up an issue  / Front-End Addon)

@@ -7,7 +7,7 @@ import shutil
 from cookiecutter.generate import generate_files
 from . import config
 from .helpers import is_name_valid, get_scaffold, create_context, get_stream
-from .injectors import factory_blueprint, api
+from .injectors import factory_blueprint, api_injector
 
 
 def resource_exists(resource_name):

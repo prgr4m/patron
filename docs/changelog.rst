@@ -4,7 +4,7 @@ Patron Changelog
 0.2.3
 -----
 
-14 NOV 2014
+15 NOV 2014
 
 * rewrite of project so it doesn't smell like java
 * added python 3 support
@@ -22,6 +22,7 @@ Patron Changelog
 * added wtforms generator
 * revised frontend addon workflow
 * revised admin addon to have cleaner structure and moved users out into its own addon/blueprint
+* added api parser for creating Resource/MethodView based api rather than just using function based routes
 
 0.2.2
 -----

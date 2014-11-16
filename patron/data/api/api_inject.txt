@@ -1,10 +1,9 @@
-# ${name}
-# ==============================================================================
+
+# ${name} Resource
+# =============================================================================
 ${name_lower}_view = ${name}Resource.as_view('${name}_resource')
 api.add_url_rule('/${name_lower}/', defaults={'${name_lower}_id': None},
                  view_func=${name_lower}_view, methods=['GET',])
-app.add_url_rule('/${name_lower}/', view_func=${name_lower}_view,
-                 methods=['POST',])
-app.add_url_rule('/${name_lower}/<int:${name_lower}_id',
-                 view_func=${name_lower}_view, methods=['GET', 'PUT', 'DELETE'])
-
+app.add_url_rule('/${name_lower}/', view_func=${name_lower}_view, methods=['POST',])
+app.add_url_rule('/${name_lower}/<int:${name_lower}_id>', view_func=${name_lower}_view,
+                 methods=['GET', 'PUT', 'DELETE'])
