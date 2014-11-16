@@ -9,7 +9,7 @@ from . import config
 from .helpers import (get_scaffold, create_context, get_user_directory,
                       setup_user_directory, setup_frontend_symlink)
 from .injectors import (factory_users, manage_users, factory_admin, factory_api,
-                        model_admin_py)
+                        model_admin_py, requirements)
 
 
 def get_known_addons():
@@ -41,9 +41,9 @@ def admin():
     context['cookiecutter']['project_name'] = config.get_project_name()
     generate_files(repo_dir=admin_scaffold, context=context)
     print(u"Created admin addon")
-    # add to requirements file (flask-admin)
     factory_admin()
     config.addons(new_addon='admin')
+    requirements('flask-admin')
     admin_autogen()
 
 
@@ -101,7 +101,7 @@ def users():
     context['cookiecutter']['project_name'] = config.get_project_name()
     generate_files(repo_dir=scaffold, context=context)
     print(u"Created user addon")
-    # add to requirements file [flask-principal, flask-login, flask-bcrypt]
     factory_users()
     manage_users()
+    requirements('flask-login', 'flask-principal')
     config.addons(new_addon='users')

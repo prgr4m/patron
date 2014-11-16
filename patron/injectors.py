@@ -232,3 +232,14 @@ def api_injector(name):
         new_target_file.write(stream.getvalue())
     stream.close()
     print(u"Added {} Resource with api".format(name))
+
+
+def requirements(*packages):
+    project_name = config.get_project_name().lower()
+    target_file = u"{}-requirements.txt".format(project_name)
+    with io.open(target_file, 'at') as reqs_file:
+        for pkg in packages:
+            reqs_file.write(pkg)
+    feedback = u"The following packages were added to the requirements file: {}"
+    feedback_data = ", ".join(packages)
+    print(feedback.format(feedback_data))

@@ -53,8 +53,8 @@ def create_blueprint(name, routes=None, templates=True):
         admin_file = path.join(scaffold, 'admin.py')
         target_file = path.join(config.get_project_name(), name, 'admin.py')
         shutil.copyfile(admin_file, target_file)
-    factory_blueprint(name.lower())
     print(u"Created '{}' blueprint".format(name))
+    factory_blueprint(name.lower())
 
 
 def build_route_definition(blueprint_name, route_name, methods, variables):
@@ -155,5 +155,5 @@ def create_api_resource(name):
                                 "{}.py".format(name.lower()))
     with io.open(target_filename, 'wt') as resource_file:
         resource_file.write(template.safe_substitute(**template_data))
-    api_injector(name)
     print(u"Added '{}' api resource at {}".format(name, target_filename))
+    api_injector(name)
