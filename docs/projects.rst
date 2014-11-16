@@ -36,3 +36,4 @@ You can view the `fabric documentation`_ for more help.
 
 .. _fabric documentation: http://docs.fabfile.org
 
+So, what's next? :ref:`Blueprints <Blueprints>`.
