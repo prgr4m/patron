@@ -18,6 +18,7 @@ migrate.init_app(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
+
 @manager.command
 def test():
     "Run unit tests"
@@ -25,8 +26,10 @@ def test():
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
 
+
 def make_context():
     return dict(app=app, db=db)
+
 
 manager.add_command("shell", Shell(make_context=make_context))
 

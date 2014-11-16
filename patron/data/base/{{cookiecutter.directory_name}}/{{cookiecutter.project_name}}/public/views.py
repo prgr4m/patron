@@ -24,19 +24,3 @@ def show(page):
         return render_template("{}.jade".format(page))
     except TemplateNotFound:
         abort(404)
-
-
-@frontend.route('/sitemap.xml', methods=['GET'])
-def sitemap():
-    # also need to add priority and changefreq to all urls
-    pages = []
-    ten_days_ago = dt.datetime.now() - dt.timedelta(days=10)
-    for rule in current_app.url_map.iter_rules():
-        if "GET" in rule.methods and len(rule.arguments) == 0:
-            if not (rule.rule.startswith('/admin') or
-                    rule.rule.startswith('/_debug')):
-                pages.append([rule.rule, ten_days_ago])
-    sitemap_xml = render_template('sitemap_template.xml', pages=pages)
-    response = make_response(sitemap_xml)
-    response.headers['Content-Type'] = 'application/xml'
-    return response
