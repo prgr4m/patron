@@ -3,14 +3,11 @@ My task list of things to do while developing this application since no one has
 opened up an issue :(
 	General:
 		- patron logo
-		- move generators into main package (rewrite but keep old files until end of refactor)
 	Cli Parser:
 		- argcompletion for linux?
 	Project Scaffolding:
 		- clean up and remove certain frontend elements offered by frontend addon
 	Documentation:
-		- feature matrix in regards to padrino but flask conventions
-		- roadmap of implementation features
 		- list of package dependencies by addon
 		- urls pointing to other project documentation for user convenience
 		- each feature gets its own page also explaining why I've done things the way they are
@@ -19,7 +16,7 @@ opened up an issue :(
 	Form Generator:
 		- field import injector
 	Static Site Generator:
-		- add as an addon
+		- add as an addon (later)
 	Base:
 		- move all things considered front-end out
 	Blueprints:
@@ -38,26 +35,22 @@ opened up an issue :(
 		- remove duplicate delete user command
 		- fix delete user command and not delete a role
 		- commands should use wtforms for cli validation
-	Blog Addon:
-		- revise to give user more structure rather than base models and bare templates
-		- add whooshalchemy
-		- remove until polished
 	Injectors:
 		- refactor and break out into each scaffolds section
 		- make injections user configurable
   Addons:
 		API:
-			- possibly its own cli subgroup for adding and autoregistration (after addon is present)
-			- should have login route
-			- httpauth
-			- tokens
-		Commerce:
-			- satchless?
-    Mailer:
-			- should this use celery? I just don't want to add more development dependencies
+			- httpauth with (itsdangerous)tokens
 		Sitemap:
 			- this should be an addon and taken out of the base scaffold
+		Blog:
+			- add back on after being polished and depends on sitemap
+			- add whooshalchemy if using models
+			- choice between flat-pages or not
+			- choice to add frozen flask
 Archive:
+	- move generators into main package (rewrite but keep old files until end of refactor) @done(2014-11-15) @project(opened up an issue  / General)
+	- possibly its own cli subgroup for adding and autoregistration (after addon is present) @done(2014-11-15) @project(  Addons / API)
 	- should be able to create methods/function routes on cli as well @done(2014-11-15) @project(opened up an issue  / Blueprints)
 	- make view only care about view and move everything into its own admin.py @done(2014-11-15) @project(opened up an issue  / Admin Addon)
 	- make login, logout and registration public routes via injection @done(2014-11-15) @project(opened up an issue  / Admin Addon)
