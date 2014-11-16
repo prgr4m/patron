@@ -16,16 +16,6 @@ This admin add-on appends its dependencies to the requirements file, registers
 itself with the flask app and injects cli commands into manage.py. It comes 
 with Flask-Login and Flask-Principal with preconfigured routes.
 
-Blog
-----
-Generated with the following command::
-
-    patron addon blog
-
-This command auto generates the admin addon if not already created, injects 
-code into the sitemap to track blog posts and registers itself with the admin
-addon.
-
 .. _front-end:
 
 Front-End

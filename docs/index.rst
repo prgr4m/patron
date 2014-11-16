@@ -13,11 +13,10 @@ generators but following flask conventions.
 .. _Padrino's: http://www.padrinorb.com/guides/generators
 
 The philosophy behind this cli generator is to provide functionality 
-*incrementally* to a project by generating code from prefab scripts into an 
-existing (generated) code base. While other scaffolds provide you with a solid
-base for your flask projects, this tool is more focused on *speed* of 
-development and common patterns generally found in web development so you can 
-spend more time writing actual code to solve specific problems.
+*incrementally* to a project by generating code into an existing (generated) 
+code base. While other scaffolds provide you with a solid base for your flask 
+projects, this tool is more focused on *speed* of development so you can spend 
+more time writing actual code to solve specific problems.
 
 User Guide
 ----------
