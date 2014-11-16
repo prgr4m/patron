@@ -68,10 +68,11 @@ def build_route_definition(blueprint_name, route_name, methods, variables):
     methods = methods.upper()
     if '-' in methods:
         methods = methods.split('-')
-        quote_methods = ",".join(['%s' % m for m in methods if m in http_verbs])
+        quote_methods = ", ".join(["'%s'" % m for m in methods
+                                   if m in http_verbs])
         route_data['methods'] = method_prefix.format(methods=quote_methods)
     elif methods in http_verbs and methods != 'GET':
-        quoted_method = "'{}'".format(methods)
+        quoted_method = u"'{}'".format(methods)
         route_data['methods'] = method_prefix.format(methods=quoted_method)
     else:  # just a 'GET' method
         route_data['methods'] = ''
