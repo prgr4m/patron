@@ -23,6 +23,7 @@ def create_blueprint(name, routes=None, templates=True):
     scaffold = get_scaffold('blueprint')
     context = create_context('blueprint')
     context['cookiecutter']['blueprint_name'] = name
+    context['cookiecutter']['blueprint_name_lower'] = name.lower()
     context['cookiecutter']['project_name'] = config.get_project_name()
     generate_files(repo_dir=scaffold, context=context)
     if routes:

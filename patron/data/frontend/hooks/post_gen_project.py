@@ -201,6 +201,14 @@ def install_css_libs():
 
 def install_js_libs():
     os.chdir(ROOT_DIR)
+    if 'jquery' not in JS_LIBS:
+        subprocess.call(['bower', 'install', 'jquery'])
+    subprocess.call(['bower', 'install', 'requirejs'])
+    jquery = path.join(BOWER_DIR, 'jquery', 'dist', 'jquery.js')
+    shutil.copyfile(jquery, path.join(VENDOR_DIR, 'jquery.js'))
+    JS_LIBS.append('jquery')
+    rjs = path.join(BOWER_DIR, 'requirejs', 'require.js')
+    shutil.copyfile(rjs, path.join(VENDOR_DIR, 'require.js'))
     prompt_user = True
     input_prompt = u"Would you like to install angularjs? [yes|no]: "
     while prompt_user:
@@ -221,14 +229,6 @@ def install_js_libs():
                                                          'angular-route.js'))
                 JS_LIBS.extend(['angular', 'angular-route'])
             prompt_user = False
-    if 'jquery' not in JS_LIBS:
-        subprocess.call(['bower', 'install', 'jquery'])
-    subprocess.call(['bower', 'install', 'requirejs'])
-    jquery = path.join(BOWER_DIR, 'jquery', 'dist', 'jquery.js')
-    shutil.copyfile(jquery, path.join(VENDOR_DIR, 'jquery.js'))
-    JS_LIBS.append('jquery')
-    rjs = path.join(BOWER_DIR, 'requirejs', 'require.js')
-    shutil.copyfile(rjs, path.join(VENDOR_DIR, 'require.js'))
     hgkeep_file = path.join(VENDOR_DIR, '.hgkeep')
     os.remove(hgkeep_file)
     configure_requirejs()

@@ -239,7 +239,7 @@ def requirements(*packages):
     target_file = u"{}-requirements.txt".format(project_name)
     with io.open(target_file, 'at') as reqs_file:
         for pkg in packages:
-            reqs_file.write(pkg)
+            reqs_file.write(u"{}{}".format(pkg, os.linesep))
     feedback = u"The following packages were added to the requirements file: {}"
     feedback_data = ", ".join(packages)
     print(feedback.format(feedback_data))

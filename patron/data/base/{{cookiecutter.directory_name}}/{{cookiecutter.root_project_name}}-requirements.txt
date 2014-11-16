@@ -8,5 +8,4 @@ Flask-WTF
 Flask-Testing
 pyjade
 fabric
-psycopg2
 

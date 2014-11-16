@@ -43,7 +43,7 @@ def admin():
     print(u"Created admin addon")
     factory_admin()
     config.addons(new_addon='admin')
-    requirements('flask-admin')
+    requirements(u'flask-admin')
     admin_autogen()
 
 
@@ -76,7 +76,6 @@ def api():
     context['cookiecutter']['project_name'] = config.get_project_name()
     generate_files(repo_dir=scaffold, context=context)
     print(u"Created api addon")
-    # add to requirements file: [httpauth?] don't know how the user writes code
     factory_api()
     config.addons(new_addon='api')
 
@@ -103,5 +102,5 @@ def users():
     print(u"Created user addon")
     factory_users()
     manage_users()
-    requirements('flask-login', 'flask-principal')
+    requirements(u'flask-login', u'flask-principal')
     config.addons(new_addon='users')
