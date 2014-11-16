@@ -1,2 +1,5 @@
 # -*- coding: utf-8 -*-
-# admin views particular to this blueprint go in here...
+from flask_admin.contrib.sqla import ModelView
+from ..admin.admin import AdminMixin
+from ..extensions import db
+

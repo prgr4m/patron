@@ -10,6 +10,7 @@ import sys
 import re
 from string import Template
 from cookiecutter.generate import generate_context
+from . import config
 
 PKG_SCAFFOLDS = path.join(path.dirname(path.abspath(__file__)), 'data')
 
@@ -158,10 +159,6 @@ def get_stream():
     except ImportError:
         from cStringIO import StringIO
     return StringIO()
-
-
-def create_unittest(name, test_type='blueprint'):
-    pass
 
 
 def create_task(name, description):

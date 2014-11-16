@@ -49,7 +49,10 @@ def create_blueprint(name, routes=None, templates=True):
         with io.open(view_filename, 'at') as view_file:
             view_file.write(route_content.getvalue())
         route_content.close()
-    # if admin addon was added, include admin.py
+    if 'admin' in config.addons():
+        admin_file = path.join(scaffold, 'admin.py')
+        target_file = path.join(config.get_project_name(), name, 'admin.py')
+        shutil.copyfile(admin_file, target_file)
     factory_blueprint(name.lower())
     print(u"Created '{}' blueprint".format(name))
 
@@ -134,7 +137,10 @@ def create_package(name):
     context['cookiecutter']['package_name'] = name
     context['cookiecutter']['project_name'] = config.get_project_name()
     generate_files(repo_dir=scaffold, context=context)
-    # check to make sure admin addon was added...
+    if 'admin' in config.addons():
+        admin_file = path.join(get_scaffold('blueprint'), 'admin.py')
+        target_file = path.join(config.get_project_name(), name, 'admin.py')
+        shutil.copyfile(admin_file, target_file)
     print(u"Created '{}' package".format(name))
 
 

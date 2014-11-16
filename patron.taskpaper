@@ -3,6 +3,7 @@ My task list of things to do while developing this application since no one has
 opened up an issue :(
 	General:
 		- patron logo
+		- requirements file... after each addon...
 	Cli Parser:
 		- argcompletion for linux?
 	Project Scaffolding:
@@ -25,16 +26,18 @@ opened up an issue :(
 	Model Generator:
 		- shorter commands without losing meaning? explicit is better than implicit...
 		- if admin addon present, generate admin.py models... and auto register with admin
-		- see if I can shorten it so mccabe doesn't complain
+		- see if I can shorten it so mccabe doesn't complain (parse_model_fields, parse_relations)
 	Front-End Addon:
 	Admin Addon:
 		- fix admin scaffolding to create media in static directory
 		- when adding addon, scan pre-existing directories and auto generate model admins and auto register
+		- change logout in admin to point to users.logout
 	Users Addon:
 		- change commands on creating superuser to be able to run more than once
 		- remove duplicate delete user command
 		- fix delete user command and not delete a role
 		- commands should use wtforms for cli validation
+		- change auth to point to users.login users.logout
 	Injectors:
 		- refactor and break out into each scaffolds section
 		- make injections user configurable

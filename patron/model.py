@@ -7,6 +7,7 @@ import sys
 from . import config
 from .helpers import get_stream
 from .resource import resource_exists
+from .injectors import model_admin_py
 
 indent = " " * 4
 
@@ -33,9 +34,11 @@ def create_model(blueprint_name, model_name, fields, relations):
     stream.close()
     sys.stdout = sys.__stdout__
     print(u"Created {} model at {}".format(model_name, target_filename))
+    if 'admin' in config.addons():
+        model_admin_py(blueprint_name, model_name)
 
 
-def get_known_fields(mode='keys'):
+def get_known_fields():
     field_map = {
         'integer': 'db.Integer',
         'string': 'db.String',
@@ -52,8 +55,6 @@ def get_known_fields(mode='keys'):
         'unicode': 'db.Unicode',
         'unitext': 'db.UnicodeText'
     }
-    if mode == 'keys':
-        return field_map.keys()
     return field_map
 
 
@@ -78,7 +79,7 @@ def model(name):
 
 def parse_model_fields(fields):
     col_stmt_def = u"{indent}{name} = db.Column({field_type}{column_attrs})"
-    field_map = get_known_fields(mode="all")
+    field_map = get_known_fields()
     for field in fields:
         if ':' not in field:  # just the name and column definition
             field_name = field.replace('-', '_') if '-' in field else field
@@ -166,10 +167,10 @@ def parse_relations(relations, model_name):
                     r_def = u"backref='{ref_name}', lazy='{lazy_type}'"
                     if rel_data[0] not in lazy_types:
                         r_data = dict(ref_name=rel_data[0].lower(),
-                                    lazy_type=lazy_types[-1])
+                                      lazy_type=lazy_types[-1])
                     else:
                         r_data = dict(ref_name=model_name.lower(),
-                                    lazy_type=rel_data[0])
+                                      lazy_type=rel_data[0])
                 rel_def_data['r_def'] = r_def.format(**r_data)
             else:  # expected input processing
                 if '-' in rel_data[0] and 'secondary' in rel_data[0]:

@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+import os
 from os import path
 import shutil
+import re
 from cookiecutter.generate import generate_files
 from . import config
 from .helpers import (get_scaffold, create_context, get_user_directory,
                       setup_user_directory, setup_frontend_symlink)
-from .injectors import (factory_users, manage_users, factory_admin, factory_api)
+from .injectors import (factory_users, manage_users, factory_admin, factory_api,
+                        model_admin_py)
 
 
 def get_known_addons():
@@ -37,17 +40,34 @@ def admin():
     context = create_context('admin')
     context['cookiecutter']['project_name'] = config.get_project_name()
     generate_files(repo_dir=admin_scaffold, context=context)
-    factory_admin()
-    # add to requirements file (flask-admin)
-    config.addons(new_addon='admin')
-    # helper
-    # ==========================================================================
-    # auto generate admin.py files for blueprints
-    # scan models; generate admin.py views
-    # register with admin.py files for blueprint with admin
-    # ==========================================================================
-    # end helper
     print(u"Created admin addon")
+    # add to requirements file (flask-admin)
+    factory_admin()
+    config.addons(new_addon='admin')
+    admin_autogen()
+
+
+def admin_autogen():
+    project_name = config.get_project_name()
+    scaffold = get_scaffold('blueprint')
+    admin_file = path.join(scaffold, 'admin.py')
+    exclude_dirs = ('.', '..', 'static', 'templates', 'api', 'users')
+    for d in (d for d in os.listdir(project_name) if d not in exclude_dirs):
+        if path.exists(path.join(project_name, d, 'models.py')):
+            resource_name = path.join(project_name, d)
+            target_file = path.join(resource_name, 'admin.py')
+            shutil.copyfile(admin_file, target_file)
+            admin_model_scanner(d)
+
+
+def admin_model_scanner(resource_name):
+    project_name = config.get_project_name()
+    target_scan = path.join(project_name, resource_name, 'models.py')
+    model_exp = r'class (?P<model_name>\w+)\(db.Model\)'
+    for line in open(target_scan, 'rt'):
+        result = re.search(model_exp, line)
+        if result is not None:
+            model_admin_py(resource_name, result.group('model_name'))
 
 
 def api():
@@ -55,10 +75,10 @@ def api():
     context = create_context('api')
     context['cookiecutter']['project_name'] = config.get_project_name()
     generate_files(repo_dir=scaffold, context=context)
+    print(u"Created api addon")
+    # add to requirements file: [httpauth?] don't know how the user writes code
     factory_api()
     config.addons(new_addon='api')
-    # add to requirements file: [httpauth?]
-    print(u"Created api addon")
 
 
 def frontend():
@@ -80,8 +100,8 @@ def users():
     context = create_context('users')
     context['cookiecutter']['project_name'] = config.get_project_name()
     generate_files(repo_dir=scaffold, context=context)
+    print(u"Created user addon")
+    # add to requirements file [flask-principal, flask-login, flask-bcrypt]
     factory_users()
     manage_users()
     config.addons(new_addon='users')
-    # add to requirements file [flask-principal, flask-login, flask-bcrypt]
-    print(u"Created user addon")
