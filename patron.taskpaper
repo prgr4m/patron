@@ -51,6 +51,7 @@ opened up an issue :(
 			- add whooshalchemy if using models
 			- choice between flat-pages or not
 			- choice to add frozen flask
+
 Archive:
 	- move generators into main package (rewrite but keep old files until end of refactor) @done(2014-11-15) @project(opened up an issue  / General)
 	- possibly its own cli subgroup for adding and autoregistration (after addon is present) @done(2014-11-15) @project(  Addons / API)

@@ -18,7 +18,7 @@ from .models import User
 # Look at the section of (Login using Authorization header) for more info
 # =============================================================================
 login_manager = LoginManager()
-login_manager.login_view = "admin.login"
+login_manager.login_view = "users.login"
 
 @login_manager.user_loader
 def load_user(userid):
@@ -40,4 +40,3 @@ def on_identity_loaded(sender, identity):
     if hasattr(current_user, 'roles'):
         for role in current_user.roles:
             identity.provides.add(RoleNeed(role.name))
-

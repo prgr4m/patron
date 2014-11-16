@@ -8,8 +8,9 @@ from ..extensions import db, flask_bcrypt
 # Users and Roles
 # Check flask_security docs if need to add user tracking or account
 # confirmation via email
-# =============================================================================
-roles_users = db.Table('roles_users',
+# ==============================================================================
+roles_users = db.Table(
+    'roles_users',
     db.Column('id', db.Integer(), primary_key=True),
     db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
     db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')))
@@ -45,7 +46,8 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255))
-    created_at = db.Column(db.DateTime, nullable=False, default=dt.datetime.utcnow)
+    created_at = db.Column(db.DateTime, nullable=False,
+                           default=dt.datetime.utcnow)
     active = db.Column(db.Boolean, nullable=False, default=True)
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
@@ -83,8 +85,8 @@ class User(db.Model, UserMixin):
         return self.id
 
     def has_role(self, role):
-        string_types = basestring if sys.version_info[0] == 3 else str
-        if isinstance(role, sting_types):
+        string_types = basestring if sys.version_info.major == 3 else str
+        if isinstance(role, string_types):
             return role in (role.name for role in self.roles)
         else:
             return role in self.roles
@@ -93,5 +95,5 @@ class User(db.Model, UserMixin):
         return self.username
 
     def __repr__(self):
-        return "<User username: %s, email: %s, active: %s>" % (self.username, self.email, self.active)
-
+        return "<User username: %s, email: %s, active: %s>"\
+            % (self.username, self.email, self.active)
