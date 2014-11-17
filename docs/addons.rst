@@ -242,7 +242,55 @@ and change the scaffolding to your liking. The scaffold can be found under the
    have the appropriate graphics dev files installed to compile against. Use 
    your system package manager and install the dev files for jpg, gif, and png 
    files. If you don't have coffeegulp and bower installed globally, patron 
-   will try to install those two for you.
+   will 'try' to install those two for you.
 
 Users
 -----
+To generate the 'user' add-on, run the following command::
+
+    patron addon users
+
+When running the command, patron performs the following actions:
+
+* creates the user blueprint
+* registers blueprint with flask app factory
+* hooks flask-script commands into manage.py
+* adds dependencies into requirements file
+
+Here's the blueprint layout::
+
+    users/
+      |-- __init__.py
+      |-- auth.py
+      |-- commands.py
+      |-- forms.py
+      |-- models.py
+      |-- views.py
+      `-- templates/
+            |-- index.jade
+            |-- login.jade
+            `-- registration.jade
+
+'auth.py' contains the configuration for flask-login and flask-principal,
+'commands.py' contains user and role management commands through manage.py and 
+the rest is pretty standard.
+
+To get help on the user commands, go to your project root and run the 
+following::
+
+    python manage.py user --help
+
+The user subcommand has the following actions, each with their own help:
+
+* activate_user
+* deactivate_user
+* remove_role
+* create_superuser
+* list_users
+* add_role
+* delete_user
+* list_roles
+* create_user
+* create_role
+
+The user commands are both interactive and can receive cli arguments.
