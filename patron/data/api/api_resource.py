@@ -8,7 +8,7 @@ class ${resource_name}Resource(MethodView):
 
     def get(self, ${resource_lower}_id):
         if ${resource_lower}_id is None:
-            pass  # return all $resource_lower
+            pass  # return all
         else:
             pass  # return a single $resource_lower
 
