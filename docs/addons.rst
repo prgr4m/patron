@@ -1,3 +1,5 @@
+.. _Add-ons:
+
 Add-ons
 =======
 Add-ons are pieces of functionality added to a project since patron has the use 
@@ -294,3 +296,5 @@ The user subcommand has the following actions, each with their own help:
 * create_role
 
 The user commands are both interactive and can receive cli arguments.
+
+Continue onto the :ref:`changelog<ChangeLog>`

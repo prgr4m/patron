@@ -61,3 +61,5 @@ Patron itself doesn't use Flask-Assets in the scaffolds that it uses. It uses
 a front-end work flow based off of gulp separated from the project package. 
 For more details on the external dependencies you can read up on the 
 :ref:`front-end` work flow.
+
+Next up is :ref:`basic usage <Basic Usage>`

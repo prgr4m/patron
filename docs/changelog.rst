@@ -1,10 +1,12 @@
+.. _ChangeLog:
+
 Patron Changelog
 ================
 
 0.2.3
 -----
 
-16 NOV 2014
+17 NOV 2014
 
 * rewrite of project so it doesn't smell like java
 * added python 3 support

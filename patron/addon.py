@@ -40,6 +40,8 @@ def admin():
     context = create_context('admin')
     context['cookiecutter']['project_name'] = config.get_project_name()
     generate_files(repo_dir=admin_scaffold, context=context)
+    media_dir = path.join(config.get_project_name(), 'static', 'media')
+    os.mkdir(media_dir)
     print(u"Created admin addon")
     factory_admin()
     config.addons(new_addon='admin')

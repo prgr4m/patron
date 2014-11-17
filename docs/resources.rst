@@ -126,3 +126,4 @@ helpers.py
 models.py
   Where your models live within the package/grouping.
 
+What's next? The :ref:`model generator<Model Generator>`.

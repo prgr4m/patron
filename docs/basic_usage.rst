@@ -1,7 +1,10 @@
+.. _Basic Usage:
+
 Basic Usage
 ===========
 Patron is command line utility and has an adaptive parser. It basically 
-switches modes when you are working with a patron project or not.
+switches modes when you are working with a patron project root directory or 
+not.
 
 To view the help at any time run the command with `-h` or `--help`::
 

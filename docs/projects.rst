@@ -13,10 +13,52 @@ Generate a project under a different directory name::
 
     patron project -d server NameOfProject
 
-The project layout is fairly standard within the flask community but I tried 
+The project layout is fairly common within the flask community but I tried 
 not to make any assumptions (ex: everybody uses bootstrap). 
 
-**REVISIT THIS WHEN DONE WITH THE OVERALL DOCUMENTATION**
+The base directory structure is as follows::
+
+    project_root/
+      |-- fabfile.py
+      |-- project_name.fcgi
+      |-- project_name-requirements.txt
+      |-- project_name.wsgi
+      |-- htaccess
+      |-- manage.py
+      |-- passenger_wsgi.py
+      |-- patron.json
+      |-- tests/
+      |-- tmp/
+      `-- project_name/                       <-- flask project
+            |-- __init__.py                   <-- contains app factory
+            |-- extensions.py
+            |-- settings.py
+            |-- public/
+            |     |-- __init__.py
+            |     |-- forms.py
+            |     |-- models.py
+            |     |-- views.py
+            |     `-- templates/
+            |           |-- index.jade
+            |           `-- public_base.jade
+            |-- static/
+            `-- templates/
+                  |-- 401.jade
+                  |-- 403.jade
+                  |-- 404.jade
+                  |-- 500.jade
+                  |-- base.jade
+                  `-- includes/
+                        |-- footer.jade
+                        |-- meta.jade
+                        `-- navigation.jade
+
+The project scaffold does not provide anything extra other than what it needs.
+The requirements file already contains the minimum for installation of all 
+dependencies (excluding add-ons). Just pip install the requirements file with a 
+virtualenv already activated. Whenever you use an add-on, patron will tell you 
+what it added to the requirements file and then just pip install the 
+requirements file again to use the add-on.
 
 If you prefer to make any changes or would like to use another scaffold, you 
 should look under the 'templates/base' subdirectory that is generated in the 

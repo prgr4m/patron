@@ -1,3 +1,5 @@
+.. _Form Generator:
+
 Form Generator
 ==============
 The form generator creates forms for use with WTForms. This generator just like 
@@ -93,3 +95,5 @@ Produces::
    provide a **name:field_type:label** than to hack something through the cli. 
    I will make some additions in the next version. If you have any suggestions, 
    please open up an issue on bitbucket.
+
+Last but not least are the :ref:`add-ons<Add-ons>`

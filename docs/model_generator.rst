@@ -1,3 +1,5 @@
+.. _Model Generator:
+
 Model Generator
 ===============
 The model generator creates models for use with Flask-SQLAlchemy. This is
@@ -232,3 +234,5 @@ tack on another `-r` like so::
 
 By doing it this way, the parser doesn't mistake it for a field/column 
 definition.
+
+Next up is the :ref:`form generator<Form Generator>`.

@@ -3,47 +3,37 @@ My task list of things to do while developing this application since no one has
 opened up an issue :(
 	General:
 		- patron logo
-		- requirements file... after each addon...
 	Cli Parser:
 		- argcompletion for linux?
 	Project Scaffolding:
-		- clean up and remove certain frontend elements offered by frontend addon
 	Documentation:
 		- list of package dependencies by addon
 		- urls pointing to other project documentation for user convenience
-		- each feature gets its own page also explaining why I've done things the way they are
-		- add commands documentation that are injected by each addon
-		- create list of packages being used by each addon and why
 	Form Generator:
-		- field import injector
+		- field import injector?
 	Static Site Generator:
 		- add as an addon (later)
 	Base:
-		- move all things considered front-end out
 	Blueprints:
-		- if admin addon is present; create admin.py file
 	Patron Config:
 	Model Generator:
-		- shorter commands without losing meaning? explicit is better than implicit...
-		- if admin addon present, generate admin.py models... and auto register with admin
 		- see if I can shorten it so mccabe doesn't complain (parse_model_fields, parse_relations)
 	Front-End Addon:
 	Admin Addon:
-		- fix admin scaffolding to create media in static directory
-		- when adding addon, scan pre-existing directories and auto generate model admins and auto register
+		- fix admin scaffolding to create media in static directory @done(2014-11-17)
+		- when adding addon, scan pre-existing directories and auto generate model admins and auto register @done(2014-11-17)
 		- change logout in admin to point to users.logout
 	Users Addon:
 		- change commands on creating superuser to be able to run more than once
-		- remove duplicate delete user command
 		- fix delete user command and not delete a role
 		- commands should use wtforms for cli validation
-		- change auth to point to users.login users.logout
+		- change auth to point to users.login
 	Injectors:
 		- refactor and break out into each scaffolds section
-		- make injections user configurable
+		- check each file for injection so the code is clean
   Addons:
 		API:
-			- httpauth with (itsdangerous)tokens
+			- httpauth with (itsdangerous)tokens?
 		Sitemap:
 			- this should be an addon and taken out of the base scaffold
 		Blog:
@@ -53,6 +43,14 @@ opened up an issue :(
 			- choice to add frozen flask
 
 Archive:
+	- requirements file... after each addon... @done(2014-11-17) @project(opened up an issue  / General)
+	- clean up and remove certain frontend elements offered by frontend addon @done(2014-11-17) @project(opened up an issue  / Project Scaffolding)
+	- create list of packages being used by each addon and why @done(2014-11-17) @project(opened up an issue  / Documentation)
+	- move all things considered front-end out @done(2014-11-17) @project(opened up an issue  / Base)
+	- if admin addon is present; create admin.py file @done(2014-11-17) @project(opened up an issue  / Blueprints)
+	- shorter commands without losing meaning? explicit is better than implicit... @done(2014-11-17) @project(opened up an issue  / Model Generator)
+	- if admin addon present, generate admin.py models... and auto register with admin @done(2014-11-17) @project(opened up an issue  / Model Generator)
+	- remove duplicate delete user command @done(2014-11-17) @project(opened up an issue  / Users Addon)
 	- move generators into main package (rewrite but keep old files until end of refactor) @done(2014-11-15) @project(opened up an issue  / General)
 	- possibly its own cli subgroup for adding and autoregistration (after addon is present) @done(2014-11-15) @project(  Addons / API)
 	- should be able to create methods/function routes on cli as well @done(2014-11-15) @project(opened up an issue  / Blueprints)
