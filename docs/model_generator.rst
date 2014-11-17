@@ -59,7 +59,7 @@ The model generator supports the following column attributes:
 When using any of the column attributes, it will default to 'True' when there 
 isn't a value provided.
 
-Field declaration Examples
+Field declaration examples
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Example #1** - Basic usage/supplying values to SQLAlchemy types::
@@ -181,7 +181,7 @@ choose the `backref_name` approach to when declaring the relationship.
    default to using the Model name (lowercased) as the backref.
 
 
-Relationship Examples
+Relationship examples
 ~~~~~~~~~~~~~~~~~~~~~
 Please note that the model generator `requires` at least one field definition 
 but I am omitting that from the examples so you can just focus on how the 
@@ -230,4 +230,5 @@ tack on another `-r` like so::
 
     patron model Post ... -r relation_def -r relation_def
 
-This way the parser doesn't mistake it for a field/column definition.
+By doing it this way, the parser doesn't mistake it for a field/column 
+definition.

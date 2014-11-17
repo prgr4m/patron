@@ -107,12 +107,12 @@ To generate a package::
 
 This command will generate the following::
 
-    package_name
-      | - __init__.py
-      | - commands.py
-      | - forms.py
-      | - helpers.py
-      \ - models.py
+    package_name/
+      |-- __init__.py
+      |-- commands.py
+      |-- forms.py
+      |-- helpers.py
+      `-- models.py
 
 commands.py
   Commands to be used in conjunction with manage.py (flask-script)

@@ -3,7 +3,7 @@
 Projects
 ========
 
-Creating a Project
+Creating a project
 ------------------
 Generate a project::
 
@@ -14,12 +14,15 @@ Generate a project under a different directory name::
     patron project -d server NameOfProject
 
 The project layout is fairly standard within the flask community but I tried 
-not to make any assumptions (ex: everybody uses bootstrap). If you prefer to 
-make any changes or would like to use another scaffold, you should look under 
-the 'templates/base' subdirectory that is generated in the patron user 
-directory.
+not to make any assumptions (ex: everybody uses bootstrap). 
 
-Creating Tasks
+**REVISIT THIS WHEN DONE WITH THE OVERALL DOCUMENTATION**
+
+If you prefer to make any changes or would like to use another scaffold, you 
+should look under the 'templates/base' subdirectory that is generated in the 
+patron user directory.
+
+Creating tasks
 --------------
 Tasks are things done outside of your flask application. There are several 
 tools that exist in the python community (paver comes to mind) but I have 

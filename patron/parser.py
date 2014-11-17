@@ -82,7 +82,7 @@ def add_form():
     form_help = "generate a form for WTForms"
     form_blueprint_help = "name of blueprint to create form in. default: public"
     form_name_help = "name of form"
-    form_field_help = "name:wtf_type:label:validators"
+    form_field_help = "name:wtf_type:label"
     form_validators_help = "generate validation methods for fields created."
     form_parser = subparser.add_parser('form', help=form_help)
     form_parser.add_argument('-b', '--blueprint', default='public',
@@ -103,7 +103,6 @@ def add_addons():
         addon_parser = subparser.add_parser('addon', help=addon_help)
         addon_parser.add_argument('name', choices=addon_choices,
                                   help=addon_name_help)
-    # add addon parser for those that require a generator (ex: 'api')
     if 'api' in installed_addons:
         add_api()
 

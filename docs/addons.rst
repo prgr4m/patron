@@ -16,6 +16,10 @@ This admin add-on appends its dependencies to the requirements file, registers
 itself with the flask app and injects cli commands into manage.py. It comes 
 with Flask-Login and Flask-Principal with preconfigured routes.
 
+API
+---
+
+
 .. _front-end:
 
 Front-End
@@ -63,4 +67,5 @@ package manager and install the dev files for jpg, gif, and png files. If you
 don't have coffeegulp and bower installed globally, patron will try to install 
 those two for you.
 
-
+Users
+-----
