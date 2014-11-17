@@ -7,12 +7,10 @@ opened up an issue :(
 		- argcompletion for linux?
 	Project Scaffolding:
 	Documentation:
-		- list of package dependencies by addon
+		- list of package dependencies by addon @done(2014-11-17)
 		- urls pointing to other project documentation for user convenience
 	Form Generator:
 		- field import injector?
-	Static Site Generator:
-		- add as an addon (later)
 	Base:
 	Blueprints:
 	Patron Config:
@@ -22,12 +20,12 @@ opened up an issue :(
 	Admin Addon:
 		- fix admin scaffolding to create media in static directory @done(2014-11-17)
 		- when adding addon, scan pre-existing directories and auto generate model admins and auto register @done(2014-11-17)
-		- change logout in admin to point to users.logout
+		- change logout in admin to point to users.logout @done(2014-11-17)
 	Users Addon:
 		- change commands on creating superuser to be able to run more than once
-		- fix delete user command and not delete a role
+		- fix delete user command and not delete a role @done(2014-11-17)
 		- commands should use wtforms for cli validation
-		- change auth to point to users.login
+		- change auth to point to users.login @done(2014-11-17)
 	Injectors:
 		- refactor and break out into each scaffolds section
 		- check each file for injection so the code is clean
@@ -40,7 +38,7 @@ opened up an issue :(
 			- add back on after being polished and depends on sitemap
 			- add whooshalchemy if using models
 			- choice between flat-pages or not
-			- choice to add frozen flask
+			- choice to add static site generator (Frozen-Flask)
 
 Archive:
 	- requirements file... after each addon... @done(2014-11-17) @project(opened up an issue  / General)
