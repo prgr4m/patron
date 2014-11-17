@@ -1,7 +1,13 @@
-.. _Blueprints:
+.. _Resources:
+
+Resources
+=========
+Resources from a Patron perspective/context are containers of functionality for 
+a flask application. Patron has two types of resources: Blueprints and 
+Packages.
 
 Blueprints
-==========
+----------
 To create a blueprint, run the following command::
 
     patron blueprint name_of_blueprint
@@ -87,4 +93,36 @@ This will produce::
 
 Of course you still get the index route and template for free.
 
+
+Packages
+--------
+A package is exactly what it is: a python package within your flask 
+application. Whenever you want to group functionality together but you don't 
+necessarily require a view to be associated like a blueprint, you would 
+generate a package.
+
+To generate a package::
+
+    patron pkg name_of_package
+
+This command will generate the following::
+
+    package_name
+      | - __init__.py
+      | - commands.py
+      | - forms.py
+      | - helpers.py
+      \ - models.py
+
+commands.py
+  Commands to be used in conjunction with manage.py (flask-script)
+
+forms.py
+  Where your forms live within that package
+
+helpers.py
+  Arbitrary code, decorators, etc.  that you need to hook into your application
+
+models.py
+  Where your models live within the package/grouping.
 

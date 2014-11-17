@@ -2,24 +2,78 @@ Model Generator
 ===============
 The model generator creates models for use with Flask-SQLAlchemy. This is
 definitely inspired by padrino's tooling. Since I couldn't find one, I decided 
-to build one. This is probably the most confusing part of the tooling for a 
-first time user so here are a couple of examples. To get help, run::
+to build one. To get help run the following command within a patron project::
 
     patron model -h
 
-**Example #1 - Basic usage**::
+This will mainly produce::
 
-    patron model public Person name:string-40:unique age:integer:default-21
+    patron model [-b BLUEPRINT] [-r Relation] name field [field ...]
 
-The command targets the models.py file within the public blueprint.
+The minimum requirements for using the model generator is providing a name of 
+model and declaring at least one field. If not providing a blueprint, the 
+generator will target the 'models.py' file in the `public` blueprint.
 
-The code that gets generated inside of models.py is this::
+Declaring fields on a model
+---------------------------
+Field declaration has the following pattern::
+
+  name:sqlalchemy_type:column_attr-value
+
+  name
+    Name of the field/attribute of the model
+
+  sqlalchemy_type
+    The sqlalchemy type that is being used for that column
+
+  column_attr
+    Other column attributes that would be defined
+
+**Listing of available types to the generator**
+
++----------+-----------------+----------+-----------------+
+| cli type | sqlalchemy type | cli type | sqlalchemy type |
++==========+=================+==========+=================+
+| integer  | db.Integer      | float    | db.Float        |
++----------+-----------------+----------+-----------------+
+| string   | db.String       | numeric  | db.Numeric      |
++----------+-----------------+----------+-----------------+
+| text     | db.Text         | bool     | db.Boolean      |
++----------+-----------------+----------+-----------------+
+| date     | db.Date         | binary   | db.LargeBinary  |
++----------+-----------------+----------+-----------------+
+| datetime | db.DateTime     | pickle   | db.PickleType   |
++----------+-----------------+----------+-----------------+
+| time     | db.Time         | unicode  | db.Unicode      |
++----------+-----------------+----------+-----------------+
+| enum     | db.Enum         | unitext  | db.UnicodeText  |
++----------+-----------------+----------+-----------------+
+
+The model generator supports the following column attributes:
+
+* unique
+* index
+* nullable
+* default
+
+When using any of the column attributes, it will default to 'True' when there 
+isn't a value provided.
+
+Field declaration Examples
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Example #1** - Basic usage/supplying values to SQLAlchemy types::
+
+    patron model Person name:string-40 age:integer gender:enum-M-F:default-M
+
+The code that gets generated is::
 
     class Person(db.Model):
         __tablename__ = 'person'
         id = db.Column(db.Integer, primary_key=True)
-        name = db.Column(db.String(40), unique=True)
-        age = db.Column(db.Integer, default=21)
+        name = db.Column(db.String(40))
+        age = db.Column(db.Integer)
+        gender = db.Column(db.Enum('M', 'F'), default='M')
 
         def __str__(self):
             pass
@@ -30,27 +84,37 @@ The code that gets generated inside of models.py is this::
 The main thing to notice is the model generator has the following pattern when 
 declaring attributes to a model:
 
-* attributes/fields to a model are separated by a space ' '
-* traits of an attribute are delimited by a colon ':'
-* any default values to a type are noted by a hyphen '-'
+* attributes/fields to a model are separated by a `<space>` ' '
+* traits of an attribute are delimited by a `<colon>` ':'
+* any default values to a type are noted by a `<hyphen>` '-'
 
-Here are the column attributes that are scanned for:
+.. note::
+   If you do not provide a sqlalchemy type with a value, it does not provide a 
+   default, nor provide `parenthesis` after the sqlalchemy type. 
+   
+   For example:
+  
+     name:string
+   
+   Will produce:
+     
+     name = db.Column(db.String)
+   
+   The tools job is to scaffold as much code as possible with the least amount 
+   of effort so the programmer can tweak to their needs. Please keep in mind of
+   this particular side effect as the tool can't anticipate everything.
 
-* index
-* nullable
-* unique
-* default
+**Example #2** - Using a foreign key column attribute::
 
-**Example #2 - Using a foreign key**::
-
-    patron model public Cat cat_id:integer:foreign-neko.id
+    patron model Cat name:string-20:unique owner_id:integer:foreign-person.id
 
 The following code gets translated to::
 
     class Cat(db.Model):
         __tablename__ = 'cat'
         id = db.Column(db.Integer, primary_key=True)
-        cat_id = db.Column(db.Integer, db.ForeignKey('neko.id'))
+        name = db.Column(db.String(20), unique=True)
+        owner_id = db.Column(db.Integer, db.ForeignKey('person.id'))
 
         def __str__(self):
             pass
@@ -58,72 +122,112 @@ The following code gets translated to::
         def __repr__(self):
             return "<Cat: Customize me!>"
 
-When declaring a one-to-one relationship you can tack on `uselist` at the end 
-of the column.
+Declaring relationships on a model
+----------------------------------
+In order to offer the option to the user, I've split off declaring relations 
+into its own option. This is an `optional` argument to the model generator.
 
-There are 2 types of attribute definitions:
+The relations option when viewing the cli help expects the following pattern 
+when describing a relationship::
 
-* columns
-* relations
+    name:Class:backref:lazy-type
 
-When declaring an attribute to a model, the name is provided and then the type
-separated by a colon. If the 2nd type passed in is a recognized sqlalchemy type 
-(see cli help for types) then the attribute definition is a column type. If the
-2nd type passed in using the keyword 'relation' then it tells the model 
-generator that its a relationship declaration.
+The relationship parser of the model generator is expecting 4 parts, each 
+delimited by a `<colon>` ':'
 
-**Example #3 - Declaring simple relationships**::
+The parser is a little bit more forgiving and tries to fill in the blanks 
+if the user hasn't supplied all of the information. At the extreme minimum, the 
+parser just needs the name of the relationship attribute and the name of the 
+`Class` that the model has a relationship with... But it's best to be explicit 
+rather than implicit, right?
 
-    patron model public Post tags:relation:Tag:post:lazy-joined
+When viewing the SQLAlchemy documentation, there are many ways to declare a
+backref on the model and the lazy types. Lazy types are: **select, joined, 
+subquery, dynamic**. The generator defaults to 'dynamic' when a value isn't 
+supplied to the lazy type.
 
-The command get translated to::
+The parser has the following pattern combinations when declaring a relationship 
+between models::
+
+    name:Class
+    name:Class:backref_name
+    name:Class:lazy_type
+    name:Class:backref_name:lazy_type
+    name:Class:backref-reference_name-lazy_type:lazy_type
+    name:Class:secondary-table_reference:backref-reference_name-lazy_type
+
+I will explain the last pattern combination for defining many-to-many 
+relationships within its own example after I explain how the backref pattern 
+works.
+
+When defining a backref you can supply just the name which will produce::
+
+    backref='name_given'
+
+or you can use the `backref` keyword and then supply the values to alter the 
+definition::
+
+    backref-posts-subquery
+
+produces::
+
+    backref=db.backref('posts', lazy='subquery')
+
+Unless being explicit with the backref definition, the generator is going to 
+choose the `backref_name` approach to when declaring the relationship.
+
+.. note::
+   When a `backref_name` or `reference_name` isn't supplied, the generator will 
+   default to using the Model name (lowercased) as the backref.
+
+
+Relationship Examples
+~~~~~~~~~~~~~~~~~~~~~
+Please note that the model generator `requires` at least one field definition 
+but I am omitting that from the examples so you can just focus on how the 
+relationships are being declared. The take away is knowing how the generator 
+works, not the actual examples themselves.
+
+**Example #1** - Using the backref name for declaring a relationship::
+
+    patron model Post -r tags:Tag:post:joined
+
+The command gets translated to::
 
     class Post(db.Model):
-        __tablename__ = 'post'
-        id = db.Column(db.Integer, primary_key=True)
+        ...
         tags = db.relationship('Tag', backref='post', lazy='joined')
+        ...
 
-        def __str__(self):
-            pass
+**Example #2** - Declaring backref definition with values::
 
-        def __repr__(self):
-            return "<Post: Customize me!>"
+    patron model Post -r tags:Tag:backref-posts-dynamic:subquery
 
-The lazy types are:
+This will produce::
 
-* select
-* joined
-* subquery
-* dynamic
+    class Post(db.Model):
+        ...
+        tags = db.relationship('Tag', backref=db.backref('posts', lazy='dynamic'), lazy='subquery')
+        ...
 
-The pattern to recognize is:
+**Example #3** - Declaring many-to-many relationships with `secondary`::
 
-    name:relation:Class:backref:lazy-type
+    patron model Post -r tags:Tag:secondary-tags_posts:backref-posts-dynamic
 
-**Example #4 - Declaring relationships**::
+Produces::
 
-    patron model public Article tags:relation:Tag:secondary-tags_posts:backref-posts-dynamic
-
-This command gets translated to::
-
-    class Article(db.Model):
-        __tablename__ = 'article'
-        id = db.Column(db.Integer, primary_key=True)
+    class Post(db.Model):
+        ...
         tags = db.relationship('Tag', secondary=tags_posts, backref=db.backref('posts', lazy='dynamic'))
+        ...
 
-        def __str__(self):
-            pass
+Just like how the `backref` is used as a keyword, `secondary` is also a keyword 
+telling the generator that you are wanting the Model to look at the 
+secondary/join table. Of course, you will have to write that yourself.
 
-        def __repr__(self):
-            return "<Article: Customize me!>"
+The model generator can take multiple relationships as well. To do so, just 
+tack on another `-r` like so::
 
-The pattern to recognize for this type of relationship is:
+    patron model Post ... -r relation_def -r relation_def
 
-    name:relation:Class:secondary-table_ref:backref-refname-lazytype
-
-Of course you are going to have to setup the secondary/join table yourself.
-
-All models generated have a unittest file generated for them upon creation 
-under the tests directory within the project root.
-
-
+This way the parser doesn't mistake it for a field/column definition.

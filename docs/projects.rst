@@ -25,7 +25,7 @@ Tasks are things done outside of your flask application. There are several
 tools that exist in the python community (paver comes to mind) but I have 
 chosen to use fabric in order to get that `rake` functionality for python. 
 This is the only python 2.x project dependency and will be switching over to 
-invoke some time in the future.
+invoke+patchwork some time in the future.
 
 To create a task, run the following command within a generated project::
 
@@ -36,4 +36,4 @@ You can view the `fabric documentation`_ for more help.
 
 .. _fabric documentation: http://docs.fabfile.org
 
-So, what's next? :ref:`Blueprints <Blueprints>`.
+So, what's next? :ref:`Resources <Resources>`.

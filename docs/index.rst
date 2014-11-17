@@ -27,8 +27,9 @@ User Guide
    introduction
    basic_usage
    projects
-   blueprints
+   resources
    model_generator
+   form_generator
    addons
    changelog
 
