@@ -6,3 +6,5 @@ syntax: glob
 __pycache__
 patron.egg-info
 docs/_build/
+build/
+dist/
