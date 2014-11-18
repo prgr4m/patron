@@ -3,6 +3,7 @@ My task list of things to do while developing this application since no one has
 opened up an issue :(
 	General:
 		- patron logo
+		- interactive config generator for non patron projects to setup preferences
 	Cli Parser:
 		- argcompletion for linux?
 	Project Scaffolding:

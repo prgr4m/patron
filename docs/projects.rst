@@ -60,9 +60,25 @@ virtualenv already activated. Whenever you use an add-on, patron will tell you
 what it added to the requirements file and then just pip install the 
 requirements file again to use the add-on.
 
-If you prefer to make any changes or would like to use another scaffold, you 
-should look under the 'templates/base' subdirectory that is generated in the 
-patron user directory.
+The `base` project dependencies:
+
+* Flask
+* Flask-Migrate
+* Flask-SQLAlchemy
+* Flask-Script
+* Flask-Bcrypt
+* Flask-DebugToolbar
+* Flask-Cache
+* Flask-WTF
+* pyjade
+* fabric
+
+If you prefer to make any changes or would like to use another cookiecutter 
+scaffold with patron, you should look under the 'templates/base' subdirectory 
+that is generated in the patron user directory. Also, you will have to change 
+some values in the 'patron.json' file. (In the next release, I'll create an 
+interactive config generator so you can use the tooling with a non patron 
+generated project -- without the crazy auto injections).
 
 Creating tasks
 --------------
