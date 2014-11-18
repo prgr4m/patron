@@ -176,7 +176,7 @@ produces::
     backref=db.backref('posts', lazy='subquery')
 
 Unless being explicit with the backref definition, the generator is going to 
-choose the `backref_name` approach to when declaring the relationship.
+choose the `backref_name` approach when declaring the relationship.
 
 .. note::
    When a `backref_name` or `reference_name` isn't supplied, the generator will 

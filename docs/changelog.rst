@@ -17,7 +17,6 @@ Patron Changelog
 * removal of static site generator as a project scaffold
 * removal of blog addon
 * added packages generation to flask projects
-* added the ability to add extra routes to blueprints from cli
 * added cli option to open official docs in browser
 * ability to add extra routes to blueprint scaffolding along with option to exclude templates generated
 * revised sqlalchemy model generator to have relations as an option along with fields without mixing the two
