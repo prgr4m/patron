@@ -8,8 +8,6 @@ opened up an issue :(
 		- argcompletion for linux?
 	Project Scaffolding:
 	Documentation:
-		- list of package dependencies by addon @done(2014-11-17)
-		- urls pointing to other project documentation for user convenience
 	Form Generator:
 		- field import injector?
 	Base:
@@ -17,16 +15,11 @@ opened up an issue :(
 	Patron Config:
 	Model Generator:
 		- see if I can shorten it so mccabe doesn't complain (parse_model_fields, parse_relations)
+		- injector formatting 'import section' for models.py
 	Front-End Addon:
 	Admin Addon:
-		- fix admin scaffolding to create media in static directory @done(2014-11-17)
-		- when adding addon, scan pre-existing directories and auto generate model admins and auto register @done(2014-11-17)
-		- change logout in admin to point to users.logout @done(2014-11-17)
 	Users Addon:
-		- change commands on creating superuser to be able to run more than once
-		- fix delete user command and not delete a role @done(2014-11-17)
 		- commands should use wtforms for cli validation
-		- change auth to point to users.login @done(2014-11-17)
 	Injectors:
 		- refactor and break out into each scaffolds section
 		- check each file for injection so the code is clean
@@ -42,6 +35,12 @@ opened up an issue :(
 			- choice to add static site generator (Frozen-Flask)
 
 Archive:
+	- list of package dependencies by addon @done(2014-11-17) @project(opened up an issue  / Documentation)
+	- fix admin scaffolding to create media in static directory @done(2014-11-17) @project(opened up an issue  / Admin Addon)
+	- when adding addon, scan pre-existing directories and auto generate model admins and auto register @done(2014-11-17) @project(opened up an issue  / Admin Addon)
+	- change logout in admin to point to users.logout @done(2014-11-17) @project(opened up an issue  / Admin Addon)
+	- fix delete user command and not delete a role @done(2014-11-17) @project(opened up an issue  / Users Addon)
+	- change auth to point to users.login @done(2014-11-17) @project(opened up an issue  / Users Addon)
 	- requirements file... after each addon... @done(2014-11-17) @project(opened up an issue  / General)
 	- clean up and remove certain frontend elements offered by frontend addon @done(2014-11-17) @project(opened up an issue  / Project Scaffolding)
 	- create list of packages being used by each addon and why @done(2014-11-17) @project(opened up an issue  / Documentation)
