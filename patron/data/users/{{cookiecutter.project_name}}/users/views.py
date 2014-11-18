@@ -5,7 +5,7 @@ from flask.blueprints import Blueprint
 from flask.globals import current_app, request, session
 from flask.helpers import url_for, flash
 from flask.templating import render_template
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 from flask_principal import Identity, AnonymousIdentity, identity_changed
 from ..extensions import db
 from .forms import LoginForm, UserRegistrationForm
@@ -21,6 +21,7 @@ def processor():
 
 
 @users.route('/')
+@login_required
 def index():
     return render_template('index.jade')
 
@@ -54,6 +55,7 @@ def registration():
 
 
 @users.route('/logout')
+@login_required
 def logout():
     logout_user()
     for key in ('identity.name', 'identity.auth_type'):
