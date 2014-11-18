@@ -9,24 +9,22 @@ from ..users.auth import admin_permission
 
 class AdminMixin(object):
     def is_accessible(self):
-        if admin_permission.can():
+        if login.current_user.is_authenticated() and admin_permission.can():
             return True
         return False
 
 
-class MyAdminIndexView(AdminIndexView, AdminMixin):
+class MyAdminIndexView(AdminMixin, AdminIndexView):
     @expose('/')
     def index(self):
-        if not login.current_user.is_authenticated():
-            return redirect(url_for('users.login'))
         return super(MyAdminIndexView, self).index()
 
 
-class MyView(BaseView, AdminMixin):
+class MyView(AdminMixin, BaseView):
     @expose('/')
     def index(self):
         return self.render('admin/index.jade')
 
 
-class MediaFileAdmin(FileAdmin, AdminMixin):
+class MediaFileAdmin(AdminMixin, FileAdmin):
     pass
